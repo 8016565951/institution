@@ -8,7 +8,6 @@ class ParentController {
             return CResponse({
                 res,
                 message: "OK",
-                longMessage: "Parents retrieved successfully",
                 data: parents,
             });
         } catch (err) {
@@ -24,7 +23,6 @@ class ParentController {
             return CResponse({
                 res,
                 message: "OK",
-                longMessage: "Parent retrieved successfully",
                 data: parent,
             });
         } catch (err) {
@@ -50,7 +48,6 @@ class ParentController {
             return CResponse({
                 res,
                 message: "OK",
-                longMessage: "Parent updated successfully",
             });
         } catch (err) {
             return handleError(err);
@@ -66,7 +63,6 @@ class ParentController {
             return CResponse({
                 res,
                 message: "OK",
-                longMessage: "Parent deleted successfully",
             });
         } catch (err) {
             return handleError(err);
