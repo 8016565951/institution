@@ -22,6 +22,14 @@ class TeacherRepo {
     createTeacher = async (data) => {
         return await db.teachers.create(data);
     };
+
+    updateTeacher = async (id, data) => {
+        return await db.teachers.updateOne({ _id: id }, data);
+    };
+
+    deleteTeacher = async (id) => {
+        return await db.teachers.deleteOne({ _id: id });
+    };
 }
 
 module.exports = new TeacherRepo();

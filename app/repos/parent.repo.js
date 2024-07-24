@@ -33,6 +33,24 @@ class ParentRepo {
             return handleError(err);
         }
     };
+
+    updateParent = async (id, data) => {
+        try {
+            const parent = await db.parents.updateOne({ _id: id }, data);
+            return parent;
+        } catch (err) {
+            return handleError(err);
+        }
+    };
+
+    deleteParent = async (id) => {
+        try {
+            const parent = await db.parents.deleteOne({ _id: id });
+            return parent;
+        } catch (err) {
+            return handleError(err);
+        }
+    };
 }
 
 module.exports = new ParentRepo();
