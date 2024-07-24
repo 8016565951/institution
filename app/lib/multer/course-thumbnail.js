@@ -26,4 +26,4 @@ const courseThumbnailUpload = multer({
     },
 });
 
-module.exports = courseThumbnailUpload;
+module.exports = { courseThumbnailUpload };

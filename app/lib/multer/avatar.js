@@ -26,4 +26,4 @@ const avatarUpload = multer({
     },
 });
 
-module.exports = avatarUpload;
+module.exports = { avatarUpload };

@@ -1,11 +1,11 @@
-const parseForm = require("./none");
-const avatarUpload = require("./avatar");
-const blogThumbnailUpload = require("./blog-thumbnail");
-const postThumbnailUpload = require("./post-thumbnail");
+const none = require("./none");
+const avatar = require("./avatar");
+const blogThumbnail = require("./blog-thumbnail");
+const courseThumbnail = require("./course-thumbnail");
 
 module.exports = {
-    parseForm,
-    avatarUpload,
-    blogThumbnailUpload,
-    postThumbnailUpload,
+    ...none,
+    ...avatar,
+    ...blogThumbnail,
+    ...courseThumbnail,
 };
