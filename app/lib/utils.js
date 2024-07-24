@@ -3,7 +3,10 @@ const { AppError } = require("./helpers");
 const { MongooseError } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { ValidationError } = require("joi");
+const { existsSync, unlinkSync } = require("fs");
+const path = require("path");
 const { logger } = require("./helpers");
+const { DEFAULT_AVATAR_PATH } = require("../config/const.js");
 
 /**
  * @param {unknown} err
@@ -181,10 +184,59 @@ function generateDbUrl() {
     return `${DB_PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`;
 }
 
+/**
+ * @param {string} [filePath]
+ */
+function unlinkFile(filePath) {
+    if (!filePath) return;
+    if (existsSync(filePath)) unlinkSync(filePath);
+}
+
+/**
+ * @param {import("express").Request} req
+ * @param {Express.Multer.File} file
+ */
+function generateFileURL(req, file) {
+    return `${req.protocol}://${req.get("host")}/${file.path.replace(
+        /\\/g,
+        "/"
+    )}`;
+}
+
+/**
+ * @param {string} url
+ */
+function getFilePathFromURL(url) {
+    return "uploads/" + url.split("/uploads/")[1];
+}
+
+/**
+ *
+ * @param {Express.Multer.File} file
+ * @param {string} prefix
+ * @returns
+ */
+function generateFilename(file, prefix = "item") {
+    const ext = path.extname(file.originalname);
+    return `${prefix}_${Date.now()}${ext}`;
+}
+
+/**
+ * @param {import("express").Request} req
+ */
+function getDefaultImageUrl(req) {
+    return `${req.protocol}://${req.get("host")}/${DEFAULT_AVATAR_PATH}`;
+}
+
 module.exports = {
     generateDbUrl,
     handleError,
     handleJWTError,
     CResponse,
     sanitizeError,
+    unlinkFile,
+    generateFileURL,
+    getFilePathFromURL,
+    generateFilename,
+    getDefaultImageUrl,
 };

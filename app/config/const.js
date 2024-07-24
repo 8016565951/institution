@@ -1,6 +1,10 @@
 const PORT = process.env.PORT ?? 3001;
+
 const AUTH_TOKEN_COOKIE_NAME = "institution__auth_SDRFasdrfa_532125";
+
 const DEFAULT_AVATAR_PATH = "uploads/images/avatars/default_avatar.png";
+const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg"];
+
 const JWT_EXPIRES_IN = "1d";
 const cookieOptions = {
     httpOnly: true,
@@ -24,4 +28,5 @@ module.exports = {
     JWT_EXPIRES_IN,
     cookieOptions,
     ROLES,
+    ACCEPTED_IMAGE_TYPES,
 };
