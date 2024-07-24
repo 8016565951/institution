@@ -1,9 +1,11 @@
 const responseSchema = require("./response");
 const authSchema = require("./auth");
-const userSchema = require("./user");
+const studentSchema = require("./student");
+const teacherSchema = require("./teacher");
 
 module.exports = {
     ...responseSchema,
     ...authSchema,
-    ...userSchema,
+    ...studentSchema,
+    ...teacherSchema,
 };

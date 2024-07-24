@@ -1,9 +1,11 @@
 const Joi = require("joi");
+const { ROLES } = require("../../config/const");
 
-const signUpSchema = Joi.object({
+const studentSchema = Joi.object({
     firstName: Joi.string().required(),
     middleName: Joi.string(),
     lastName: Joi.string().required(),
+    avatarUrl: Joi.string().uri(),
     email: Joi.string().email().required(),
     password: Joi.string()
         .required()
@@ -16,12 +18,6 @@ const signUpSchema = Joi.object({
             "string.pattern.base":
                 "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
         }),
-    confirmPassword: Joi.string()
-        .required()
-        .valid(Joi.ref("password"))
-        .messages({
-            "any.only": "Password and confirm password do not match.",
-        }),
     phone: Joi.string().required(),
     dob: Joi.date().required(),
     address: Joi.object({
@@ -31,27 +27,11 @@ const signUpSchema = Joi.object({
         zipCode: Joi.string().required(),
         country: Joi.string().required(),
     }),
-    parent: Joi.object({
-        firstName: Joi.string().required(),
-        middleName: Joi.string(),
-        lastName: Joi.string().required(),
-        phone: Joi.string().required(),
-        occupation: Joi.string().required(),
-    }),
-});
-
-const signInSchema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string()
-        .required()
-        .pattern(
-            new RegExp(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).*$/
-            )
-        ),
+    role: Joi.string()
+        .valid(...Object.values(ROLES))
+        .default(ROLES.STUDENT),
 });
 
 module.exports = {
-    signUpSchema,
-    signInSchema,
+    studentSchema,
 };

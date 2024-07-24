@@ -1,5 +1,11 @@
-const User = require("./User");
+const Student = require("./Student");
+const Parent = require("./Parent");
+const Teacher = require("./Teacher");
+const Course = require("./Course");
 
 module.exports = {
-    User,
+    Student,
+    Parent,
+    Teacher,
+    Course,
 };
