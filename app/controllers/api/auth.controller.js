@@ -9,7 +9,7 @@ const { mailSender } = require("../../lib/nodemailer");
 const { handleError, CResponse } = require("../../lib/utils");
 const { signUpSchema } = require("../../lib/validations");
 const { studentRepo } = require("../../repos");
-const { hashPassword } = require("../../lib/bcrypt");
+const { hashPassword, comparePasswords } = require("../../lib/bcrypt");
 
 class AuthController {
     /**
@@ -60,6 +60,44 @@ class AuthController {
                 res,
                 message: "CREATED",
                 longMessage: "Student created successfully",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signIn = async (req, res) => {
+        try {
+            const { email, password } = req.body;
+
+            const student = await studentRepo.getStudentByEmail(email);
+            if (!student)
+                throw new AppError("Invalid email or password", "UNAUTHORIZED");
+
+            const isPasswordValid = await comparePasswords(
+                password,
+                student.password
+            );
+            if (!isPasswordValid)
+                throw new AppError("Invalid email or password", "UNAUTHORIZED");
+
+            const token = signJWT(
+                {
+                    id: student.id,
+                },
+                process.env.JWT_SECRET,
+                JWT_EXPIRES_IN
+            );
+
+            res.cookie(AUTH_TOKEN_COOKIE_NAME, token, cookieOptions);
+
+            return CResponse({
+                res,
+                message: "OK",
             });
         } catch (err) {
             return handleError(err, res);

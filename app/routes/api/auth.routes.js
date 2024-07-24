@@ -9,5 +9,6 @@ authRouter.post(
     avatarUpload.single("avatar"),
     authController.signUp
 );
+authRouter.post("/signin", authController.signIn);
 
 module.exports = authRouter;

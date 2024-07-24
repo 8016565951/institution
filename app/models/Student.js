@@ -65,6 +65,10 @@ const studentSchema = new Schema(
             enum: Object.values(ROLES),
             default: ROLES.STUDENT,
         },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         versionKey: false,
