@@ -2,6 +2,10 @@ const { CResponse, handleError } = require("../../lib/utils");
 const { parentRepo } = require("../../repos");
 
 class ParentController {
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     getParents = async (req, res) => {
         try {
             const parents = await parentRepo.getParents();
@@ -15,6 +19,10 @@ class ParentController {
         }
     };
 
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     getParentById = async (req, res) => {
         try {
             const { id } = req.params;
@@ -30,6 +38,10 @@ class ParentController {
         }
     };
 
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     updateParent = async (req, res) => {
         try {
             const { id } = req.params;
@@ -54,6 +66,10 @@ class ParentController {
         }
     };
 
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     deleteParent = async (req, res) => {
         try {
             const { id } = req.params;
