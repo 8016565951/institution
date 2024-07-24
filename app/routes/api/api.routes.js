@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const authRouter = require("./auth.routes");
-const parentRouter = require("./parents.routes");
-const teacherRouter = require("./teachres.routes");
+const parentRouter = require("./parent.routes");
+const teacherRouter = require("./teacher.routes");
 
 const apiRouter = Router();
 

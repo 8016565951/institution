@@ -91,7 +91,9 @@ class TeachersController {
     deleteTeacher = async (req, res) => {
         try {
             const { id } = req.params;
+
             await teacherRepo.deleteTeacher(id);
+
             return CResponse({
                 res,
                 message: "OK",
