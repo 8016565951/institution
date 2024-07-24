@@ -1,55 +1,32 @@
 const { db } = require("../lib/db");
 
 class ParentRepo {
-    createParent = async (data = {}) => {
-        try {
-            const parent = await db.parents.create({
-                data,
-            });
-            return parent;
-        } catch (err) {
-            return handleError(err);
-        }
-    };
-    /**
-     
-     * @param {string} id 
-     */
-
-    getParentById = async (id) => {
-        try {
-            const parent = await db.parents.findOne({ _id: id });
-            return parent;
-        } catch (err) {
-            return handleError(err);
-        }
-    };
-
     getParents = async (filter = {}) => {
-        try {
-            const parents = await db.parents.find({ filter });
-            return parents;
-        } catch (err) {
-            return handleError(err);
-        }
+        return await db.parents.find({ filter });
+    };
+
+    /**
+     * @param {string} id
+     */
+    getParentById = async (id) => {
+        return await db.parents.findOne({ _id: id });
+    };
+
+    createParent = async (data = {}) => {
+        return await db.parents.create({
+            data,
+        });
     };
 
     updateParent = async (id, data) => {
-        try {
-            const parent = await db.parents.updateOne({ _id: id }, data);
-            return parent;
-        } catch (err) {
-            return handleError(err);
-        }
+        return await db.parents.updateOne({ _id: id }, data);
     };
 
+    /**
+     * @param {string} id
+     */
     deleteParent = async (id) => {
-        try {
-            const parent = await db.parents.deleteOne({ _id: id });
-            return parent;
-        } catch (err) {
-            return handleError(err);
-        }
+        return await db.parents.deleteOne({ _id: id });
     };
 }
 

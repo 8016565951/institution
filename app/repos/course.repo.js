@@ -5,6 +5,9 @@ class CourseRepo {
         return await db.courses.find(filter);
     };
 
+    /**
+     * @param {string} id
+     */
     getCourseById = async (id) => {
         return await db.courses.findOne({ _id: id });
     };
@@ -17,6 +20,9 @@ class CourseRepo {
         return await db.courses.updateOne({ _id: id }, data);
     };
 
+    /**
+     * @param {string} id
+     */
     deleteCourse = async (id) => {
         return await db.courses.deleteOne({ _id: id });
     };

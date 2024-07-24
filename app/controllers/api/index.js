@@ -1,5 +1,5 @@
 const authController = require("./auth.controller");
-const parentcontroller = require("./Parentcontroller");
+const parentcontroller = require("./parent.controller");
 
 module.exports = {
     authController,
