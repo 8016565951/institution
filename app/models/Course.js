@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { TIMESPANS } = require("../config/const");
 
 const courseSchema = new Schema(
     {
@@ -11,8 +12,15 @@ const courseSchema = new Schema(
             required: true,
         },
         duration: {
-            type: Number,
-            required: true,
+            number: {
+                type: Number,
+                required: true,
+            },
+            unit: {
+                type: String,
+                enum: TIMESPANS,
+                required: true,
+            },
         },
         price: {
             type: Number,
