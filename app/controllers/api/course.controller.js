@@ -1,6 +1,14 @@
-const { CResponse, handleError } = require("../../lib/utils");
+const { MongooseError } = require("mongoose");
+const {
+    CResponse,
+    handleError,
+    unlinkFile,
+    getDefaultImageUrl,
+    generateFileURL,
+    getFilePathFromURL,
+} = require("../../lib/utils");
 const { courseRepo } = require("../../repos");
-const fs = require("fs");
+const { AppError } = require("../../lib/helpers");
 
 class CourseController {
     /**
@@ -10,6 +18,7 @@ class CourseController {
     getCourses = async (req, res) => {
         try {
             const courses = await courseRepo.getCourses();
+
             return CResponse({
                 res,
                 message: "OK",
@@ -41,6 +50,36 @@ class CourseController {
 
     /**
      * @param {import("express").Request} req
+     *  @param {import("express").Response} res
+     */
+    createCourse = async (req, res) => {
+        try {
+            const { title, description, duration, price } = req.body;
+
+            let thumbnailUrl = getDefaultImageUrl(req, "course");
+            if (req.file) thumbnailUrl = generateFileURL(req, req.file);
+
+            await courseRepo.createCourse({
+                title,
+                description,
+                duration,
+                price,
+                thumbnailUrl,
+            });
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file.path);
+            return handleError(err);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
     updateCourse = async (req, res) => {
@@ -48,40 +87,34 @@ class CourseController {
             const { id } = req.params;
 
             const { title, description, duration, price } = req.body;
+
+            const existingCourse = await courseRepo.getCourseById(id);
+            if (!existingCourse)
+                throw new AppError("Course not found", "NOT_FOUND");
+
+            let thumbnailUrl = existingCourse.thumbnailUrl;
             if (req.file) {
-                const olderimage = req.body.thumbnailUrl;
-
-                if (olderimage) {
-                    fs.unlinkSync(olderimage);
-                }
-
-                const thumbnailUrl = req.file.path;
-
-                await courseRepo.updateCourse(id, {
-                    title,
-                    description,
-                    duration,
-                    price,
-                    thumbnailUrl,
-                });
-
-                return CResponse({
-                    res,
-                    message: "OK",
-                });
-            } else {
-                await courseRepo.updateCourse(id, {
-                    title,
-                    description,
-                    duration,
-                    price,
-                });
-                return CResponse({
-                    res,
-                    message: "OK",
-                });
+                thumbnailUrl = generateFileURL(req, req.file);
+                await unlinkFile(
+                    getFilePathFromURL(existingCourse.thumbnailUrl)
+                );
             }
+
+            await courseRepo.updateCourse(id, {
+                title,
+                description,
+                duration,
+                price,
+                thumbnailUrl,
+            });
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
         } catch (err) {
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file.path);
             return handleError(err);
         }
     };
@@ -93,51 +126,18 @@ class CourseController {
     deleteCourse = async (req, res) => {
         try {
             const { id } = req.params;
+
+            const existingCourse = await courseRepo.getCourseById(id);
+            if (!existingCourse)
+                throw new AppError("Course not found", "NOT_FOUND");
+
+            await unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
             await courseRepo.deleteCourse(id);
-            if (req.body.thumbnailUrl) {
-                fs.unlinkSync(req.body.olderimage);
-            }
+
             return CResponse({
                 res,
                 message: "OK",
             });
-        } catch (err) {
-            return handleError(err);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     *  @param {import("express").Response} res
-     */
-    createCourse = async (req, res) => {
-        try {
-            const { title, description, duration, price } = req.body;
-            if (req.file) {
-                const thumbnailUrl = req.file.path;
-                await courseRepo.createCourse({
-                    title,
-                    description,
-                    duration,
-                    price,
-                    thumbnailUrl,
-                });
-                return CResponse({
-                    res,
-                    message: "OK",
-                });
-            } else {
-                await courseRepo.createCourse({
-                    title,
-                    description,
-                    duration,
-                    price,
-                });
-                return CResponse({
-                    res,
-                    message: "OK",
-                });
-            }
         } catch (err) {
             return handleError(err);
         }

@@ -1,3 +1,5 @@
+const { hashPassword } = require("../../lib/bcrypt");
+const { AppError } = require("../../lib/helpers");
 const { CResponse, handleError } = require("../../lib/utils");
 const { teacherRepo } = require("../../repos");
 
@@ -55,24 +57,24 @@ class TeachersController {
                 password,
                 phone,
                 dob,
-                address: { street, city, state, zipCode, country },
+                address,
             } = req.body;
+
+            const existingTeacher = await teacherRepo.getTeacherById(id);
+            if (!existingTeacher)
+                throw new AppError("Teacher not found", "NOT_FOUND");
+
+            const hashedPassword = await hashPassword(password);
 
             await teacherRepo.updateTeacher(id, {
                 firstName,
                 middleName,
                 lastName,
                 email,
-                password,
+                password: hashedPassword,
                 phone,
                 dob,
-                address: {
-                    street,
-                    city,
-                    state,
-                    zipCode,
-                    country,
-                },
+                address,
             });
 
             return CResponse({
@@ -91,6 +93,10 @@ class TeachersController {
     deleteTeacher = async (req, res) => {
         try {
             const { id } = req.params;
+
+            const existingTeacher = await teacherRepo.getTeacherById(id);
+            if (!existingTeacher)
+                throw new AppError("Teacher not found", "NOT_FOUND");
 
             await teacherRepo.deleteTeacher(id);
 

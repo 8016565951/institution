@@ -6,7 +6,14 @@ const { ValidationError } = require("joi");
 const { existsSync, unlinkSync } = require("fs");
 const path = require("path");
 const { logger } = require("./helpers");
-const { DEFAULT_AVATAR_PATH } = require("../config/const.js");
+const {
+    DEFAULT_AVATAR_PATH,
+    DEFAULT_BLOG_THUMBNAIL_PATH,
+    DEFAULT_COURSE_THUMBNAIL_PATH,
+} = require("../config/const.js");
+const { promisify } = require("util");
+
+const unlinkAsync = promisify(unlinkSync);
 
 /**
  * @param {unknown} err
@@ -187,9 +194,9 @@ function generateDbUrl() {
 /**
  * @param {string} [filePath]
  */
-function unlinkFile(filePath) {
+async function unlinkFile(filePath) {
     if (!filePath) return;
-    if (existsSync(filePath)) unlinkSync(filePath);
+    if (existsSync(filePath)) await unlinkAsync(filePath);
 }
 
 /**
@@ -223,9 +230,27 @@ function generateFilename(file, prefix = "item") {
 
 /**
  * @param {import("express").Request} req
+ * @param {"avatar" | "blog" | "course"} [type]
  */
-function getDefaultImageUrl(req) {
-    return `${req.protocol}://${req.get("host")}/${DEFAULT_AVATAR_PATH}`;
+function getDefaultImageUrl(req, type = "avatar") {
+    let imagePath;
+
+    switch (type) {
+        case "avatar":
+            imagePath = DEFAULT_AVATAR_PATH;
+            break;
+        case "blog":
+            imagePath = DEFAULT_BLOG_THUMBNAIL_PATH;
+            break;
+        case "course":
+            imagePath = DEFAULT_COURSE_THUMBNAIL_PATH;
+            break;
+        default:
+            imagePath = DEFAULT_AVATAR_PATH;
+            break;
+    }
+
+    return `${req.protocol}://${req.get("host")}/${imagePath}`;
 }
 
 module.exports = {
