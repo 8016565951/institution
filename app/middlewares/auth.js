@@ -2,6 +2,7 @@ const { ROLES } = require("../config/const");
 const { AppError } = require("../lib/helpers");
 const { verifyJwt, getTokenFromHeader } = require("../lib/jwt");
 const { handleJWTError, handleError } = require("../lib/utils");
+const { userRepo } = require("../repos");
 
 /**
  * @param {import("express").Request} req
@@ -58,13 +59,16 @@ function isSameUser(req, res, next) {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-function isAdmin(req, res, next) {
+async function isAdmin(req, res, next) {
     try {
-        const user = req.ctx?.user;
-        if (!user)
+        const uId = req.ctx?.user.id;
+        if (!uId)
             throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
-        if (user.role !== ROLES.ADMIN)
+        const user = await userRepo.getById(uId);
+        if (!user) throw new AppError("User not found", "NOT_FOUND");
+
+        if (![ROLES.ADMIN, ROLES.MOD].includes(user.role))
             throw new AppError(
                 "You are not authorized to access this route",
                 "FORBIDDEN"
@@ -81,14 +85,18 @@ function isAdmin(req, res, next) {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-function isSameUserOrAdmin(req, res, next) {
+async function isSameUserOrAdmin(req, res, next) {
     try {
-        const user = req.ctx?.user;
-        if (!user)
+        const uId = req.ctx?.user.id;
+        if (!uId)
             throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
+        const user = await userRepo.getById(uId);
+        if (!user) throw new AppError("User not found", "NOT_FOUND");
+
         const { id } = req.params;
-        if (user.role !== ROLES.ADMIN && user.id !== id)
+
+        if (![ROLES.ADMIN, ROLES.MOD].includes(user.role) && user.id !== id)
             throw new AppError(
                 "You are not authorized to access this route",
                 "FORBIDDEN"
