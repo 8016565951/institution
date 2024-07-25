@@ -13,9 +13,7 @@ class ParentRepo {
     };
 
     createParent = async (data = {}) => {
-        return await db.parents.create({
-            data,
-        });
+        return await db.parents.create(data);
     };
 
     updateParent = async (id, data) => {

@@ -56,6 +56,10 @@ const studentSchema = new Schema(
                 required: true,
             },
         },
+        parentId: {
+            type: Schema.Types.ObjectId,
+            ref: "parent",
+        },
         course: {
             type: Schema.Types.ObjectId,
             ref: "course",

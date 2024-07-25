@@ -18,7 +18,7 @@ const parentSchema = new Schema(
             type: String,
             required: true,
         },
-        occupaiton: {
+        occupation: {
             type: String,
             required: true,
         },
@@ -27,12 +27,6 @@ const parentSchema = new Schema(
             enum: Object.values(ROLES),
             default: ROLES.PARENT,
         },
-        child: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "student",
-            },
-        ],
     },
     {
         versionKey: false,

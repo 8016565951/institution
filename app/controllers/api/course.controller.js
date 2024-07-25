@@ -73,7 +73,7 @@ class CourseController {
             });
         } catch (err) {
             if (!(err instanceof MongooseError))
-                await unlinkFile(req.file.path);
+                await unlinkFile(req.file?.path);
             return handleError(err);
         }
     };
@@ -114,7 +114,7 @@ class CourseController {
             });
         } catch (err) {
             if (!(err instanceof MongooseError))
-                await unlinkFile(req.file.path);
+                await unlinkFile(req.file?.path);
             return handleError(err);
         }
     };
