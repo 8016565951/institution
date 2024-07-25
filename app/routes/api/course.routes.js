@@ -8,14 +8,14 @@ courseRouter.get("/", courseController.getCourses);
 courseRouter.get("/:id", courseController.getCourseById);
 
 courseRouter.post(
-    "/create",
-    courseThumbnailUpload.single("thumbnailUrl"),
+    "/",
+    courseThumbnailUpload.single("thumbnail"),
     courseController.createCourse
 );
 
 courseRouter.patch(
     "/:id",
-    courseThumbnailUpload.single("thumbnailUrl"),
+    courseThumbnailUpload.single("thumbnail"),
     courseController.updateCourse
 );
 
