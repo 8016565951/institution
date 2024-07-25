@@ -12,5 +12,11 @@ authRouter.post(
 );
 authRouter.post("/signin", authController.signIn);
 authRouter.post("/verify-email", isTokenValid, authController.verifyEmail);
+authRouter.post("/update-email", authController.updateEmail);
+authRouter.post(
+    "/verify-new-email",
+    isTokenValid,
+    authController.verifyNewEmail
+);
 
 module.exports = authRouter;

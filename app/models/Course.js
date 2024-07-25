@@ -30,10 +30,10 @@ const courseSchema = new Schema(
             type: String,
             required: true,
         },
-        students: [
+        users: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "student",
+                ref: "user",
             },
         ],
     },

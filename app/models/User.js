@@ -1,7 +1,7 @@
 const { model, Schema } = require("mongoose");
 const { ROLES } = require("../config/const");
 
-const studentSchema = new Schema(
+const userSchema = new Schema(
     {
         firstName: {
             type: String,
@@ -32,37 +32,23 @@ const studentSchema = new Schema(
         },
         dob: {
             type: Date,
-            required: true,
         },
         address: {
             street: {
                 type: String,
-                required: true,
             },
             city: {
                 type: String,
-                required: true,
             },
             state: {
                 type: String,
-                required: true,
             },
             zipCode: {
                 type: String,
-                required: true,
             },
             country: {
                 type: String,
-                required: true,
             },
-        },
-        parentId: {
-            type: Schema.Types.ObjectId,
-            ref: "parent",
-        },
-        course: {
-            type: Schema.Types.ObjectId,
-            ref: "course",
         },
         role: {
             type: String,
@@ -80,4 +66,4 @@ const studentSchema = new Schema(
     }
 );
 
-module.exports = model("student", studentSchema);
+module.exports = model("user", userSchema);

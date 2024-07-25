@@ -253,6 +253,10 @@ function getDefaultImageUrl(req, type = "avatar") {
     return `${req.protocol}://${req.get("host")}/${imagePath}`;
 }
 
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000);
+}
+
 module.exports = {
     generateDbUrl,
     handleError,
@@ -264,4 +268,5 @@ module.exports = {
     getFilePathFromURL,
     generateFilename,
     getDefaultImageUrl,
+    generateOTP,
 };

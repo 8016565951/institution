@@ -13,10 +13,14 @@ const {
     generateFileURL,
     unlinkFile,
 } = require("../../lib/utils");
-const { signUpSchema, signInSchema } = require("../../lib/validations");
-const { studentRepo, parentRepo } = require("../../repos");
+const {
+    signUpSchema,
+    signInSchema,
+    updateEmailSchema,
+} = require("../../lib/validations");
 const { hashPassword, comparePasswords } = require("../../lib/bcrypt");
 const { MongooseError } = require("mongoose");
+const { userRepo } = require("../../repos");
 
 class AuthController {
     /**
@@ -28,43 +32,36 @@ class AuthController {
             const { error, value } = signUpSchema.validate(req.body);
             if (error) throw error;
 
-            const { parent, ...rest } = value;
-
-            const existingStudent = await studentRepo.getStudentByEmail(
-                rest.email
-            );
-            if (existingStudent)
+            const existingUser = await userRepo.getByEmail(value.email);
+            if (existingUser)
                 throw new AppError(
-                    "A student with this email already exists",
+                    "A user with this email already exists",
                     "CONFLICT"
                 );
 
             let avatarUrl = getDefaultImageUrl(req, "avatar");
             if (req.file) avatarUrl = generateFileURL(req, req.file);
 
-            const hashedPassword = await hashPassword(rest.password);
+            const hashedPassword = await hashPassword(value.password);
 
-            const newParent = await parentRepo.createParent(parent);
-
-            const student = await studentRepo.createStudent({
-                ...rest,
+            const user = await userRepo.create({
+                ...value,
                 password: hashedPassword,
                 avatarUrl,
-                parentId: newParent.id,
             });
 
             mailSender.sendVerificationEmail({
                 req,
                 user: {
-                    id: student.id,
-                    email: student.email,
-                    username: student.firstName + " " + student.lastName,
+                    id: user.id,
+                    email: user.email,
+                    username: user.firstName + " " + user.lastName,
                 },
             });
 
             const token = signJWT(
                 {
-                    id: student.id,
+                    id: user.id,
                 },
                 process.env.JWT_SECRET,
                 JWT_EXPIRES_IN
@@ -96,20 +93,20 @@ class AuthController {
 
             const { email, password } = value;
 
-            const student = await studentRepo.getStudentByEmail(email);
-            if (!student)
+            const existingUser = await userRepo.getByEmail(email);
+            if (!existingUser)
                 throw new AppError("Invalid email or password", "UNAUTHORIZED");
 
             const isPasswordValid = await comparePasswords(
                 password,
-                student.password
+                existingUser.password
             );
             if (!isPasswordValid)
                 throw new AppError("Invalid email or password", "UNAUTHORIZED");
 
             const token = signJWT(
                 {
-                    id: student.id,
+                    id: existingUser.id,
                 },
                 process.env.JWT_SECRET,
                 JWT_EXPIRES_IN
@@ -126,6 +123,10 @@ class AuthController {
         }
     };
 
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     verifyEmail = async (req, res) => {
         try {
             const id = req.ctx?.user.id;
@@ -135,19 +136,20 @@ class AuthController {
                     "BAD_REQUEST"
                 );
 
-            const student = await studentRepo.getStudentById(id);
-            if (!student) throw new AppError("Invalid token", "BAD_REQUEST");
+            const existingUser = await userRepo.getById(id);
+            if (!existingUser)
+                throw new AppError("Invalid token", "BAD_REQUEST");
 
-            if (student.isVerified)
+            if (existingUser.isVerified)
                 throw new AppError("Email is already verified", "BAD_REQUEST");
 
-            student.isVerified = true;
-            await student.save();
+            await userRepo.updateVerification(id, true);
 
             mailSender.sendEmailVerified({
                 user: {
-                    email: student.email,
-                    username: student.firstName + " " + student.lastName,
+                    email: existingUser.email,
+                    username:
+                        existingUser.firstName + " " + existingUser.lastName,
                 },
             });
 
@@ -155,6 +157,93 @@ class AuthController {
                 res,
                 message: "OK",
                 longMessage: "Your email has been verified",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    updateEmail = async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const { error, value } = updateEmailSchema.validate(req.body);
+            if (error) throw error;
+
+            const { email, password } = value;
+
+            const existingUserWithId = await userRepo.getById(id);
+            if (!existingUserWithId)
+                throw new AppError("User not found", "NOT_FOUND");
+
+            const existingUserWithEmail = await userRepo.getByEmail(email);
+            if (existingUserWithEmail)
+                throw new AppError(
+                    "Another user with this email exists",
+                    "BAD_REQUEST"
+                );
+
+            if (existingUserWithId.email === email)
+                throw new AppError(
+                    "You are already using this email",
+                    "BAD_REQUEST"
+                );
+
+            const isPasswordValid = await comparePasswords(
+                password,
+                existingUserWithId.password
+            );
+            if (!isPasswordValid)
+                throw new AppError("Invalid password", "BAD_REQUEST");
+
+            await mailSender.sendUpdateMailEmail({
+                user: {
+                    id,
+                    email,
+                },
+            });
+
+            return CResponse({
+                res,
+                message: "OK",
+                longMessage: "An OTP has been sent to your email",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    verifyNewEmail = async (req, res) => {
+        try {
+            const user = req.ctx?.user;
+            if (!user) throw new AppError("Invalid token", "BAD_REQUEST");
+
+            const { id, email } = user;
+
+            const existingUser = await userRepo.getById(id);
+            if (!existingUser)
+                throw new AppError("Invalid token", "BAD_REQUEST");
+
+            if (existingUser.email === email)
+                throw new AppError(
+                    "You are already using this email",
+                    "BAD_REQUEST"
+                );
+
+            await userRepo.updateEmail(id, email);
+
+            return CResponse({
+                res,
+                message: "OK",
+                longMessage: "Your email has been updated",
             });
         } catch (err) {
             return handleError(err, res);

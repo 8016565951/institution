@@ -20,7 +20,6 @@ const cookieOptions = {
 
 const ROLES = {
     STUDENT: "student",
-    PARENT: "parent",
     TEACHER: "teacher",
     MOD: "mod",
     ADMIN: "admin",

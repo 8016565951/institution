@@ -31,13 +31,6 @@ const signUpSchema = Joi.object({
         zipCode: Joi.string().required(),
         country: Joi.string().required(),
     }),
-    parent: Joi.object({
-        firstName: Joi.string().required(),
-        middleName: Joi.string(),
-        lastName: Joi.string().required(),
-        phone: Joi.string().required(),
-        occupation: Joi.string().required(),
-    }),
 });
 
 const signInSchema = Joi.object({
@@ -51,7 +44,39 @@ const signInSchema = Joi.object({
         ),
 });
 
+const updateEmailSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string()
+        .required()
+        .pattern(
+            new RegExp(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).*$/
+            )
+        )
+        .messages({
+            "string.pattern.base":
+                "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+        }),
+});
+
+const updatePhoneSchema = Joi.object({
+    phone: Joi.string().required(),
+});
+
+const updateAddressSchema = Joi.object({
+    address: Joi.object({
+        street: Joi.string().required(),
+        city: Joi.string().required(),
+        state: Joi.string().required(),
+        zipCode: Joi.string().required(),
+        country: Joi.string().required(),
+    }),
+});
+
 module.exports = {
     signUpSchema,
     signInSchema,
+    updateEmailSchema,
+    updatePhoneSchema,
+    updateAddressSchema,
 };
