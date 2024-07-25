@@ -176,6 +176,9 @@ class UserController {
             if (!existingUser)
                 throw new AppError("User not found", "NOT_FOUND");
 
+            if (existingUser.role === role)
+                throw new AppError("User already has this role", "BAD_REQUEST");
+
             await userRepo.updateRole(id, role);
 
             return CResponse({
