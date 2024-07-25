@@ -26,13 +26,6 @@ class CourseRepo {
     deleteCourse = async (id) => {
         return await db.courses.deleteOne({ _id: id });
     };
-
-    /**
-     * @param {string} data
-     */
-    createCourses = async (data) => {
-        return await db.courses.insertMany(data);
-    };
 }
 
 module.exports = new CourseRepo();
