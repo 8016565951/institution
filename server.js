@@ -7,6 +7,7 @@ const { logger, initiateErrorHandler } = require("./app/lib/helpers");
 const { db } = require("./app/lib/db");
 const { apiRouter } = require("./app/routes/api");
 const cookieParser = require("cookie-parser");
+const { homeRouter } = require("./app/routes/www");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.set("views", "views");
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
+app.use(homeRouter);
 app.use("/api", apiRouter);
 
 app.listen(PORT, () => {
