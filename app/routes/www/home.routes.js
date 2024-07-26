@@ -4,17 +4,13 @@ const { homeController } = require("../../controllers/www");
 
 const homeRouter = Router();
 
-homeRouter.get("/", homeController.index);
+homeRouter.get("/", homeController.home);
 homeRouter.get("/about", homeController.about);
+homeRouter.get("/courses", homeController.courses);
+homeRouter.get("/gallery", homeController.gallery);
 homeRouter.get("/contact", homeController.contact);
-homeRouter.get("/services", homeController.services);
-homeRouter.get("/portfolio", homeController.portfolio);
-homeRouter.get("/portfolio-details", homeController.portfolioDetails);
-homeRouter.get("/pricing", homeController.pricing);
-homeRouter.get("/blog", homeController.blog);
-homeRouter.get("/blog-single", homeController.blogSingle);
-homeRouter.get("/team", homeController.team);
-homeRouter.get("/testimonials", homeController.testimonials);
+homeRouter.get("/blogs", homeController.blogs);
+homeRouter.get("/blogs/:slug", homeController.blog);
 
 homeRouter.use("/auth", authRouter);
 
