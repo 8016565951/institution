@@ -6,13 +6,13 @@
 
         <nav class="nav-menu d-none d-lg-block">
             <ul>
-
+        <% menu.map((item)=>{ %>
                 <li>
                     <a href="<%= item.url %>">
                         <%= item.name %>
                     </a>
                 </li>
-
+            <% }) %>
             </ul>
         </nav>
     </div>
