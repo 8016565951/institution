@@ -15,7 +15,7 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    courses = async (req, res) => {
+    coursesUI = async (req, res) => {
         try {
             const courses = await courseRepo.get();
 
@@ -32,7 +32,7 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    course = async (req, res) => {
+    courseUI = async (req, res) => {
         try {
             const { id } = req.params;
             const course = await courseRepo.getById(id);
@@ -50,7 +50,41 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    createCourse = async (req, res) => {
+    createUI = async (req, res) => {
+        try {
+            return res.render("admin/course-create", {
+                title: `Create Course | Admin Panel | ${siteConfig.name}`,
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    updateUI = async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const course = await courseRepo.getById(id);
+            if (!course) throw new AppError("Course not found", "NOT_FOUND");
+
+            return res.render("admin/course-update", {
+                title: `Update Course | Admin Panel | ${siteConfig.name}`,
+                course,
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    create = async (req, res) => {
         try {
             const { error, value } = courseSchema.validate(req.body);
             if (error) throw error;
@@ -76,7 +110,7 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    updateCourse = async (req, res) => {
+    update = async (req, res) => {
         try {
             const { id } = req.params;
 
@@ -112,7 +146,7 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    deleteCourse = async (req, res) => {
+    delete = async (req, res) => {
         try {
             const { id } = req.params;
 

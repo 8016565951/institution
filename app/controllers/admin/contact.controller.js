@@ -6,7 +6,7 @@ class ContactController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    contacts = async (req, res) => {
+    contactsUI = async (req, res) => {
         try {
             const contacts = await contactRepo.get();
 

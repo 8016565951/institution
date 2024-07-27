@@ -3,46 +3,41 @@ const {
     CResponse,
     handleError,
     unlinkFile,
-    getDefaultImageUrl,
     generateFileURL,
     getFilePathFromURL,
 } = require("../../lib/utils");
-const { courseRepo } = require("../../repos");
 const { AppError } = require("../../lib/helpers");
-const { courseSchema } = require("../../lib/validations");
+const { bannerRepo } = require("../../repos");
+const { bannerSchema } = require("../../lib/validations");
 
-class CourseController {
+class BannerController {
     /**
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    getCourses = async (req, res) => {
+    getBanners = async (req, res) => {
         try {
-            const courses = await courseRepo.getCourses();
+            const banners = await bannerRepo.get();
 
             return CResponse({
                 res,
                 message: "OK",
-                data: courses,
+                data: banners,
             });
         } catch (err) {
             return handleError(err);
         }
     };
 
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    getCourseById = async (req, res) => {
+    getBannerById = async (req, res) => {
         try {
             const { id } = req.params;
-            const course = await courseRepo.getCourseById(id);
+            const banner = await bannerRepo.getById(id);
 
             return CResponse({
                 res,
                 message: "OK",
-                data: course,
+                data: banner,
             });
         } catch (err) {
             return handleError(err);
@@ -51,24 +46,27 @@ class CourseController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
-    createCourse = async (req, res) => {
+    createBanner = async (req, res) => {
         try {
-            const { error, value } = courseSchema.validate(req.body);
+            const { error, value } = bannerSchema.validate(req.body);
             if (error) throw error;
 
-            let thumbnailUrl = getDefaultImageUrl(req, "course");
-            if (req.file) thumbnailUrl = generateFileURL(req, req.file);
+            if (req.file)
+                throw new AppError("Image is required", "BAD_REQUEST");
 
-            await courseRepo.createCourse({
+            const bannerUrl = generateFileURL(req, req.file.filename);
+
+            const banner = await bannerRepo.create({
                 ...value,
-                thumbnailUrl,
+                image: bannerUrl,
             });
 
             return CResponse({
                 res,
                 message: "CREATED",
+                data: banner,
             });
         } catch (err) {
             if (!(err instanceof MongooseError))
@@ -81,28 +79,25 @@ class CourseController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    updateCourse = async (req, res) => {
+    updateBanner = async (req, res) => {
         try {
             const { id } = req.params;
 
-            const { error, value } = courseSchema.validate(req.body);
+            const { error, value } = bannerSchema.validate(req.body);
             if (error) throw error;
 
-            const existingCourse = await courseRepo.getCourseById(id);
-            if (!existingCourse)
-                throw new AppError("Course not found", "NOT_FOUND");
+            const banner = await bannerRepo.getById(id);
+            if (!banner) throw new AppError("Banner not found", "NOT_FOUND");
 
-            let thumbnailUrl = existingCourse.thumbnailUrl;
+            let imageUrl = banner.imageUrl;
             if (req.file) {
-                thumbnailUrl = generateFileURL(req, req.file);
-                await unlinkFile(
-                    getFilePathFromURL(existingCourse.thumbnailUrl)
-                );
+                imageUrl = generateFileURL(req, req.file.filename);
+                await unlinkFile(getFilePathFromURL(banner.imageUrl));
             }
 
-            await courseRepo.updateCourse(id, {
+            await bannerRepo.update(id, {
                 ...value,
-                thumbnailUrl,
+                imageUrl,
             });
 
             return CResponse({
@@ -118,18 +113,17 @@ class CourseController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
-    deleteCourse = async (req, res) => {
+    deleteBanner = async (req, res) => {
         try {
             const { id } = req.params;
 
-            const existingCourse = await courseRepo.getCourseById(id);
-            if (!existingCourse)
-                throw new AppError("Course not found", "NOT_FOUND");
+            const banner = await bannerRepo.getById(id);
+            if (!banner) throw new AppError("Banner not found", "NOT_FOUND");
 
-            await unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
-            await courseRepo.deleteCourse(id);
+            await unlinkFile(getFilePathFromURL(banner.imageUrl));
+            await bannerRepo.delete(id);
 
             return CResponse({
                 res,
@@ -141,4 +135,4 @@ class CourseController {
     };
 }
 
-module.exports = new CourseController();
+module.exports = new BannerController();

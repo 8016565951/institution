@@ -3,7 +3,8 @@ const { aboutController } = require("../../controllers/admin");
 
 const aboutRouter = Router();
 
-aboutRouter.get("/about", aboutController.about);
-aboutRouter.post("/", aboutController.updateAbout);
+aboutRouter.get("/", aboutController.aboutUI);
+
+aboutRouter.post("/", aboutController.update);
 
 module.exports = aboutRouter;

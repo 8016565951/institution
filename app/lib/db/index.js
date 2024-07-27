@@ -9,6 +9,7 @@ const {
     Blog,
     Contact,
     Gallery,
+    Banner,
 } = require("../../models");
 
 class Database {
@@ -26,6 +27,7 @@ class Database {
         this.blogs = Blog;
         this.contacts = Contact;
         this.galleries = Gallery;
+        this.banners = Banner;
     }
 
     connect = async () => {
@@ -40,4 +42,5 @@ class Database {
 }
 
 const db = new Database(generateDbUrl());
+
 module.exports = { db };

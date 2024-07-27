@@ -3,6 +3,7 @@ const authSchema = require("./auth");
 const userSchema = require("./user");
 const courseSchema = require("./course");
 const aboutSchema = require("./about");
+const bannerSchema = require("./banner");
 
 module.exports = {
     ...responseSchema,
@@ -10,4 +11,5 @@ module.exports = {
     ...userSchema,
     ...aboutSchema,
     ...courseSchema,
+    ...bannerSchema,
 };

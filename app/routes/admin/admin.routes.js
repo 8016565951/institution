@@ -1,10 +1,14 @@
 const { Router } = require("express");
-const homeRouter = require("./home.routes");
 const aboutRouter = require("./about.routes");
+const bannerRouter = require("./banner.routes");
+const courseRouter = require("./course.routes");
+const contactRouter = require("./contact.routes");
 
 const adminRouter = Router();
 
-adminRouter.use(homeRouter);
-adminRouter.use(aboutRouter);
+adminRouter.use("/about", aboutRouter);
+adminRouter.use("/banners", bannerRouter);
+adminRouter.use("/courses", courseRouter);
+adminRouter.use("/contacts", contactRouter);
 
 module.exports = adminRouter;

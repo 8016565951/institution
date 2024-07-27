@@ -7,7 +7,7 @@ class AboutController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    about = async (req, res) => {
+    aboutUI = async (req, res) => {
         try {
             const about = await aboutRepo.get();
 
@@ -24,7 +24,7 @@ class AboutController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    updateAbout = async (req, res) => {
+    update = async (req, res) => {
         try {
             const { error, value } = aboutSchema.validate(req.body);
             if (error) throw error;
