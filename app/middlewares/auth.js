@@ -130,10 +130,33 @@ function isTokenValid(req, res, next) {
     }
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+function isTokenValidUI(req, res, next) {
+    try {
+        const { token } = req.query;
+        if (!token) throw new AppError("Token is required", "BAD_REQUEST");
+
+        try {
+            const payload = verifyJwt(token, process.env.JWT_SECRET);
+            req.ctx = { ...req.ctx, user: payload };
+            next();
+        } catch (err) {
+            return console.error(err);
+        }
+    } catch (err) {
+        return console.error(err);
+    }
+}
+
 module.exports = {
     isTokenValid,
     isAPIAuthenticated,
     isSameUser,
     isAdmin,
     isSameUserOrAdmin,
+    isTokenValidUI,
 };

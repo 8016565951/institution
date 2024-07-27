@@ -8,7 +8,7 @@ const { db } = require("./app/lib/db");
 const { apiRouter } = require("./app/routes/api");
 const cookieParser = require("cookie-parser");
 const { homeRouter } = require("./app/routes/www");
-const { adminHomeRouter } = require("./app/routes/admin");
+const { adminRouter } = require("./app/routes/admin");
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.use(homeRouter);
 app.use("/api", apiRouter);
-app.use("/admin", adminHomeRouter);
+app.use("/admin", adminRouter);
 
 app.listen(PORT, () => {
     initiateErrorHandler();

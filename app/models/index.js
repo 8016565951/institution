@@ -5,7 +5,6 @@ const About = require("./About");
 const Blog = require("./Blog");
 const Gallery = require("./Gallery");
 const Contact = require("./Contact");
-const Team = require("./Team");
 
 module.exports = {
     Course,
@@ -15,5 +14,4 @@ module.exports = {
     Blog,
     Gallery,
     Contact,
-    Team,
 };

@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
 const { logger } = require("../helpers");
 const { generateDbUrl } = require("../utils");
-const { Course, OTP, User } = require("../../models");
+const {
+    Course,
+    OTP,
+    User,
+    About,
+    Blog,
+    Contact,
+    Gallery,
+} = require("../../models");
 
 class Database {
     #uri;
@@ -14,6 +22,10 @@ class Database {
         this.users = User;
         this.courses = Course;
         this.otps = OTP;
+        this.about = About;
+        this.blogs = Blog;
+        this.contacts = Contact;
+        this.galleries = Gallery;
     }
 
     connect = async () => {

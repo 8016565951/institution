@@ -1,92 +1,49 @@
-body {
-    font-family: "Lato", sans-serif;
-}
-
-.main-head {
-    height: 150px;
-    background: #fff;
-}
-
-.sidenav {
-    height: 100%;
-    background-color: #000;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.main {
-    padding: 0px 10px;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
     }
 }
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+}
+.card-registration .select-arrow {
+    top: 13px;
+}
 
-@media screen and (max-width: 450px) {
-    .login-form {
-        margin-top: 10%;
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #a1c4fd;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+        to right,
+        rgba(161, 196, 253, 1),
+        rgba(194, 233, 251, 1)
+    );
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(
+        to right,
+        rgba(161, 196, 253, 1),
+        rgba(194, 233, 251, 1)
+    );
+}
+
+.bg-indigo {
+    background-color: #4835d4;
+}
+@media (min-width: 992px) {
+    .card-registration-2 .bg-indigo {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
-
-    .register-form {
-        margin-top: 10%;
+}
+@media (max-width: 991px) {
+    .card-registration-2 .bg-indigo {
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
-}
-
-@media screen and (min-width: 768px) {
-    .main {
-        margin-left: 45%;
-    }
-
-    .sidenav {
-        width: 40%;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-    }
-
-    .login-form {
-        margin-top: 10%;
-    }
-}
-
-.login-main-text {
-    margin-top: 20%;
-    padding: 60px;
-    color: #fff;
-}
-
-.login-main-text h2 {
-    font-weight: 300;
-}
-
-.btn-black {
-    background-color: #000 !important;
-    color: #fff;
-}
-
-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-form div {
-    width: 280px;
-}
-.buttons {
-    display: flex;
-    padding-top: 30px;
-    padding-bottom: 50px;
-    justify-content: space-around;
-}
-.textCenter {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: rgb(35, 59, 145);
 }

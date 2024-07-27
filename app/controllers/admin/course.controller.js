@@ -1,70 +1,131 @@
-const { CourseRepo } = require("../../repos/admin/index");
-const { handleError } = require("../../lib/utils");
+const { MongooseError } = require("mongoose");
+const { siteConfig } = require("../../config/site");
+const {
+    generateFileURL,
+    getDefaultImageUrl,
+    unlinkFile,
+    getFilePathFromURL,
+} = require("../../lib/utils");
+const { courseSchema } = require("../../lib/validations");
+const { courseRepo } = require("../../repos");
+const { AppError } = require("../../lib/helpers");
 
 class CourseController {
-    getCourses = async (req, res) => {
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    courses = async (req, res) => {
         try {
-            const data = await CourseRepo.getCourses();
-            res.redirect("/admin/course");
+            const courses = await courseRepo.get();
+
+            return res.render("admin/courses", {
+                title: `Courses | Admin Panel | ${siteConfig.name}`,
+                courses,
+            });
         } catch (err) {
-            return handleError(err, res);
+            console.error(err);
         }
     };
 
-    getCourseById = async (req, res) => {
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    course = async (req, res) => {
         try {
             const { id } = req.params;
-            const data = await CourseRepo.getCourseById(id);
-            res.render("admin/course", { data });
+            const course = await courseRepo.getById(id);
+
+            return res.render("admin/course", {
+                title: `Course | Admin Panel | ${siteConfig.name}`,
+                course,
+            });
         } catch (err) {
-            return handleError(err, res);
+            console.error(err);
         }
     };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     createCourse = async (req, res) => {
         try {
-            const { title, description, duration, price } = req.body;
-            if (req.file) {
-                req.body.thumbnailUrl = req.file.path;
-            }
-            await CourseRepo.createCourse({
-                title,
-                description,
-                duration,
-                price,
+            const { error, value } = courseSchema.validate(req.body);
+            if (error) throw error;
+
+            let thumbnailUrl = getDefaultImageUrl(req, "course");
+            if (req.file)
+                thumbnailUrl = generateFileURL(req, req.file.filename);
+
+            await courseRepo.create({
+                ...value,
                 thumbnailUrl,
             });
-            res.redirect("/admin/course");
+
+            return res.redirect("/admin/courses");
         } catch (err) {
-            return handleError(err, res);
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file?.path);
+            console.error(err);
         }
     };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     updateCourse = async (req, res) => {
         try {
             const { id } = req.params;
-            const { title, description, duration, price } = req.body;
+
+            const { error, value } = courseSchema.validate(req.body);
+            if (error) throw error;
+
+            const existingCourse = await courseRepo.getById(id);
+            if (!existingCourse)
+                throw new AppError("Course not found", "NOT_FOUND");
+
+            let thumbnailUrl = existingCourse.thumbnailUrl;
             if (req.file) {
-                req.body.thumbnailUrl = req.file.path;
+                thumbnailUrl = generateFileURL(req, req.file.filename);
+                await unlinkFile(
+                    getFilePathFromURL(existingCourse.thumbnailUrl)
+                );
             }
 
-            await CourseRepo.updateCourse(id, {
-                title,
-                description,
-                duration,
-                price,
+            await courseRepo.update(id, {
+                ...value,
                 thumbnailUrl,
             });
-            res.redirect("/admin/course");
+
+            return res.redirect("/admin/courses");
         } catch (err) {
-            return handleError(err, res);
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file?.path);
+            console.error(err);
         }
     };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
     deleteCourse = async (req, res) => {
         try {
             const { id } = req.params;
-            const result = await CourseRepo.deleteCourse(id);
-            res.redirect("/admin/course");
+
+            const existingCourse = await courseRepo.getById(id);
+            if (!existingCourse)
+                throw new AppError("Course not found", "NOT_FOUND");
+
+            await courseRepo.delete(id);
+            await unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
+
+            return res.redirect("/admin/courses");
         } catch (err) {
-            return handleError(err, res);
+            console.error(err);
         }
     };
 }

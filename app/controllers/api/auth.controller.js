@@ -249,6 +249,23 @@ class AuthController {
             return handleError(err, res);
         }
     };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signOut = (req, res) => {
+        try {
+            res.clearCookie(AUTH_TOKEN_COOKIE_NAME, cookieOptions);
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
 }
 
 module.exports = new AuthController();

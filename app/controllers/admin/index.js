@@ -1,11 +1,11 @@
-const adminHomeController = require("./adminhome.controller");
-const AboutController = require("./about.controller");
-const CourseController = require("./course.controller");
-const ContactController = require("./contact.controller");
+const homeController = require("./home.controller");
+const aboutController = require("./about.controller");
+const courseController = require("./course.controller");
+const contactController = require("./contact.controller");
 
 module.exports = {
-    adminHomeController,
-    AboutController,
-    CourseController,
-    ContactController,
+    homeController,
+    aboutController,
+    courseController,
+    contactController,
 };

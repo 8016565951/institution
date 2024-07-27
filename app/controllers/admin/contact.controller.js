@@ -1,51 +1,21 @@
-const { ContactRepo } = require("../../repos/admin/index");
-const { handleError } = require("../../lib/utils");
+const { siteConfig } = require("../../config/site");
+const { contactRepo } = require("../../repos");
 
 class ContactController {
-    getContacts = async (req, res) => {
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    contacts = async (req, res) => {
         try {
-            const data = await ContactRepo.getContacts();
-            res.redirect("/admin/contact");
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-    getContactById = async (req, res) => {
-        try {
-            const { id } = req.params;
-            const data = await ContactRepo.getContactById(id);
-            res.render("admin/contact", { data });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
+            const contacts = await contactRepo.get();
 
-    createContact = async (req, res) => {
-        try {
-            const { name, email, subject, message } = req.body;
-            await ContactRepo.createContact({ name, subject, email, message });
-            res.redirect("/admin/contact");
+            return res.render("admin/contacts", {
+                title: `Contacts | Admin Panel | ${siteConfig.name}`,
+                contacts,
+            });
         } catch (err) {
-            return handleError(err, res);
-        }
-    };
-    updateContact = async (req, res) => {
-        try {
-            const { id } = req.params;
-            const { name, email, subject, message } = req.body;
-            await ContactRepo.updateContact(id, { name, email, message });
-            res.redirect("/admin/contact");
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-    deleteContact = async (req, res) => {
-        try {
-            const { id } = req.params;
-            const result = await ContactRepo.deleteContact(id);
-            res.redirect("/admin/contact");
-        } catch (err) {
-            return handleError(err, res);
+            console.error(err);
         }
     };
 }

@@ -9,8 +9,9 @@ const transporter = require("./transporter");
  * @param {string} options.user.id
  * @param {string} options.user.username
  * @param {string} options.user.email
+ * @param {boolean} options.isApi
  */
-function sendVerificationEmail({ req, user }) {
+function sendVerificationEmail({ req, user, isApi = true }) {
     const token = signJWT(
         {
             id: user.id,
@@ -23,7 +24,7 @@ function sendVerificationEmail({ req, user }) {
         <h1>Verify your email</h1>
         <p>Hello ${user.username},</p>
         <p>Click the link below to verify your email address:</p>
-        <a href="${req.headers.origin}/auth/verify-email?token=${token}">Verify email</a>
+        <a href="${req.headers.origin}${isApi ? "/api" : ""}/auth/verify-email?token=${token}">Verify email</a>
         <p>If you did not create an account, no further action is required.</p>
         <p>Thanks,</p>
         <p>${siteConfig.name}</p>
