@@ -63,38 +63,46 @@
                 <section class="content">
                     <div class="container-fluid">
 
-
-
-                        <div class="row" style="display: flexbox;">
-
-                            <div class="card col-sm-3">
-                                <img src="" class="card-img-top" alt="image" style="height:fit-content;">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= item.title %>
-                                    </h5>
-
-
-                                    <br>
-                                    <div>
-                                        <a href="/admin/edit/<%=item._id%>" class="btn btn-primary">Update</a>
-                                        <a href="/admin/delete/<%=item._id%>" class="btn btn-primary">Delete</a>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-6">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckDefault" checked onchange="toggleSwitch()">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault"
-                                                    id="switchLabel">Inactive</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                        <h2 class="text-center">Update Course</h2>
+                        <form id="courseForm" action="/api/courses/" method="POST">
+                            <div class="form-group">
+                                <label for="title">Course Title</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    placeholder="Enter course title" required>
                             </div>
-
-                        </div>
+                            <div class="form-group">
+                                <label for="description">Course Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="4"
+                                    placeholder="Enter course description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="durationNumber">Duration Number</label>
+                                <input type="number" class="form-control" id="durationNumber" name="durationnumber"
+                                    placeholder="Enter duration number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="durationUnit">Duration Unit</label>
+                                <select class="form-control" id="durationUnit" name="durationunit" required>
+                                    <option value="" disabled selected>Select a duration unit</option>
+                                    <option value="hours">Hours</option>
+                                    <option value="days">Days</option>
+                                    <option value="weeks">Weeks</option>
+                                    <option value="months">Months</option>
+                                    <!-- Add other TIMESPANS if needed -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="number" class="form-control" id="price" name="price"
+                                    placeholder="Enter price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="thumbnailUrl">Thumbnail URL</label>
+                                <input type="file" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
+                                    placeholder="Enter thumbnail URL" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Course</button>
+                        </form>
                     </div>
                 </section>
                 <!-- /.content -->

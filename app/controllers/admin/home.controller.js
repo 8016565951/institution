@@ -47,13 +47,13 @@ class HomeController {
         res.render("admin/teachers");
     };
 
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    about = async (req, res) => {
-        res.render("admin/about");
-    };
+    // /**
+    //  * @param {import("express").Request} req
+    //  * @param {import("express").Response} res
+    //  */
+    // about = async (req, res) => {
+    //     res.render("admin/about");
+    // };
 
     /**
      * @param {import("express").Request} req
@@ -69,6 +69,23 @@ class HomeController {
      */
     contacts = async (req, res) => {
         res.render("admin/contacts");
+    };
+
+    /**
+     * @param {import("express").Request} req
+     *  @param {import("express").Response} res
+     */
+    updateAbout = async (req, res) => {
+        res.render("admin/update.about");
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+
+    createCourses = async (req, res) => {
+        res.render("admin/create.courses");
     };
 }
 
