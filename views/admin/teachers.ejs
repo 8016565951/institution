@@ -31,7 +31,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <!-- navbar -->
-    <%- include('common-part/headerall') %>
+    <%- include('common-part/navbar') %>
         <!-- navbar -->
 
         <!-- sidebar -->
@@ -66,39 +66,34 @@
 
 
                         <div class="row" style="display: flexbox;">
-                            <% if ( data.length> 0 ) { %>
-                                <% for(let item of data) { %>
-                                    <div class="card col-sm-3">
-                                        <img src="/<%= item.image %>" class="card-img-top" alt="image"
-                                            style="height:fit-content;">
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <%= item.title %>
-                                            </h5>
+
+                            <div class="card col-sm-3">
+                                <img src="" class="card-img-top" alt="image" style="height:fit-content;">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= item.title %>
+                                    </h5>
 
 
-                                            <br>
-                                            <div>
-                                                <a href="/admin/edit/<%=item._id%>" class="btn btn-primary">Update</a>
-                                                <a href="/admin/delete/<%=item._id%>" class="btn btn-primary">Delete</a>
+                                    <br>
+                                    <div>
+                                        <a href="/admin/edit/<%=item._id%>" class="btn btn-primary">Update</a>
+                                        <a href="/admin/delete/<%=item._id%>" class="btn btn-primary">Delete</a>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-6">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckDefault" checked onchange="toggleSwitch()">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"
+                                                    id="switchLabel">Inactive</label>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-6">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch"
-                                                            id="flexSwitchCheckDefault" checked
-                                                            onchange="toggleSwitch()">
-                                                        <label class="form-check-label" for="flexSwitchCheckDefault"
-                                                            id="switchLabel">Inactive</label>
-                                                    </div>
 
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    <% } %>
+                                </div>
+                            </div>
 
-                                        <% } %>
                         </div>
                     </div>
                 </section>
