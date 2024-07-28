@@ -61,8 +61,13 @@ class CourseController {
             let thumbnailUrl = getDefaultImageUrl(req, "course");
             if (req.file) thumbnailUrl = generateFileURL(req, req.file);
 
-            await courseRepo.createCourse({
+            await courseRepo.create({
                 ...value,
+                duration: {
+                    ...value.duration,
+                    number: +value.duration.number,
+                },
+                price: +value.price,
                 thumbnailUrl,
             });
 

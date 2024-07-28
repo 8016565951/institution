@@ -86,7 +86,6 @@ class CourseController {
      */
     create = async (req, res) => {
         try {
-            console.log(req.body);
             const { error, value } = courseSchema.validate(req.body);
             if (error) throw error;
 
