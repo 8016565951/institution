@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/gallaries/create" class="btn btn-primary">Add Events</a>
+                                <a href="/admin/gallaries/" class="btn btn-primary">Back</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -63,34 +63,30 @@
                 <section class="content">
                     <div class="container-fluid">
 
-                        <h1 class="text-center">All Events</h1>
+                        <h1 class="text-center">Create Events</h1>
                         <hr>
-                        <div class="row">
-                            <div class="col-6">
 
-                                <div class="container mt-5">
-                                    <div class="card">
-                                        <img src="/uploads/images/courses/thumbnails/default_thumbnail.png"
-                                            class="card-img-top" alt="Gallery Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title">GALLERY_TITLE</h5>
-                                            <p class="card-text">GALLERY_DESCRIPTION</p>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-evenly   row">
-                                            <div class="col-md-6">
-                                                <a href="/admin/gallaries/updateUI" class="btn btn-primary">Edit</a>
-
-                                            </div>
-                                            <div class="col-md-6">
-                                                <a href="/admin/gallaries" class="btn btn-danger">Delete</a>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-6 offset-md-3">
+                            <form action="/path/to/your/submit/endpoint" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="galleryTitle">Events Title</label>
+                                    <input type="text" class="form-control" id="galleryTitle" name="galleryTitle"
+                                        placeholder="Enter gallery title" required>
                                 </div>
-
-                            </div>
+                                <div class="form-group">
+                                    <label for="galleryDescription">Events Description</label>
+                                    <textarea class="form-control" id="galleryDescription" name="galleryDescription"
+                                        placeholder="Enter gallery description" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="galleryImage">Upload Image</label>
+                                    <input type="file" class="form-control-file" id="galleryImage" name="galleryImage"
+                                        accept="image/*" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
+
                     </div>
                 </section>
                 <!-- /.content -->

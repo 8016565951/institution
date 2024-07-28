@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/createitems" class="btn btn-primary">Add carousel</a>
+                                <a href="/admin/blogs" class="btn btn-primary">Back</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -63,38 +63,57 @@
                 <section class="content">
                     <div class="container-fluid">
 
-
-
-                        <div class="row" style="display: flexbox;">
-
-                            <div class="card col-sm-3">
-                                <img src="" class="card-img-top" alt="image" style="height:fit-content;">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= item.title %>
-                                    </h5>
-
-
-                                    <br>
-                                    <div>
-                                        <a href="/admin/edit/<%=item._id%>" class="btn btn-primary">Update</a>
-                                        <a href="/admin/delete/<%=item._id%>" class="btn btn-primary">Delete</a>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-6">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckDefault" checked onchange="toggleSwitch()">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault"
-                                                    id="switchLabel">Inactive</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                        <h1 class="text-center">Update Blog Post</h1>
+                        <hr>
+                        <div class="container-mt-5">
+                            <form action="/admin/blogs/update" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="thumbnailUrl">Thumbnail URL</label>
+                                    <input type="file" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
+                                        placeholder="Enter thumbnail URL">
+                                    <img src="/<%- thumbnailUrl %>" alt="">
                                 </div>
-                            </div>
-
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        placeholder="Enter title" value="<%- title %>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description"
+                                        placeholder="<%- description %>"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" id="content" name="content"
+                                        placeholder="<%- content %>" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="authorId">Author ID</label>
+                                    <input type="text" class="form-control" id="authorId" name="authorId"
+                                        placeholder="Enter author ID" value="<%- authorId %>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status" value="<%- status %>">
+                                        <option value="draft">Draft</option>
+                                        <option value="published">Published</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="publishedAt">Published At</label>
+                                    <input type="date" class="form-control" id="publishedAt" name="publishedAt"
+                                        value="<%- publishedAt %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categories">Categories</label>
+                                    <input type="text" class="form-control" id="categories" name="categories"
+                                        placeholder="Enter categories (comma separated)" value="<%- categories %>">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
+
                     </div>
                 </section>
                 <!-- /.content -->

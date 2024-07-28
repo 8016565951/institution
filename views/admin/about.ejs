@@ -43,7 +43,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                
+
 
                             </div>
                             <div class="col-sm-6">
@@ -61,15 +61,18 @@
                         <div class="row" style="display: flexbox;">
                             <form action="/admin/about" method="post">
                                 <div>
-                                    <label for="title">Title:</label>
-                                    <input type="text" name="title" id="title" placeholder="Title" value="<%= about?.title ?? '' %>">
+                                    <label for="title" class="form-label">Title:</label>
+                                    <input type="text" class="form-control" name="title" id="title" placeholder="Title"
+                                        value="<%= about?.title ?? '' %>">
                                 </div>
                                 <div>
-                                    <label for="description">Description:</label>
-                                    <textarea name="description" id="description" cols="30" rows="10" >
+                                    <label for="description" class="form-label">Description:</label>
+                                    <textarea name="description" class="form-control" id="description" cols="30"
+                                        rows="10">
                                         <%= about?.description ?? ''  %>
                                     </textarea>
                                 </div>
+                                <br><br>
 
                                 <button type="submit">Update</button>
                             </form>
