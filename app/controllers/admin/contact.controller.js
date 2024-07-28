@@ -18,6 +18,19 @@ class ContactController {
             console.error(err);
         }
     };
+
+    // The values are coming from www - contact form
+    createContacts = async (req, res) => {
+        try {
+            const { name, email, subject, message } = req.body;
+
+            const contact = await contactRepo.create(req.body);
+
+            return res.render("/contact");
+        } catch (error) {
+            console.error(error);
+        }
+    };
 }
 
 module.exports = new ContactController();
