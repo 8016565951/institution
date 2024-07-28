@@ -62,28 +62,39 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="container-fluid">
-                        <h2 class="text-center"><%= course.title  %></h2>
+                        <h2 class="text-center">
+                            <%= course.title %>
+                        </h2>
                         <hr>
 
-                       
+
                         <div class="container mt-5">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <img src="/uploads/images/courses/thumbnails/default_thumbnail.png"
-                                                class="img-fluid" alt="Course Thumbnail">
+                                            <img src="/<%= course.thumbnail  %>" class="img-fluid"
+                                                alt="Course Thumbnail">
                                         </div>
                                         <div class="col-md-6">
-                                            <h5 class="card-title"><%= course.title  %></h5>
-                                            <p class="card-text"><%= course.description  %></p>
-                                            <p class="card-text"><strong>Duration:</strong> 
-                                                <%= course.duration.number  %>
-                                                <%= course.duration.unit  %></p>
-                                            <p class="card-text"><strong>Price:</strong><%= course.price  %> </p>
+                                            <h5 class="card-title">
+                                                <%= course.title %>
+                                            </h5>
+                                            <p class="card-text">
+                                                <%= course.description %>
+                                            </p>
+                                            <p class="card-text"><strong>Duration:</strong>
+                                                <%= course.duration.number %>
+                                                    <%= course.duration.unit %>
+                                            </p>
+                                            <p class="card-text"><strong>Price:</strong>
+                                                <%= course.price %>
+                                            </p>
                                             <% for (let i of course.users) { %>
-                                            <p class="card-text"><strong>Users Enrolled:</strong> <%= i  %></p>
-                                            <% } %>
+                                                <p class="card-text"><strong>Users Enrolled:</strong>
+                                                    <%= i %>
+                                                </p>
+                                                <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                 </section>

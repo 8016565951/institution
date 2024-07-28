@@ -66,31 +66,44 @@
                         <h1 class="text-center">Create Hero</h1>
                     </div>
                     <div class="container-fluid">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Image</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        <% if(banners) { %> 
-                            <% let count=1 %> 
-                            <% for (let banner of banners) { %>  
-                          <tr>
-                            <th scope="row"><%= count++  %></th>
-                            <td><%= banner.title  %></td>
-                            <td><%= banner.description  %></td>
-                            <td><%= banner.imageUrl  %></td>
-                          </tr>
-                          
-                          <% } %>
-                        <% } %>  
-                        </tbody>
-                      </table>
-                    </div>  
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(banners) { %>
+                                    <% let count=1 %>
+                                        <% for (let banner of banners) { %>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%= count++ %>
+                                                </th>
+                                                <td>
+                                                    <%= banner.title %>
+                                                </td>
+                                                <td>
+                                                    <%= banner.description %>
+                                                </td>
+                                                <td>
+                                                    <%= banner.imageUrl %>
+                                                </td>
+                                                <td><a href="/admin/banners/<%= banner._id  %>/update"
+                                                        class="btn btn-primary">Update</a></td>
+                                                <td><a href="/admin/banners/<%= banner._id  %>/delete"
+                                                        class="btn btn-danger">Delete</a></td>
+                                            </tr>
+
+                                            <% } %>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
                 <!-- /.content -->
             </div>

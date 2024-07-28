@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/gallaries/create" class="btn btn-primary">Add Events</a>
+                                <a href="/admin/galleries/create-gallery" class="btn btn-primary">Add Events</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -65,32 +65,42 @@
 
                         <h1 class="text-center">All Events</h1>
                         <hr>
-                        <div class="row">
-                            <div class="col-6">
+                        <% galleries.forEach((gallery)=> { %>
 
-                                <div class="container mt-5">
-                                    <div class="card">
-                                        <img src="/uploads/images/courses/thumbnails/default_thumbnail.png"
-                                            class="card-img-top" alt="Gallery Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title">GALLERY_TITLE</h5>
-                                            <p class="card-text">GALLERY_DESCRIPTION</p>
-                                        </div>
-                                        <div class="card-footer d-flex justify-content-evenly   row">
-                                            <div class="col-md-6">
-                                                <a href="/admin/gallaries/updateUI" class="btn btn-primary">Edit</a>
+                            <div class="row">
+                                <div class="col-6">
 
+                                    <div class="container mt-5">
+                                        <div class="card">
+                                            <img src="/<%= gallery.imageUrl %>" class="card-img-top"
+                                                alt="Gallery Image">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <%= gallery.title %>
+                                                </h5>
+                                                <p class="card-text">
+                                                    <%= gallery.description %>
+                                                </p>
                                             </div>
-                                            <div class="col-md-6">
-                                                <a href="/admin/gallaries" class="btn btn-danger">Delete</a>
+                                            <div class="card-footer d-flex justify-content-evenly   row">
+                                                <div class="col-md-6">
+                                                    <a href="/admin/galleries/<%= gallery._id %>/updateUI"
+                                                        class="btn btn-primary">Edit</a>
 
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="/admin/gallaries/<%= gallery._id %>/delete"
+                                                        class="btn btn-danger">Delete</a>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
-                        </div>
+
+                            <% }) %>
                     </div>
                 </section>
                 <!-- /.content -->

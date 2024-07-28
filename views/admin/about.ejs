@@ -58,25 +58,29 @@
 
                 <section class="content">
                     <div class="container-fluid">
-                        <div class="row" style="display: flexbox;">
-                            <form action="/admin/about" method="post">
-                                <div>
-                                    <label for="title" class="form-label">Title:</label>
-                                    <input type="text" class="form-control" name="title" id="title" placeholder="Title"
-                                        value="<%= about?.title ?? '' %>">
-                                </div>
-                                <div>
-                                    <label for="description" class="form-label">Description:</label>
-                                    <textarea name="description" class="form-control" id="description" cols="30"
-                                        rows="10">
+                        <div class="container mt-5">
+                            <div class="row justify-content-center">
+                                <form action="/admin/about" method="post">
+                                    <div>
+                                        <label for="title" class="form-label">Title:</label>
+                                        <input type="text" class="form-control" name="title" id="title"
+                                            placeholder="Title" value="<%= about?.title ?? '' %>">
+                                    </div>
+                                    <div>
+                                        <label for="description" class="form-label">Description:</label>
+                                        <textarea name="description" class="form-control" id="description" cols="60"
+                                            rows="10">
                                         <%= about?.description ?? ''  %>
                                     </textarea>
-                                </div>
-                                <br><br>
+                                    </div>
+                                    <br><br>
 
-                                <button type="submit">Update</button>
-                            </form>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+                            </div>
                         </div>
+
+                    </div>
                 </section>
             </div>
 
