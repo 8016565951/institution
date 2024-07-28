@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/createitems" class="btn btn-primary">Add carousel</a>
+                                <a href="/admin/banners/create" class="btn btn-primary">Add carousel</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -65,6 +65,32 @@
 
                         <h1 class="text-center">Create Hero</h1>
                     </div>
+                    <div class="container-fluid">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <% if(banners) { %> 
+                            <% let count=1 %> 
+                            <% for (let banner of banners) { %>  
+                          <tr>
+                            <th scope="row"><%= count++  %></th>
+                            <td><%= banner.title  %></td>
+                            <td><%= banner.description  %></td>
+                            <td><%= banner.imageUrl  %></td>
+                          </tr>
+                          
+                          <% } %>
+                        <% } %>  
+                        </tbody>
+                      </table>
+                    </div>  
                 </section>
                 <!-- /.content -->
             </div>

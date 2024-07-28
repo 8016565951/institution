@@ -61,10 +61,11 @@
                 <section class="content">
                     <div class="container-fluid">
 
+               
                         <div class="container mt-5">
                             <h2 class="text-center">Add Banner Item</h2>
                             <hr>
-                            <form id="addGalleryForm">
+                            <form id="addGalleryForm" action="/admin/banners/create" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" id="title" name="title" required>
@@ -82,7 +83,7 @@
                             </form>
                         </div>
 
-
+                
 
 
 
