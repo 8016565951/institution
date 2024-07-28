@@ -11,11 +11,7 @@ categoryRouter.get(
     categoryController.getCategoryById
 );
 
-categoryRouter.post(
-    "/",
-    //  isAPIAuthenticated,
-    categoryController.createCategory
-);
+categoryRouter.post("/", isAPIAuthenticated, categoryController.createCategory);
 
 categoryRouter.delete(
     "/:id",
