@@ -18,7 +18,7 @@ class CategoryController {
                 data: categories,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -37,7 +37,7 @@ class CategoryController {
                 data: category,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -62,7 +62,7 @@ class CategoryController {
                 data: category,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -80,7 +80,7 @@ class CategoryController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 }

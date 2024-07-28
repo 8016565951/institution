@@ -7,6 +7,7 @@ const bannerSchema = require("./banner");
 const blogSchema = require("./blog");
 const categorySchema = require("./category");
 const commentSchema = require("./comment");
+const gallerySchema = require("./gallery");
 
 module.exports = {
     ...responseSchema,
@@ -18,4 +19,5 @@ module.exports = {
     ...blogSchema,
     ...categorySchema,
     ...commentSchema,
+    ...gallerySchema,
 };

@@ -5,6 +5,7 @@ const bannerController = require("./banner.controller");
 const blogController = require("./blog.controller");
 const categoryController = require("./category.controller");
 const commentController = require("./comment.controller");
+const galleryController = require("./gallery.controller");
 
 module.exports = {
     authController,
@@ -14,4 +15,5 @@ module.exports = {
     blogController,
     categoryController,
     commentController,
+    galleryController,
 };

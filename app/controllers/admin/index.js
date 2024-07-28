@@ -3,7 +3,7 @@ const courseController = require("./course.controller");
 const contactController = require("./contact.controller");
 const bannerController = require("./banner.controller");
 const blogController = require("./blog.controller");
-const GallaryController = require("./gallary.controller");
+const galleryController = require("./gallery.controller");
 
 module.exports = {
     aboutController,
@@ -11,5 +11,5 @@ module.exports = {
     courseController,
     contactController,
     blogController,
-    GallaryController,
+    galleryController,
 };

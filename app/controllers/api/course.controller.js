@@ -26,7 +26,7 @@ class CourseController {
                 data: courses,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -45,7 +45,7 @@ class CourseController {
                 data: course,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -78,7 +78,7 @@ class CourseController {
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -117,7 +117,7 @@ class CourseController {
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -141,7 +141,7 @@ class CourseController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 }

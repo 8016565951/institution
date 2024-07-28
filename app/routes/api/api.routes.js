@@ -6,6 +6,7 @@ const bannerRouter = require("./banner.routes");
 const blogRouter = require("./blog.routes");
 const categoryRouter = require("./category.routes");
 const commentRouter = require("./comment.routes");
+const galleryRouter = require("./gallery.routes");
 
 const apiRouter = Router();
 
@@ -16,5 +17,6 @@ apiRouter.use("/users", userRouter);
 apiRouter.use("/categories", categoryRouter);
 apiRouter.use("/blogs", blogRouter);
 apiRouter.use("/comments", commentRouter);
+apiRouter.use("/galleries", galleryRouter);
 
 module.exports = apiRouter;

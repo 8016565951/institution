@@ -18,7 +18,7 @@ class CommentController {
                 data: comments,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -37,7 +37,7 @@ class CommentController {
                 data: comment,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -58,7 +58,7 @@ class CommentController {
                 data: comment,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -76,7 +76,7 @@ class CommentController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 }

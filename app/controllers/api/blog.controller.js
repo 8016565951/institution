@@ -26,7 +26,7 @@ class BlogController {
                 data: blogs,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -45,7 +45,7 @@ class BlogController {
                 data: blog,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -64,7 +64,7 @@ class BlogController {
                 data: blogs,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -83,7 +83,7 @@ class BlogController {
                 data: blog,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -126,7 +126,7 @@ class BlogController {
                 data: blog,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -162,7 +162,7 @@ class BlogController {
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -184,7 +184,7 @@ class BlogController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -206,7 +206,7 @@ class BlogController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -228,7 +228,7 @@ class BlogController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 }

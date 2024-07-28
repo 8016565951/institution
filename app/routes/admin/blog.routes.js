@@ -5,20 +5,19 @@ const { blogThumbnailUpload } = require("../../lib/multer");
 const blogRouter = Router();
 
 blogRouter.get("/", blogController.getBlogsUI);
-blogRouter.get("/createBlogsUI", blogController.createblogsUI);
-blogRouter.get("/updateBlogsUI/:id", blogController.updateBlogsUI);
-blogRouter.get("/blog/:id", blogController.getblogSIngle);
+blogRouter.get("/create", blogController.createBlogUI);
+blogRouter.get("/:id/update", blogController.updateBlogUI);
 
 blogRouter.post(
     "/create",
-    blogThumbnailUpload.single("thumbnailUrl"),
+    blogThumbnailUpload.single("thumbnail"),
     blogController.createBlog
 );
 blogRouter.post(
-    "/update",
-    blogThumbnailUpload.single("thumbnailUrl"),
+    "/:id/update",
+    blogThumbnailUpload.single("thumbnail"),
     blogController.updateBlog
 );
-blogRouter.post("/deleteblog", blogController.deleteBlog);
+blogRouter.post("/:id/delete", blogController.deleteBlog);
 
 module.exports = blogRouter;

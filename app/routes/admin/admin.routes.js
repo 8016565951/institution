@@ -4,7 +4,7 @@ const bannerRouter = require("./banner.routes");
 const courseRouter = require("./course.routes");
 const contactRouter = require("./contact.routes");
 const blogRouter = require("./blog.routes");
-const GallaryRouter = require("./gallary.routes");
+const galleryRouter = require("./gallery.routes");
 
 const adminRouter = Router();
 
@@ -13,6 +13,6 @@ adminRouter.use("/banners", bannerRouter);
 adminRouter.use("/courses", courseRouter);
 adminRouter.use("/contacts", contactRouter);
 adminRouter.use("/blogs", blogRouter);
-adminRouter.use("/gallaries", GallaryRouter);
+adminRouter.use("/galleries", galleryRouter);
 
 module.exports = adminRouter;

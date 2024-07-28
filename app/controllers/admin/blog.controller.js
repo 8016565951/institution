@@ -1,4 +1,3 @@
-const { MongooseError } = require("mongoose");
 const {
     unlinkFile,
     generateFileURL,
@@ -13,23 +12,7 @@ const { siteConfig } = require("../../config/site");
 class BlogController {
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
-     */
-    getblogSIngle = async (req, res) => {
-        try {
-            const { id } = req.params;
-            const blog = await blogRepo.getById(id);
-            return res.render("admin/blog-single", {
-                title: `Blog | ${siteConfig.name}`,
-                blog,
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    /**
-     * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
     getBlogsUI = async (req, res) => {
         try {
@@ -37,7 +20,6 @@ class BlogController {
 
             return res.render("admin/blogs", {
                 title: `Blogs | ${siteConfig.name}`,
-                siteConfig,
                 blogs,
             });
         } catch (err) {
@@ -47,12 +29,15 @@ class BlogController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
-    createblogsUI = async (req, res) => {
+    createBlogUI = async (req, res) => {
         try {
+            const categories = await categoryRepo.get();
+
             return res.render("admin/blog-create", {
-                title: `Create Blog `,
+                title: `Create Blog | ${siteConfig.name}`,
+                categories,
             });
         } catch (err) {
             console.log(err);
@@ -61,13 +46,15 @@ class BlogController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
-    updateBlogsUI = async (req, res) => {
+    updateBlogUI = async (req, res) => {
         try {
             const { id } = req.params;
+
             const blog = await blogRepo.getById(id);
             const categories = await categoryRepo.get();
+
             return res.render("admin/blog-update", {
                 title: `Update Blog | ${siteConfig.name}`,
                 blog,
@@ -80,12 +67,19 @@ class BlogController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
     createBlog = async (req, res) => {
         try {
             const { error, value } = blogSchema.validate(req.body);
             if (error) throw error;
+
+            const userId = req.ctx?.user.id;
+            if (!userId)
+                throw new AppError(
+                    "You are not authorized to perform this action",
+                    "UNAUTHORIZED"
+                );
 
             const { categories } = value;
             if (!categories || categories.length === 0)
@@ -106,8 +100,9 @@ class BlogController {
             let thumbnailUrl = getDefaultImageUrl(req, "blog");
             if (req.file) thumbnailUrl = generateFileURL(req, req.file);
 
-            const blog = await blogRepo.create({
+            await blogRepo.create({
                 ...value,
+                authorId: userId,
                 thumbnailUrl,
             });
 
@@ -116,9 +111,10 @@ class BlogController {
             console.log(err);
         }
     };
+
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
     updateBlog = async (req, res) => {
         try {
@@ -149,7 +145,7 @@ class BlogController {
 
     /**
      * @param {import("express").Request} req
-     *  @param {import("express").Response} res
+     * @param {import("express").Response} res
      */
     deleteBlog = async (req, res) => {
         try {

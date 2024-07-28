@@ -73,7 +73,9 @@ class CategoryRepo {
      * @param {string} title
      */
     getByTitle = async (title) => {
-        return await db.categories.findOne({ title: title.toLowerCase() });
+        return await db.categories.findOne({
+            title: title.toLowerCase(),
+        });
     };
 
     create = async (data) => {

@@ -25,7 +25,7 @@ class BannerController {
                 data: banners,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -40,7 +40,7 @@ class BannerController {
                 data: banner,
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -71,7 +71,7 @@ class BannerController {
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -107,7 +107,7 @@ class BannerController {
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 
@@ -130,7 +130,7 @@ class BannerController {
                 message: "OK",
             });
         } catch (err) {
-            return handleError(err);
+            return handleError(err, res);
         }
     };
 }

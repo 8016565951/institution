@@ -5,6 +5,7 @@ const categoryRepo = require("./category.repo");
 const commentRepo = require("./comment.repo");
 const contactRepo = require("./contact.repo");
 const courseRepo = require("./course.repo");
+const galleryRepo = require("./gallery.repo");
 const userRepo = require("./user.repo");
 
 module.exports = {
@@ -16,4 +17,5 @@ module.exports = {
     blogRepo,
     categoryRepo,
     commentRepo,
+    galleryRepo,
 };
