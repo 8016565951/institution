@@ -10,6 +10,8 @@ const {
     Contact,
     Gallery,
     Banner,
+    Comment,
+    Category,
 } = require("../../models");
 
 class Database {
@@ -28,6 +30,8 @@ class Database {
         this.contacts = Contact;
         this.galleries = Gallery;
         this.banners = Banner;
+        this.comments = Comment;
+        this.categories = Category;
     }
 
     connect = async () => {

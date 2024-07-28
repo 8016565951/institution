@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { BLOG_STATUS } = require("../config/const");
 
 const blogSchema = new Schema(
     {
@@ -25,17 +26,18 @@ const blogSchema = new Schema(
         },
         status: {
             type: String,
-            enum: ["draft", "published"],
-            default: "draft",
+            enum: Object.values(BLOG_STATUS),
+            default: BLOG_STATUS.DRAFT,
         },
         publishedAt: {
             type: Date,
         },
-        categoryId: {
-            type: Schema.Types.ObjectId,
-            ref: "category",
-            required: true,
-        },
+        categories: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "category",
+            },
+        ],
     },
     {
         timestamps: true,

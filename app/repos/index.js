@@ -1,5 +1,8 @@
 const aboutRepo = require("./about.repo");
 const bannerRepo = require("./banner.repo");
+const blogRepo = require("./blog.repo");
+const categoryRepo = require("./category.repo");
+const commentRepo = require("./comment.repo");
 const contactRepo = require("./contact.repo");
 const courseRepo = require("./course.repo");
 const userRepo = require("./user.repo");
@@ -10,4 +13,7 @@ module.exports = {
     courseRepo,
     userRepo,
     bannerRepo,
+    blogRepo,
+    categoryRepo,
+    commentRepo,
 };

@@ -32,6 +32,11 @@ const TIMESPANS = {
     YEAR: "years",
 };
 
+const BLOG_STATUS = {
+    DRAFT: "draft",
+    PUBLISHED: "published",
+};
+
 module.exports = {
     PORT,
     AUTH_TOKEN_COOKIE_NAME,
@@ -43,4 +48,5 @@ module.exports = {
     DEFAULT_COURSE_THUMBNAIL_PATH,
     DEFAULT_BLOG_THUMBNAIL_PATH,
     TIMESPANS,
+    BLOG_STATUS,
 };

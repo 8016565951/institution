@@ -4,6 +4,9 @@ const userSchema = require("./user");
 const courseSchema = require("./course");
 const aboutSchema = require("./about");
 const bannerSchema = require("./banner");
+const blogSchema = require("./blog");
+const categorySchema = require("./category");
+const commentSchema = require("./comment");
 
 module.exports = {
     ...responseSchema,
@@ -12,4 +15,7 @@ module.exports = {
     ...aboutSchema,
     ...courseSchema,
     ...bannerSchema,
+    ...blogSchema,
+    ...categorySchema,
+    ...commentSchema,
 };

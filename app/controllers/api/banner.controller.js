@@ -56,7 +56,7 @@ class BannerController {
             if (req.file)
                 throw new AppError("Image is required", "BAD_REQUEST");
 
-            const bannerUrl = generateFileURL(req, req.file.filename);
+            const bannerUrl = generateFileURL(req, req.file);
 
             const banner = await bannerRepo.create({
                 ...value,
@@ -91,7 +91,7 @@ class BannerController {
 
             let imageUrl = banner.imageUrl;
             if (req.file) {
-                imageUrl = generateFileURL(req, req.file.filename);
+                imageUrl = generateFileURL(req, req.file);
                 await unlinkFile(getFilePathFromURL(banner.imageUrl));
             }
 
