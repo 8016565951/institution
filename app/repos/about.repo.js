@@ -6,11 +6,10 @@ class AboutRepo {
     };
 
     update = async (data) => {
-        let about = await db.about.findOne();
+        const about = await db.about.findOne();
         if (!about) return await db.about.create(data);
 
-        about = { ...about, ...data };
-        return await about.save();
+        return await db.about.updateOne({}, data);
     };
 }
 

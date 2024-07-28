@@ -86,15 +86,20 @@ class CourseController {
      */
     create = async (req, res) => {
         try {
+            console.log(req.body);
             const { error, value } = courseSchema.validate(req.body);
             if (error) throw error;
 
             let thumbnailUrl = getDefaultImageUrl(req, "course");
-            if (req.file)
-                thumbnailUrl = generateFileURL(req, req.file.filename);
+            if (req.file) thumbnailUrl = generateFileURL(req, req.file);
 
             await courseRepo.create({
                 ...value,
+                duration: {
+                    ...value.duration,
+                    number: +value.duration.number,
+                },
+                price: +value.price,
                 thumbnailUrl,
             });
 
@@ -123,7 +128,7 @@ class CourseController {
 
             let thumbnailUrl = existingCourse.thumbnailUrl;
             if (req.file) {
-                thumbnailUrl = generateFileURL(req, req.file.filename);
+                thumbnailUrl = generateFileURL(req, req.file);
                 await unlinkFile(
                     getFilePathFromURL(existingCourse.thumbnailUrl)
                 );

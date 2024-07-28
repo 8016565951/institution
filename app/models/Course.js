@@ -14,12 +14,12 @@ const courseSchema = new Schema(
         duration: {
             number: {
                 type: Number,
-                required: true,
+                // required: true,
             },
             unit: {
                 type: String,
                 enum: TIMESPANS,
-                required: true,
+                // required: true,
             },
         },
         price: {

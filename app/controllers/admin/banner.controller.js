@@ -67,17 +67,18 @@ class BannerController {
      */
     create = async (req, res) => {
         try {
+           
             const { error, value } = bannerSchema.validate(req.body);
             if (error) throw error;
 
             if (!req.file)
                 throw new AppError("Banner image is required", "BAD_REQUEST");
 
-            const bannerUrl = generateFileURL(req, req.file.filename);
+            const bannerUrl = generateFileURL(req, req.file);
 
             await bannerRepo.create({
                 ...value,
-                image: bannerUrl,
+                imageUrl: bannerUrl,
             });
 
             return res.redirect("/admin/banners");
@@ -104,7 +105,7 @@ class BannerController {
 
             let imageUrl = banner.imageUrl;
             if (req.file) {
-                imageUrl = generateFileURL(req, req.file.filename);
+                imageUrl = generateFileURL(req, req.file);
                 await unlinkFile(getFilePathFromURL(banner.imageUrl));
             }
 
