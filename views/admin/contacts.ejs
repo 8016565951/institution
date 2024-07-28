@@ -80,26 +80,25 @@
                         </div>
                         <!-- fixed card end -->
 
-
-
+                    <% let SL=1 %>
+                    <% for (let contact of contacts) { %>
                         <!-- value card -->
                         <div class="container mt-5">
                             <div class="row">
-                                <p class="col-sm-1"><b>#1</b></p>
+                                <p class="col-sm-1"><b><%=SL++  %></b></p>
                                 <p> </p>
-                                <p class="col-sm-2">subhadip dey</p>
+                                <p class="col-sm-2"><%= contact.name  %></p>
                                 <p> </p>
-                                <p class="col-sm-3">jwS1H@example.com.
+                                <p class="col-sm-3"><%= contact.email  %>
                                 </p>
                                 <p> </p>
-                                <p class="col-sm-2">subhadip</p>
+                                <p class="col-sm-2"><%= contact.subject  %></p>
                                 <p> </p>
-                                <p class="col-sm-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. A
-                                    inventore explicabo, omnis ipsum nam officia sunt pariatur qui ullam quod maiores
-                                    suscipit dicta est accusamus, animi praesentium cumque optio eum?</p>
+                                <p class="col-sm-3"><%= contact.message  %></p>
                             </div>
                             <hr>
                         </div>
+                    <% } %>    
                         <!-- value card end -->
 
 
