@@ -6,7 +6,7 @@ const categoryRouter = Router();
 categoryRouter.get("/", categoryController.getCategoriesUI);
 categoryRouter.get("/create", categoryController.createCategoryUI);
 
-categoryRouter.post("/create", categoryController.createCategory);
+categoryRouter.post("/create/category", categoryController.createCategory);
 categoryRouter.post("/:id/delete", categoryController.deleteCategory);
 
 module.exports = categoryRouter;

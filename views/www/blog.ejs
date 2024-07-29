@@ -29,17 +29,15 @@
                             >
                                 <div class="entry-img">
                                     <img
-                                        src="/www/assets/img/blog-1.jpg"
+                                        src="/<%=blog.thumbnailUrl%>"
                                         alt=""
                                         class="img-fluid"
                                     />
                                 </div>
 
                                 <h2 class="entry-title">
-                                    <a href="/blog-single"
-                                        >Dolorum optio tempore voluptas
-                                        dignissimos cumque fuga qui quibusdam
-                                        quia reiciendis</a
+                                    <a href="/admin/blog"
+                                        ><%=blog.title %></a
                                     >
                                 </h2>
 
@@ -47,25 +45,25 @@
                                     <ul>
                                         <li class="d-flex align-items-center">
                                             <i class="icofont-user"></i>
-                                            <a href="/blog-single">John Doe</a>
+                                            <a href="/admin/blog"><%=blog.author.firstName %></a>
                                         </li>
                                         <li class="d-flex align-items-center">
                                             <i class="icofont-wall-clock"></i>
                                             <a href="/blog-single"
                                                 ><time datetime="2020-01-01"
-                                                    >Jan 1, 2020</time
+                                                    ><%=blog.publishedAt %></time
                                                 ></a
                                             >
                                         </li>
                                         <li class="d-flex align-items-center">
                                             <i class="icofont-comment"></i>
                                             <a href="/blog-single"
-                                                >12 Comments</a
+                                                ><%=blog.comments.length %>Comments</a
                                             >
                                         </li>
                                     </ul>
                                 </div>
-
+<!-- 
                                 <div class="entry-content">
                                     <p>
                                         Similique neque nam consequuntur ad non
@@ -178,7 +176,7 @@
                                         voluptas incidunt. Nulla sit eaque
                                         mollitia nisi asperiores est veniam.
                                     </p>
-                                </div>
+                                </div> -->
 
                                 <div class="entry-footer clearfix">
                                     <div class="float-left">

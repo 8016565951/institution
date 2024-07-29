@@ -37,6 +37,8 @@ class HomeController {
      * @param {import("express").Response} res
      */
     about = async (req, res) => {
+        const user = req.ctx?.user;
+
         const about = await aboutRepo.get();
         const teachers = await userRepo.getTeachers();
 
@@ -46,6 +48,7 @@ class HomeController {
             menu,
             about,
             teachers,
+            user,
         });
     };
 
@@ -54,6 +57,8 @@ class HomeController {
      * @param {import("express").Response} res
      */
     courses = async (req, res) => {
+        const user = req.ctx?.user;
+
         const courses = await courseRepo.get();
 
         res.render("www/courses", {
@@ -61,6 +66,8 @@ class HomeController {
             siteConfig,
             menu,
             courses,
+            user,
+
         });
     };
 
@@ -69,6 +76,8 @@ class HomeController {
      * @param {import("express").Response} res
      */
     gallery = async (req, res) => {
+        const user = req.ctx?.user;
+
         const galleries = await galleryRepo.get();
 
         res.render("www/gallery", {
@@ -76,6 +85,7 @@ class HomeController {
             siteConfig,
             menu,
             galleries,
+            user,
         });
     };
 
@@ -84,10 +94,13 @@ class HomeController {
      * @param {import("express").Response} res
      */
     contact = async (req, res) => {
+        const user = req.ctx?.user;
+
         res.render("www/contact", {
             title: `Contact | ${siteConfig.name}`,
             siteConfig,
             menu,
+            user
         });
     };
 
@@ -96,6 +109,8 @@ class HomeController {
      * @param {import("express").Response} res
      */
     blogs = async (req, res) => {
+        const user = req.ctx?.user;
+        
         const blogs = await blogRepo.get();
         const categories = await categoryRepo.get();
         const recentBlogs = await blogRepo.getRecents();
@@ -107,6 +122,8 @@ class HomeController {
             blogs,
             categories,
             recentBlogs,
+         user
+
         });
     };
 
@@ -115,6 +132,8 @@ class HomeController {
      * @param {import("express").Response} res
      */
     blog = async (req, res) => {
+        const user = req.ctx?.user;
+
         const { slug } = req.params;
 
         const blog = await blogRepo.getBySlug(slug);
@@ -126,6 +145,7 @@ class HomeController {
             menu,
             blog,
             recentBlogs,
+            user
         });
     };
 }
