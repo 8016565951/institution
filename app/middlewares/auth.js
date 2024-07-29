@@ -226,7 +226,7 @@ function isTokenValidUI(req, res, next) {
         if (!token) throw new AppError("Token is required", "BAD_REQUEST");
 
         try {
-            const payload = verifyJwt(token, process.env.JWT_SECRET);
+            const payload = verifyJwt(token, process.env.EMAIL_SECRET);
             req.ctx = { ...req.ctx, user: payload };
             next();
         } catch (err) {

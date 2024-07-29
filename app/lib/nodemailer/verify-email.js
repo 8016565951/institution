@@ -24,7 +24,7 @@ function sendVerificationEmail({ req, user, isApi = true }) {
         <h1>Verify your email</h1>
         <p>Hello ${user.username},</p>
         <p>Click the link below to verify your email address:</p>
-        <a href="${req.headers.origin}${isApi ? "/api" : ""}/auth/verify-email?token=${token}">Verify email</a>
+        <a href="${req.headers.origin}${isApi ? "/api" : ""}/auth/verify-email/verify?token=${token}">Verify email</a>
         <p>If you did not create an account, no further action is required.</p>
         <p>Thanks,</p>
         <p>${siteConfig.name}</p>
