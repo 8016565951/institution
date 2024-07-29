@@ -71,6 +71,31 @@ class BlogController {
             console.log(err);
         }
     };
+       /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    getsingleBlog=async(req,res)=>{
+        try {
+            const { slug } = req.params;
+            const user = req.ctx?.user;
+
+            const blog = await blogRepo.getBySlug(slug).populate("users");
+
+            
+            return res.render("admin/blog-single", {
+                title: `single Blog | ${siteConfig.name}`,
+                blog,
+                
+                user,
+            });
+
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     /**
      * @param {import("express").Request} req

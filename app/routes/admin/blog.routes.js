@@ -7,6 +7,7 @@ const blogRouter = Router();
 blogRouter.get("/", blogController.getBlogsUI);
 blogRouter.get("/create", blogController.createBlogUI);
 blogRouter.get("/:slug/update", blogController.updateBlogUI);
+blogRouter.get("/:slug/single",blogController.getsingleBlog)
 
 blogRouter.post(
     "/create",

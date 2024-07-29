@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/createitems" class="btn btn-primary">Add carousel</a>
+                                <a href="/admin/blogs/create" class="btn btn-primary">Add Blogs</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -63,7 +63,7 @@
                 <section class="content">
                     <div class="container-fluid">
 
-                        <h2 class="text-center">Blog Title</h2>
+                        <h2 class="text-center"><%=blog.title  %></h2>
                         <hr>
                         <div class="container">
                             <div class="row">
@@ -74,22 +74,24 @@
                                     <div class="col-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <p> <strong>Author:</strong>Author name</p>
-                                                <p><strong>Content:</strong>Blog content</p>
-                                                <p><strong>Category:</strong>Blog category</p>
-                                                <p><strong>Status:</strong>Blog status</p>
+                                                <p> <strong>Author:</strong><%=blog.authorId.firstName  %></p>
+                                                <p><strong>Content:</strong><%=blog.content  %></p>
+                                                <% for (let category of categories){  %>
+                                                <p><strong>Category:</strong><%= blog.category  %></p>
+                                                <% } %>
+                                                <p><strong>Status:</strong><%= blog.status  %></p>
 
-                                                <p><strong>Created At:</strong>Blog created at</p>
-                                                <p><strong>Updated At:</strong>Blog updated at</p>
+                                                <p><strong>Created At:</strong><%= blog.createdAt  %></p>
+                                                <p><strong>Updated At:</strong><%= blog.updatedAt  %></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <p><strong>Description:</strong>Blog description</p>
+                                    <p><strong>Description:</strong><%= blog.description  %></p>
                                 </div>
                                 <div class="card-footer">
-                                    <p><strong>Published At:</strong>Blog published at</p>
+                                    <p><strong>Published At:</strong><%= blog.publishedAt  %></p>
 
 
                                 </div>
