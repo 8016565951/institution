@@ -1,3 +1,5 @@
+const { userRepo } = require('../../repos');
+
 class usersControllers {
     /**
      * @param {import('express').Request} req
@@ -5,9 +7,10 @@ class usersControllers {
      */
     studentsUI = async (req, res) => {
         try {
-            // const students = await studentRepo.get();
+            const students = await userRepo.getStudents();
             return res.render("admin/students", {
                 title: `Students | Admin Panel | `,
+                students
             });
         } catch (err) {
             console.error(err);
@@ -21,9 +24,10 @@ class usersControllers {
 
     teachersUI = async (req, res) => {
         try {
-            // const teachers = await teacherRepo.get();
+            const teachers = await userRepo.getTeachers();
             return res.render("admin/teachers", {
                 title: `Teachers | Admin Panel | `,
+                teachers
             });
         } catch (err) {
             console.error(err);

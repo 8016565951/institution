@@ -78,27 +78,34 @@
                                         <th>Address</th>
                                         <th>Role</th>
                                         <th>Verified</th>
-                                        <th>Last Updated</th>
+                                       
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
+                                <% for (let student of students) {%>
                                 <tbody>
                                     <tr>
-                                        <td><img src="/uploads/images/avatars/default_avatar.png" class="avatar"
+                                        <td><img src="<%= student.avatarUrl  %>" class="avatar"
                                                 alt="User Avatar"></td>
-                                        <td>USER_NAME</td>
-                                        <td>USER_EMAIL</td>
-                                        <td>USER_PHONE</td>
-                                        <td>USER_DOB</td>
-                                        <td>USER_ADDRESS</td>
-                                        <td>USER_ROLE</td>
-                                        <td>USER_VERIFIED</td>
-                                        <td>LAST_UPDATED</td>
+                                        <td><%= student.firstName  %><%=" "  %><%=student.middleName  %><%=" "  %><%=student.lastName  %></td>
+                                        <td><%= student.email  %></td>
+                                        <td><%=student.phone  %></td>
+                                        <td><%=student.dob  %></td>
+                                        <td><%=student.address.street  %><%=" "  %><%= student.address.city  %>
+                                            <%=" "  %><%= student.address.state  %>
+                                            <%=" "  %><%= student.address.zipcode  %>
+                                            <%=" "  %><%= student.address.country  %>
+                                        
+                                        </td>
+                                        <td><%=student.role  %></td>
+                                        <td><%=student.isVerified  %></td>
+                                    
                                         <td>
                                             <a href="#" class="btn btn-primary btn-sm">Edit</a>
                                         </td>
                                     </tr>
                                 </tbody>
+                                <% } %>
                             </table>
                         </div>
 

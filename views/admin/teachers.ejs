@@ -65,7 +65,7 @@
                     <div class="container-fluid">
 
                         <div class="container mt-5">
-                            <h2>User Details</h2>
+                            <h2>Teachers' Details</h2>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -77,27 +77,32 @@
                                         <th>Address</th>
                                         <th>Role</th>
                                         <th>Verified</th>
-                                        <th>Last Updated</th>
+                                        
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
+                                <%= for(let teacher of teachers){  %>
                                 <tbody>
                                     <tr>
-                                        <td><img src="/uploads/images/avatars/default_avatar.png" class="avatar"
+                                        <td><img src="<%= teacher.avatarUrl  %>" class="avatar"
                                                 alt="User Avatar"></td>
-                                        <td>USER_NAME</td>
-                                        <td>USER_EMAIL</td>
-                                        <td>USER_PHONE</td>
-                                        <td>USER_DOB</td>
-                                        <td>USER_ADDRESS</td>
-                                        <td>USER_ROLE</td>
-                                        <td>USER_VERIFIED</td>
-                                        <td>LAST_UPDATED</td>
+                                        <td><%= teacher.firstName  %><%=" "  %><%=teacher.middleName  %><%=" "  %><%=teacher.lastName  %></td>
+                                        <td><%= teacher.email  %></td>
+                                        <td><%= teacher.phone  %></td>
+                                        <td><%=teacher.dob  %></td>
+                                        <td><%=teacher.address.street  %><%=" "  %><%= teacher.address.city  %>
+                                            <%=" "  %><%= teacher.address.state  %>
+                                            <%=" "  %><%= teacher.address.zipcode  %>
+                                            <%=" "  %><%= teacher.address.country  %></td>
+                                        <td><%=teacher.role  %></td>
+                                        <td><%=teacher.isVerified  %></td>
+                                       
                                         <td>
                                             <a href="#" class="btn btn-primary btn-sm">Edit</a>
                                         </td>
                                     </tr>
                                 </tbody>
+                                <% } %>
                             </table>
                         </div>
 
