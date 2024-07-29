@@ -23,58 +23,60 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 entries">
-                            <% for(let blog of blogs) { %>
-                            <article class="entry" data-aos="fade-up">
-                                <div class="entry-img">
-                                    <img
-                                        src="<%= blog.thumbnailUrl  %>"
-                                        alt=""
-                                        class="img-fluid"
-                                    />
-                                </div>
+                            <% if (blogs.length > 0) { %>
+                                <% blogs.map((blog) => { %>
+                                    <article class="entry" data-aos="fade-up">
+                                        <div class="entry-img">
+                                            <img
+                                                src="<%= blog.thumbnailUrl %>"
+                                                alt=""
+                                                class="img-fluid"
+                                            />
+                                        </div>
 
-                                <h2 class="entry-title">
-                                    <a href="/blog-single"
-                                        ><%= blog.title  %></a
-                                    >
-                                </h2>
-
-                                <div class="entry-meta">
-                                    <ul>
-                                        <li class="d-flex align-items-center">
-                                            <i class="icofont-user"></i>
-                                            <a href="/blog-single"><%=blog.authorId.firstName  %></a>
-                                        </li>
-                                        <li class="d-flex align-items-center">
-                                            <i class="icofont-wall-clock"></i>
-                                            <a href="/blog-single"
-                                                ><time datetime="2020-01-01"
-                                                    ><%= blog.publishedAt  %></time
-                                                ></a
+                                        <h2 class="entry-title">
+                                            <a href="/blogs/<%= blog.id %>"
+                                                ><%= blog.title %></a
                                             >
-                                        </li>
-                                        <li class="d-flex align-items-center">
-                                            <i class="icofont-comment"></i>
-                                            <a href="/blog-single"
-                                                ><%= blog.comments.length  %>Comments</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
+                                        </h2>
 
-                                <div class="entry-content">
-                                    <p>
-                                       <%= blog.content  %>
-                                    </p>
-                                    <div class="read-more">
-                                        <a href="/blog-single">Read More</a>
-                                    </div>
-                                </div>
-                            </article>
+                                        <div class="entry-meta">
+                                            <ul>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="icofont-user"></i>
+                                                    <a href="/blogs/<%= blog.id %>"><%= blog.author.firstName %></a>
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="icofont-wall-clock"></i>
+                                                    <a href="/blogs/<%= blog.id %>"
+                                                        ><time datetime="2020-01-01"
+                                                            ><%= blog.publishedAt %></time
+                                                        ></a
+                                                    >
+                                                </li>
+                                                <li class="d-flex align-items-center">
+                                                    <i class="icofont-comment"></i>
+                                                    <a href="/blogs/<%= blog.id %>"
+                                                        ><%= blog.comments.length %>Comments</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="entry-content">
+                                            <p>
+                                            <%= blog.content  %>
+                                            </p>
+                                            <div class="read-more">
+                                                <a href="/blogs/<%= blog.id %>">Read More</a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                <% }) %>
+                            <% } else { %>
+                                <p class="text-center py-5">No blogs available</p>
                             <% } %>
                             <!-- End blog entry -->
-
-                           
 
                             <div class="blog-pagination">
                                 <ul class="justify-content-center">
@@ -119,36 +121,32 @@
                                             >
                                         </li>
                                         <% } %>
-                                        
-                                        
-                                      
-                                       
                                     </ul>
                                 </div>
                                 <!-- End sidebar categories-->
 
                                 <h3 class="sidebar-title">Recent Posts</h3>
+
                                 <div class="sidebar-item recent-posts">
-                                    <% for (let i=blogs.length-1;i>=0;i--) { %>
-                                    <div class="post-item clearfix">
-                                        <img
-                                            src="<%= blogs[i].thumbnailUrl  %>"
-                                            alt=""
-                                        />
-                                        <h4>
-                                            <a href="/blog-single"
-                                                ><%= blogs[i].title  %></a
+                                    <% if (recentBlogs.length > 0) { %>
+                                        <% recentBlogs.map((blog) => { %>
+                                        <div class="post-item clearfix">
+                                            <img
+                                                src="<%= blog.thumbnailUrl %>"
+                                                alt=""
+                                            />
+                                            <h4>
+                                                <a href="/blogs/<%= blog.id %>"
+                                                    ><%= blog.title %></a
+                                                >
+                                            </h4>
+                                            <time datetime="2020-01-01"
+                                                ><%= blog.publishedAt %></time
                                             >
-                                        </h4>
-                                        <time datetime="2020-01-01"
-                                            ><% blogs[i].publishedAt %></time
-                                        >
-                                    </div>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <p>No recent posts</p>
                                     <% } %>
-
-                                 
-
-                                   
                                 </div>
                               
                                 <!-- End sidebar tags-->

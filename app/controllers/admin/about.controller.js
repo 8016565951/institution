@@ -9,11 +9,13 @@ class AboutController {
      */
     aboutUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const about = await aboutRepo.get();
 
             return res.render("admin/about", {
                 title: `About | Admin Panel | ${siteConfig.name}`,
                 about,
+                user,
             });
         } catch (err) {
             console.error(err);

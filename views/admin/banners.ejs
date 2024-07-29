@@ -77,30 +77,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% if(banners) { %>
-                                    <% let count=1 %>
-                                        <% for (let banner of banners) { %>
-                                            <tr>
-                                                <th scope="row">
-                                                    <%= count++ %>
-                                                </th>
-                                                <td>
-                                                    <%= banner.title %>
-                                                </td>
-                                                <td>
-                                                    <%= banner.description %>
-                                                </td>
-                                                <td>
-                                                    <%= banner.imageUrl %>
-                                                </td>
-                                                <td><a href="/admin/banners/<%= banner._id  %>/update"
-                                                        class="btn btn-primary">Update</a></td>
-                                                <td><a href="/admin/banners/<%= banner._id  %>/delete"
-                                                        class="btn btn-danger">Delete</a></td>
-                                            </tr>
-
-                                            <% } %>
-                                                <% } %>
+                                <% if (banners.length > 0) { %>
+                                    <% banners.map((banner, i) => { %>
+                                        <tr>
+                                            <th scope="row">
+                                                <%= i + 1 %>
+                                            </th>
+                                            <td>
+                                                <%= banner.title %>
+                                            </td>
+                                            <td>
+                                                <%= banner.description %>
+                                            </td>
+                                            <td>
+                                                <img src="<%= banner.imageUrl %>" alt="banner image" style="width: 100px;">
+                                            </td>
+                                            <td><a href="/admin/banners/<%= banner._id  %>/update"
+                                                    class="btn btn-primary">Update</a></td>
+                                            <td><a href="/admin/banners/<%= banner._id  %>/delete"
+                                                    class="btn btn-danger">Delete</a></td>
+                                        </tr>
+                                    <% }) %>
+                                <% } else { %>
+                                <tr>
+                                    <td colspan="5" class="text-center">No Banners Found</td>
+                                </tr>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>

@@ -6,6 +6,7 @@ const {
     generateFileURL,
     getFilePathFromURL,
     getDefaultImageUrl,
+    slugify,
 } = require("../../lib/utils");
 const { AppError } = require("../../lib/helpers");
 const { blogRepo, categoryRepo } = require("../../repos");
@@ -24,6 +25,27 @@ class BlogController {
                 res,
                 message: "OK",
                 data: blogs,
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     *  @param {import("express").Response} res
+     */
+    getBlogBySlug = async (req, res) => {
+        try {
+            const { slug } = req.params;
+
+            const blog = await blogRepo.getBySlug(slug);
+            if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            return CResponse({
+                res,
+                message: "OK",
+                data: blog,
             });
         } catch (err) {
             return handleError(err, res);
@@ -112,11 +134,21 @@ class BlogController {
                     "BAD_REQUEST"
                 );
 
+            const slug = slugify(value.title);
+
+            const existingBlog = await blogRepo.getBySlug(slug);
+            if (existingBlog)
+                throw new AppError(
+                    "Blog with this title already exists",
+                    "CONFLICT"
+                );
+
             let thumbnailUrl = getDefaultImageUrl(req, "blog");
             if (req.file) thumbnailUrl = generateFileURL(req, req.file);
 
             const blog = await blogRepo.create({
                 ...value,
+                slug,
                 thumbnailUrl,
             });
 
@@ -137,12 +169,21 @@ class BlogController {
     updateBlog = async (req, res) => {
         try {
             const { id } = req.params;
+            const uId = req.ctx?.user?.id;
+            if (!uId)
+                throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
             const { error, value } = blogSchema.validate(req.body);
             if (error) throw error;
 
             const blog = await blogRepo.getById(id);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            if (blog.authorId !== uId)
+                throw new AppError(
+                    "You are not authorized to update this blog",
+                    "FORBIDDEN"
+                );
 
             let thumbnailUrl = blog.thumbnailUrl;
             if (req.file) {
@@ -174,8 +215,18 @@ class BlogController {
         try {
             const { id } = req.params;
 
+            const uId = req.ctx?.user?.id;
+            if (!uId)
+                throw new AppError("You are not authenticated", "UNAUTHORIZED");
+
             const blog = await blogRepo.getById(id);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            if (blog.authorId !== uId)
+                throw new AppError(
+                    "You are not authorized to publish this blog",
+                    "FORBIDDEN"
+                );
 
             await blogRepo.publish(id);
 
@@ -196,8 +247,18 @@ class BlogController {
         try {
             const { id } = req.params;
 
+            const uId = req.ctx?.user?.id;
+            if (!uId)
+                throw new AppError("You are not authenticated", "UNAUTHORIZED");
+
             const blog = await blogRepo.getById(id);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            if (blog.authorId !== uId)
+                throw new AppError(
+                    "You are not authorized to publish this blog",
+                    "FORBIDDEN"
+                );
 
             await blogRepo.unpublish(id);
 
@@ -218,8 +279,18 @@ class BlogController {
         try {
             const { id } = req.params;
 
+            const uId = req.ctx?.user?.id;
+            if (!uId)
+                throw new AppError("You are not authenticated", "UNAUTHORIZED");
+
             const blog = await blogRepo.getById(id);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            if (blog.authorId !== uId)
+                throw new AppError(
+                    "You are not authorized to publish this blog",
+                    "FORBIDDEN"
+                );
 
             await blogRepo.delete(id);
 

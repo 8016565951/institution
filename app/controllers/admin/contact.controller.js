@@ -8,11 +8,13 @@ class ContactController {
      */
     contactsUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const contacts = await contactRepo.get();
 
             return res.render("admin/contacts", {
                 title: `Contacts | Admin Panel | ${siteConfig.name}`,
                 contacts,
+                user,
             });
         } catch (err) {
             console.error(err);

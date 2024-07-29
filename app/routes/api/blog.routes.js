@@ -8,6 +8,11 @@ const blogRouter = Router();
 blogRouter.get("/", isAPIAuthenticated, blogController.getBlogs);
 blogRouter.get("/blog/:id", isAPIAuthenticated, blogController.getBlogById);
 blogRouter.get(
+    "/blog/slug/:slug",
+    isAPIAuthenticated,
+    blogController.getBlogBySlug
+);
+blogRouter.get(
     "/categories/:categoryId",
     isAPIAuthenticated,
     blogController.getBlogsByCategoryId

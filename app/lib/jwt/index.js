@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { AUTH_TOKEN_COOKIE_NAME } = require("../../config/const");
 
 /**
  * @param {Object} payload
@@ -36,9 +37,17 @@ function getTokenFromHeader(req) {
     return token;
 }
 
+/**
+ * @param {import("express").Request} req
+ */
+function getTokenFromCookie(req) {
+    return req.cookies[AUTH_TOKEN_COOKIE_NAME];
+}
+
 module.exports = {
     signJWT,
     verifyJwt,
     decodeJwt,
     getTokenFromHeader,
+    getTokenFromCookie,
 };

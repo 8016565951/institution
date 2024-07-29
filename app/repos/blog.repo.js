@@ -42,6 +42,103 @@ class BlogRepo {
     };
 
     /**
+     * @param {string} [nId]
+     * @param {number} limit
+     */
+    getRecents = async (nId, limit = 3) => {
+        return await db.blogs.aggregate([
+            {
+                $match: { status: BLOG_STATUS.PUBLISHED, _id: { $ne: nId } },
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: "_id",
+                    foreignField: "blogId",
+                    as: "comments",
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "users",
+                                localField: "authorId",
+                                foreignField: "_id",
+                                as: "author",
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "authorId",
+                    foreignField: "_id",
+                    as: "author",
+                },
+            },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "categories",
+                    foreignField: "_id",
+                    as: "categories",
+                },
+            },
+            {
+                $sort: { createdAt: -1 },
+            },
+            {
+                $limit: limit,
+            },
+        ]);
+    };
+
+    /**
+     * @param {string} slug
+     */
+    getBySlug = async (slug) => {
+        return await db.blogs.aggregate([
+            {
+                $match: { slug },
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: "_id",
+                    foreignField: "blogId",
+                    as: "comments",
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "users",
+                                localField: "authorId",
+                                foreignField: "_id",
+                                as: "author",
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "authorId",
+                    foreignField: "_id",
+                    as: "author",
+                },
+            },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "categories",
+                    foreignField: "_id",
+                    as: "categories",
+                },
+            },
+        ]);
+    };
+
+    /**
      * @param {string} id
      */
     getById = async (id) => {

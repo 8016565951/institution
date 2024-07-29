@@ -19,10 +19,12 @@ const blogSchema = new Schema(
             type: String,
             required: true,
         },
-        comments:[{
-            type: Schema.Types.ObjectId,
-            ref: "comment",
-        }],
+        comments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "comment",
+            },
+        ],
         authorId: {
             type: Schema.Types.ObjectId,
             ref: "user",
@@ -42,6 +44,12 @@ const blogSchema = new Schema(
                 ref: "category",
             },
         ],
+        slug: {
+            type: String,
+            required: true,
+            lowercase: true,
+            unique: true,
+        },
     },
     {
         timestamps: true,

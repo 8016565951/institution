@@ -5,7 +5,7 @@ const {
     cookieOptions,
 } = require("../../config/const");
 const { siteConfig } = require("../../config/site");
-const { hashPassword } = require("../../lib/bcrypt");
+const { hashPassword, comparePasswords } = require("../../lib/bcrypt");
 const { AppError } = require("../../lib/helpers");
 const { signJWT } = require("../../lib/jwt");
 const { mailSender } = require("../../lib/nodemailer");
@@ -114,7 +114,10 @@ class AuthController {
             const user = await userRepo.getByEmail(email);
             if (!user) throw new AppError("User not found", "NOT_FOUND");
 
-            const isPasswordCorrect = await user.comparePassword(password);
+            const isPasswordCorrect = await comparePasswords(
+                password,
+                user.password
+            );
             if (!isPasswordCorrect)
                 throw new AppError("Incorrect password", "UNAUTHORIZED");
 

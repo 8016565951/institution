@@ -12,19 +12,18 @@
                 data-ride="carousel"
             >
                 <div class="carousel-inner" role="listbox">
+                    <% banners.map((banner, i) => { %>
                     <div
-                        class="carousel-item active"
-                        style="
-                            background-image: url(/www/assets/img/slide/slide-1.jpg);
-                        "
+                        class="carousel-item <%= i === 0 ? 'active' : '' %>"
+                        style="background-image: url('<%= banner.imageUrl %>')"
                     >
                         <div class="carousel-container">
                             <div
                                 class="carousel-content animate__animated animate__fadeInUp"
                             >
-                                <h2>Welcome to <span><%= siteConfig.name  %></span></h2>
+                                <h2>Welcome to <span><%= banner.title  %></span></h2>
                                 <p>
-                                 <%= siteConfig.description  %>
+                                 <%= banner.description  %>
                                 </p>
                                 <div class="text-center">
                                     <a href="" class="btn-get-started"
@@ -34,62 +33,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div
-                        class="carousel-item"
-                        style="
-                            background-image: url(/www/assets/img/slide/slide-2.jpg);
-                        "
-                    >
-                        <div class="carousel-container">
-                            <div
-                                class="carousel-content animate__animated animate__fadeInUp"
-                            >
-                                <h2>Lorem Ipsum Dolor</h2>
-                                <p>
-                                    Ut velit est quam dolor ad a aliquid qui
-                                    aliquid. Sequi ea ut et est quaerat sequi
-                                    nihil ut aliquam. Occaecati alias dolorem
-                                    mollitia ut. Similique ea voluptatem. Esse
-                                    doloremque accusamus repellendus deleniti
-                                    vel. Minus et tempore modi architecto.
-                                </p>
-                                <div class="text-center">
-                                    <a href="" class="btn-get-started"
-                                        >Read More</a
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="carousel-item"
-                        style="
-                            background-image: url(/www/assets/img/slide/slide-3.jpg);
-                        "
-                    >
-                        <div class="carousel-container">
-                            <div
-                                class="carousel-content animate__animated animate__fadeInUp"
-                            >
-                                <h2>Sequi ea ut et est quaerat</h2>
-                                <p>
-                                    Ut velit est quam dolor ad a aliquid qui
-                                    aliquid. Sequi ea ut et est quaerat sequi
-                                    nihil ut aliquam. Occaecati alias dolorem
-                                    mollitia ut. Similique ea voluptatem. Esse
-                                    doloremque accusamus repellendus deleniti
-                                    vel. Minus et tempore modi architecto.
-                                </p>
-                                <div class="text-center">
-                                    <a href="" class="btn-get-started"
-                                        >Read More</a
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <% }) %>
                 </div>
 
                 <a
@@ -134,9 +78,9 @@
 
                     <div class="row content">
                         <div class="col-lg-6" data-aos="fade-right">
-                            <h2><%= about.title  %></h2>
+                            <h2><%= about.title %></h2>
                             <h3>
-                               <%= about.description  %>
+                               <%= about.description %>
                             </h3>
                         </div>
 
@@ -182,34 +126,22 @@
                     <div class="section-title" data-aos="fade-up">
                         <h2>Gallery</h2>
                     </div>
-
-                    
-
                     <div class="row portfolio-container" data-aos="fade-up">
-                        <% for(let gallery of galleries) { %>
-                        <div
-                            class="col-lg-4 col-md-6 portfolio-item filter-app"
-                        >
-                            <img
-                                src="<%= gallery.imageUrl  %>"
-                                class="img-fluid"
-                                alt=""
-                            />
-                            <div class="portfolio-info">
-                                <h4><%= gallery.title  %></h4>
-                                <p><%=gallery.description  %></p>
-                                <a
-                                    href="<%= gallery.imageUrl  %>"
-                                    data-gall="portfolioGallery"
-                                    class="venobox preview-link"
-                                    title="<%= gallery.title  %>"
-                                    ><i class="bx bx-plus"></i
-                                ></a>
-                              
+                        <% galleries.map((item) => { %>
+                            <div
+                                class="col-lg-4 col-md-6 portfolio-item filter-app"
+                            >
+                                <img
+                                    src="<%= item.imageUrl %>"
+                                    class="img-fluid"
+                                    alt=""
+                                />
+                                <div class="portfolio-info">
+                                    <h4><%= item.title %></h4>
+                                    <p><%= item.description %></p>
+                                </div>
                             </div>
-                        </div>
-                        <% } %>
-                       
+                        <% }) %>
                     </div>
                 </div>
             </section>

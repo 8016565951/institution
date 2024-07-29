@@ -15,6 +15,6 @@ adminRouter.use("/courses", courseRouter);
 adminRouter.use("/contacts", contactRouter);
 adminRouter.use("/blogs", blogRouter);
 adminRouter.use("/galleries", galleryRouter);
-adminRouter.use("/Students", usersRouter);
+adminRouter.use("/users", usersRouter);
 
 module.exports = adminRouter;

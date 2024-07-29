@@ -3,6 +3,7 @@ const {
     generateFileURL,
     getFilePathFromURL,
     getDefaultImageUrl,
+    slugify,
 } = require("../../lib/utils");
 const { AppError } = require("../../lib/helpers");
 const { blogRepo, categoryRepo } = require("../../repos");
@@ -16,11 +17,13 @@ class BlogController {
      */
     getBlogsUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const blogs = await blogRepo.get();
 
             return res.render("admin/blogs", {
                 title: `Blogs | ${siteConfig.name}`,
                 blogs,
+                user,
             });
         } catch (err) {
             console.log(err);
@@ -33,11 +36,13 @@ class BlogController {
      */
     createBlogUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const categories = await categoryRepo.get();
 
             return res.render("admin/blog-create", {
                 title: `Create Blog | ${siteConfig.name}`,
                 categories,
+                user,
             });
         } catch (err) {
             console.log(err);
@@ -51,6 +56,7 @@ class BlogController {
     updateBlogUI = async (req, res) => {
         try {
             const { id } = req.params;
+            const user = req.ctx?.user;
 
             const blog = await blogRepo.getById(id);
             const categories = await categoryRepo.get();
@@ -59,6 +65,7 @@ class BlogController {
                 title: `Update Blog | ${siteConfig.name}`,
                 blog,
                 categories,
+                user,
             });
         } catch (err) {
             console.log(err);
@@ -97,12 +104,22 @@ class BlogController {
                     "BAD_REQUEST"
                 );
 
+            const slug = slugify(value.title);
+
+            const existingBlog = await blogRepo.getBySlug(slug);
+            if (existingBlog)
+                throw new AppError(
+                    "A blog with this title already exists",
+                    "CONFLICT"
+                );
+
             let thumbnailUrl = getDefaultImageUrl(req, "blog");
             if (req.file) thumbnailUrl = generateFileURL(req, req.file);
 
             await blogRepo.create({
                 ...value,
                 authorId: userId,
+                slug,
                 thumbnailUrl,
             });
 

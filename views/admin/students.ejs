@@ -76,7 +76,6 @@
                                         <th>Phone</th>
                                         <th>Date of Birth</th>
                                         <th>Address</th>
-                                        <th>Role</th>
                                         <th>Verified</th>
                                        
                                         <th>Actions</th>
@@ -97,8 +96,7 @@
                                             <%=" "  %><%= student.address.country  %>
                                         
                                         </td>
-                                        <td><%=student.role  %></td>
-                                        <td><%=student.isVerified  %></td>
+                                        <td><%= student.isVerified ? "Yes" : "No" %></td>
                                     
                                         <td>
                                             <a href="#" class="btn btn-primary btn-sm">Edit</a>

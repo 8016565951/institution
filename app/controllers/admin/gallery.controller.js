@@ -15,11 +15,13 @@ class GalleryController {
      */
     getGalleryUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const galleries = await galleryRepo.get();
 
             return res.render("admin/gallery", {
                 title: `Gallery | Admin Panel | ${siteConfig.name}`,
                 galleries,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -32,8 +34,11 @@ class GalleryController {
      */
     createGalleryUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
+
             return res.render("admin/gallery-create", {
                 title: `Create Gallery | Admin Panel | ${siteConfig.name}`,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -47,6 +52,7 @@ class GalleryController {
     updateGalleryUI = async (req, res) => {
         try {
             const { id } = req.params;
+            const user = req.ctx?.user;
 
             const gallery = await galleryRepo.getById(id);
             if (!gallery) throw new AppError("Gallery not found", "NOT_FOUND");
@@ -54,6 +60,7 @@ class GalleryController {
             return res.render("admin/gallery-update", {
                 title: `Update Gallery | Admin Panel | ${siteConfig.name}`,
                 gallery,
+                user,
             });
         } catch (err) {
             console.error(err);

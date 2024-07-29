@@ -17,11 +17,13 @@ class CourseController {
      */
     coursesUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const courses = await courseRepo.get();
 
             return res.render("admin/courses", {
                 title: `Courses | Admin Panel | ${siteConfig.name}`,
                 courses,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -35,11 +37,14 @@ class CourseController {
     courseUI = async (req, res) => {
         try {
             const { id } = req.params;
+            const user = req.ctx?.user;
+
             const course = await courseRepo.getById(id);
 
             return res.render("admin/course", {
                 title: `Course | Admin Panel | ${siteConfig.name}`,
                 course,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -52,8 +57,11 @@ class CourseController {
      */
     createUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
+
             return res.render("admin/course-create", {
                 title: `Create Course | Admin Panel | ${siteConfig.name}`,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -67,6 +75,7 @@ class CourseController {
     updateUI = async (req, res) => {
         try {
             const { id } = req.params;
+            const user = req.ctx?.user;
 
             const course = await courseRepo.getById(id);
             if (!course) throw new AppError("Course not found", "NOT_FOUND");
@@ -74,6 +83,7 @@ class CourseController {
             return res.render("admin/course-update", {
                 title: `Update Course | Admin Panel | ${siteConfig.name}`,
                 course,
+                user,
             });
         } catch (err) {
             console.error(err);

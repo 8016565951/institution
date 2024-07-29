@@ -4,9 +4,9 @@ const AUTH_TOKEN_COOKIE_NAME = "institution__auth_SDRFasdrfa_532125";
 
 const DEFAULT_AVATAR_PATH = "uploads/images/avatars/default_avatar.png";
 const DEFAULT_COURSE_THUMBNAIL_PATH =
-    "uploads/images/courses/default_thumbnail.png";
+    "uploads/images/courses/thumbnails/default_thumbnail.png";
 const DEFAULT_BLOG_THUMBNAIL_PATH =
-    "uploads/images/blogs/default_thumbnail.png";
+    "uploads/images/blogs/thumbnails/default_thumbnail.png";
 
 const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg"];
 

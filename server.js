@@ -9,6 +9,7 @@ const { apiRouter } = require("./app/routes/api");
 const cookieParser = require("cookie-parser");
 const { homeRouter } = require("./app/routes/www");
 const { adminRouter } = require("./app/routes/admin");
+const { isUIAuthenticated, isAdminUI } = require("./app/middlewares/auth");
 
 const app = express();
 
@@ -28,7 +29,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.use(homeRouter);
 app.use("/api", apiRouter);
-app.use("/admin", adminRouter);
+app.use("/admin", isUIAuthenticated, isAdminUI, adminRouter);
 
 app.listen(PORT, () => {
     initiateErrorHandler();

@@ -75,13 +75,12 @@
                                         <th>Phone</th>
                                         <th>Date of Birth</th>
                                         <th>Address</th>
-                                        <th>Role</th>
                                         <th>Verified</th>
                                         
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <%= for(let teacher of teachers){  %>
+                                <% for(let teacher of teachers){  %>
                                 <tbody>
                                     <tr>
                                         <td><img src="<%= teacher.avatarUrl  %>" class="avatar"
@@ -94,11 +93,10 @@
                                             <%=" "  %><%= teacher.address.state  %>
                                             <%=" "  %><%= teacher.address.zipcode  %>
                                             <%=" "  %><%= teacher.address.country  %></td>
-                                        <td><%=teacher.role  %></td>
-                                        <td><%=teacher.isVerified  %></td>
+                                        <td><%=teacher.isVerified ? "Yes" : "No" %></td>
                                        
                                         <td>
-                                            <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="/admin/teachers/<%= teacher.id %>/delete" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 </tbody>

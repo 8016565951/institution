@@ -257,6 +257,21 @@ function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000);
 }
 
+/**
+ * @param {string} text
+ * @param {string} separator
+ */
+function slugify(text, separator = "-") {
+    return text
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9 ]/g, "")
+        .replace(/\s+/g, separator);
+}
+
 module.exports = {
     generateDbUrl,
     handleError,
@@ -269,4 +284,5 @@ module.exports = {
     generateFilename,
     getDefaultImageUrl,
     generateOTP,
+    slugify,
 };

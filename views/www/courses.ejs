@@ -22,7 +22,25 @@
             <section id="pricing" class="pricing">
                 <div class="container" data-aos="fade-up">
                     <div class="row">
-                        <% for(let course of courses) { %>
+                        <% courses.map((course) => { %>
+                            <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
+                                <div class="box featured">
+                                    <h3><%= course.title %></h3>
+                                    <h4><sup>$</sup><%= course.price %><span> / month</span></h4>
+                                    <ul>
+                                        <li><%= course.description %></li>
+                                    
+                                        <li><img src="<%= course.thumbnailUrl %>" alt="course image" height="100px" width="100px"></li>
+                                    
+                                    </ul>
+                                    <div class="btn-wrap">
+                                        <a href="#" class="btn-buy">Buy Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+
+                        <!-- <% for(let course of courses) { %>
                         <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
                             <div class="box featured">
                                 <h3><%= course.title  %></h3>
@@ -38,9 +56,7 @@
                                 </div>
                             </div>
                         </div>
-                        <% } %>
-
-                        
+                        <% } %> -->
                     </div>
                 </div>
             </section>

@@ -16,11 +16,13 @@ class BannerController {
      */
     showUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const banners = await bannerRepo.get();
 
             return res.render("admin/banners", {
                 title: `Banners | Admin Panel | ${siteConfig.name}`,
                 banners,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -33,8 +35,11 @@ class BannerController {
      */
     createUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
+
             return res.render("admin/banner-create", {
                 title: `Create Banner | Admin Panel | ${siteConfig.name}`,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -48,6 +53,7 @@ class BannerController {
     updateUI = async (req, res) => {
         try {
             const { id } = req.params;
+            const user = req.ctx?.user;
 
             const banner = await bannerRepo.getById(id);
             if (!banner) throw new AppError("Banner not found", "NOT_FOUND");
@@ -55,6 +61,7 @@ class BannerController {
             return res.render("admin/banner-update", {
                 title: `Update Banner | Admin Panel | ${siteConfig.name}`,
                 banner,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -67,7 +74,6 @@ class BannerController {
      */
     create = async (req, res) => {
         try {
-           
             const { error, value } = bannerSchema.validate(req.body);
             if (error) throw error;
 

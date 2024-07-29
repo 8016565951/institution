@@ -16,11 +16,53 @@
             </ul>
         </nav>
 
-        <a
-            href="/auth/signin"
-            class="btn btn-primary ml-4"
-            style="border-radius: 50px"
-            >Login</a
-        >
+        <!-- if we have user, show the user avatar with dropdown menu logout, if there's no user send login button -->
+        <% if (user) { %>
+            <div class="dropdown ml-4">
+                <a
+                    class="dropdown-toggle"
+                    href="#"
+                    role="button"
+                    id="dropdownMenuLink"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >
+                    <img
+                        src="<%= user.avatarUrl %>"
+                        alt="<%= user.name %>"
+                        class="img-fluid"
+                        width="30"
+                        style="border-radius: 50%"
+                    />
+                </a>
+
+                <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuLink"
+                >
+                    <% if (["mod", "admin"].includes(user.role)) { %>
+                        <a
+                            class="dropdown-item"
+                            href="/admin"
+                            >Admin Panel</a
+                        >
+                    <% } %>
+                
+                    <a
+                    class="dropdown-item"
+                    href="/auth/signout"
+                    >Logout</a
+                    >
+                </div>
+            </div>
+        <% } else { %>
+            <a
+                href="/auth/signin"
+                class="btn btn-primary ml-4"
+                style="border-radius: 50px"
+                >Login</a
+            >
+        <% } %>
     </div>
 </header>

@@ -1,4 +1,4 @@
-const { userRepo } = require('../../repos');
+const { userRepo } = require("../../repos");
 
 class usersControllers {
     /**
@@ -7,10 +7,13 @@ class usersControllers {
      */
     studentsUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const students = await userRepo.getStudents();
+
             return res.render("admin/students", {
                 title: `Students | Admin Panel | `,
-                students
+                students,
+                user,
             });
         } catch (err) {
             console.error(err);
@@ -24,10 +27,13 @@ class usersControllers {
 
     teachersUI = async (req, res) => {
         try {
+            const user = req.ctx?.user;
             const teachers = await userRepo.getTeachers();
+
             return res.render("admin/teachers", {
                 title: `Teachers | Admin Panel | `,
-                teachers
+                teachers,
+                user,
             });
         } catch (err) {
             console.error(err);
