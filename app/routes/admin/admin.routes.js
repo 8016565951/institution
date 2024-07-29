@@ -6,6 +6,7 @@ const contactRouter = require("./contact.routes");
 const blogRouter = require("./blog.routes");
 const galleryRouter = require("./gallery.routes");
 const usersRouter = require("./users.routes");
+const categoryRouter = require("./category.routes");
 
 const adminRouter = Router();
 
@@ -14,6 +15,7 @@ adminRouter.use("/banners", bannerRouter);
 adminRouter.use("/courses", courseRouter);
 adminRouter.use("/contacts", contactRouter);
 adminRouter.use("/blogs", blogRouter);
+adminRouter.use("/categories", categoryRouter);
 adminRouter.use("/galleries", galleryRouter);
 adminRouter.use("/users", usersRouter);
 

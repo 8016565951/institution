@@ -1,4 +1,5 @@
 const { siteConfig } = require("../../config/site");
+const { contactSchema } = require("../../lib/validations");
 const { contactRepo } = require("../../repos");
 
 class ContactController {
@@ -21,12 +22,12 @@ class ContactController {
         }
     };
 
-    // The values are coming from www - contact form
     createContacts = async (req, res) => {
         try {
-            const { name, email, subject, message } = req.body;
+            const { error, value } = contactSchema.validate(req.body);
+            if (error) throw error;
 
-            const contact = await contactRepo.create(req.body);
+            await contactRepo.create(value);
 
             return res.render("/contact");
         } catch (error) {

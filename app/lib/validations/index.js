@@ -8,6 +8,7 @@ const blogSchema = require("./blog");
 const categorySchema = require("./category");
 const commentSchema = require("./comment");
 const gallerySchema = require("./gallery");
+const contactSchema = require("./contact");
 
 module.exports = {
     ...responseSchema,
@@ -20,4 +21,5 @@ module.exports = {
     ...categorySchema,
     ...commentSchema,
     ...gallerySchema,
+    ...contactSchema,
 };
