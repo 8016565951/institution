@@ -70,7 +70,7 @@
                             <div class="container">
                                 <div class="card blog-card mb-4"> <!-- Added margin bottom for spacing between cards -->
                                     <div class="row">
-                                        <img src="/<%= blog.thumbnail %>" class="col-md-4 card-img-top" alt="Thumbnail">
+                                        <img src="<%= blog.thumbnailUrl %>" class="col-md-4 card-img-top" alt="Thumbnail">
                                         <!-- Added card-img-top class -->
                                         <div class="card-body col-md-8">
                                             <h5 class="card-title">
@@ -86,24 +86,24 @@
                                                 <%= blog.status %>
                                             </p>
                                             <p class="card-text"><strong>Published At:</strong>
-                                                <%= blog.publishedAt %>
+                                                <%= blog.publishedAt ?? "Not yet published" %>
                                             </p>
                                             <p class="card-text"><strong>Categories:</strong>
-                                                <%= blog.categories.join(', ') %></p> <!-- Ensure categories is displayed correctly -->
+                                                <%= blog.categories.map((c) => c.title).join(', ') %></p>
                                         </div>
                                     </div>
                                     <div class="card-footer row">
                                         <div class="col-md-3">
-                                            <a href="/admin/blogs/updateBlogsUI/<%= blog.id %>" class="btn btn-primary">Edit</a> 
+                                            <a href="/admin/blogs/<%= blog.slug %>/update" class="btn btn-primary">Edit</a> 
                                         </div>
                                         <div class="col-md-6">
                                             
-                                     <a type="submit" href="/admin/blogs/deleteBlog/<%= blog.id %>" class="btn btn-danger">Delete</a>
+                                     <a type="submit" href="/admin/blogs/<%= blog.slug %>/delete" class="btn btn-danger">Delete</a>
                                         </div>
 
                                         <div class="col-md-3">
 
-                                            <a href="/admin/blogs/<%= blog.id %>" class="btn btn-primary">View</a>
+                                            <a href="/admin/blogs/<%= blog.slug %>" class="btn btn-primary">View</a>
 
                                         </div>
                                     </div>

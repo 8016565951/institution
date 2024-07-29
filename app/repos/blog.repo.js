@@ -97,7 +97,7 @@ class BlogRepo {
      * @param {string} slug
      */
     getBySlug = async (slug) => {
-        return await db.blogs.aggregate([
+        const data = await db.blogs.aggregate([
             {
                 $match: { slug },
             },
@@ -136,13 +136,15 @@ class BlogRepo {
                 },
             },
         ]);
+
+        return data[0];
     };
 
     /**
      * @param {string} id
      */
     getById = async (id) => {
-        return await db.blogs.aggregate([
+        const data = await db.blogs.aggregate([
             {
                 $match: { _id: id },
             },
@@ -181,6 +183,8 @@ class BlogRepo {
                 },
             },
         ]);
+
+        return data[0];
     };
 
     /**
@@ -239,10 +243,14 @@ class BlogRepo {
         const invalidCategories = categoryNames.filter(
             (c) => !categoryNamesFromDb.includes(c.toLowerCase())
         );
+        const validCategories = categories.filter((c) =>
+            categoryNames.includes(c.title)
+        );
 
         return {
             valid: invalidCategories.length === 0,
             invalidCategories,
+            validCategories,
         };
     };
 

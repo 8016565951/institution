@@ -71,44 +71,38 @@
                                     <label for="thumbnailUrl">Thumbnail URL</label>
                                     <input type="file" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
                                         placeholder="Enter thumbnail URL">
-                                    <img src="/<%- thumbnailUrl %>" alt="">
+                                    <img src="<%= blog.thumbnailUrl %>" alt="">
                                 </div>
                                 <div class="form-group">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" id="title" name="title"
-                                        placeholder="Enter title" value="<%- title %>" required>
+                                        placeholder="Enter title" value="<%= blog.title %>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" name="description"
-                                        placeholder="<%- description %>"></textarea>
+                                      ><%= blog.description %></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="content">Content</label>
                                     <textarea class="form-control" id="content" name="content"
-                                        placeholder="<%- content %>" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="authorId">Author ID</label>
-                                    <input type="text" class="form-control" id="authorId" name="authorId"
-                                        placeholder="Enter author ID" value="<%- authorId %>" required>
+                                      required><%= blog.content %></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <select class="form-control" id="status" name="status" value="<%- status %>">
-                                        <option value="draft">Draft</option>
-                                        <option value="published">Published</option>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="draft" <%= blog.status === 'draft' ? 'selected' : '' %>>Draft</option>
+                                        <option value="published" <%= blog.status === 'published' ? 'selected' : '' %>>Published</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="publishedAt">Published At</label>
-                                    <input type="date" class="form-control" id="publishedAt" name="publishedAt"
-                                        value="<%- publishedAt %>">
-                                </div>
-                                <div class="form-group">
                                     <label for="categories">Categories</label>
-                                    <input type="text" class="form-control" id="categories" name="categories"
-                                        placeholder="Enter categories (comma separated)" value="<%- categories %>">
+
+                                        <select class="form-control" id="categories" name="categories" multiple>
+                                            <% categories.map((category) => { %>
+                                            <option value="<%= category.title.toLowerCase() %>" <%= blog.categories.map((c) => c.title.toLowerCase()).includes(category.title.toLowerCase()) ? 'selected' : '' %>><%= category.title %></option>
+                                            <% }) %>
+                                        </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>

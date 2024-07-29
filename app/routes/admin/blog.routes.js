@@ -6,7 +6,7 @@ const blogRouter = Router();
 
 blogRouter.get("/", blogController.getBlogsUI);
 blogRouter.get("/create", blogController.createBlogUI);
-blogRouter.get("/:id/update", blogController.updateBlogUI);
+blogRouter.get("/:slug/update", blogController.updateBlogUI);
 
 blogRouter.post(
     "/create",
@@ -14,10 +14,10 @@ blogRouter.post(
     blogController.createBlog
 );
 blogRouter.post(
-    "/:id/update",
+    "/:slug/update",
     blogThumbnailUpload.single("thumbnail"),
     blogController.updateBlog
 );
-blogRouter.post("/:id/delete", blogController.deleteBlog);
+blogRouter.post("/:slug/delete", blogController.deleteBlog);
 
 module.exports = blogRouter;

@@ -55,10 +55,10 @@ class BlogController {
      */
     updateBlogUI = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
             const user = req.ctx?.user;
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             const categories = await categoryRepo.get();
 
             return res.render("admin/blog-update", {
@@ -95,18 +95,18 @@ class BlogController {
                     "BAD_REQUEST"
                 );
 
-            const validateCats = await blogRepo.validateCategories(categories);
-            if (!validateCats.valid)
+            const { valid, invalidCategories, validCategories } =
+                await blogRepo.validateCategories(categories);
+            if (!valid)
                 throw new AppError(
-                    `Invalid categories: ${validateCats.invalidCategories.join(
-                        ", "
-                    )}`,
+                    `Invalid categories: ${invalidCategories.join(", ")}`,
                     "BAD_REQUEST"
                 );
 
             const slug = slugify(value.title);
 
             const existingBlog = await blogRepo.getBySlug(slug);
+            console.log(existingBlog);
             if (existingBlog)
                 throw new AppError(
                     "A blog with this title already exists",
@@ -119,6 +119,7 @@ class BlogController {
             await blogRepo.create({
                 ...value,
                 authorId: userId,
+                categories: validCategories.map((c) => c.id),
                 slug,
                 thumbnailUrl,
             });
@@ -135,12 +136,12 @@ class BlogController {
      */
     updateBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
 
             const { error, value } = blogSchema.validate(req.body);
             if (error) throw error;
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
             let thumbnailUrl = blog.thumbnailUrl;
@@ -149,7 +150,7 @@ class BlogController {
                 await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
             }
 
-            await blogRepo.update(id, {
+            await blogRepo.update(blog._id, {
                 ...value,
                 thumbnailUrl,
             });
@@ -166,12 +167,12 @@ class BlogController {
      */
     deleteBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
-            await blogRepo.delete(id);
+            await blogRepo.delete(blog._id);
 
             return res.redirect("/admin/blogs");
         } catch (err) {
