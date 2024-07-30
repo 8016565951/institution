@@ -80,13 +80,15 @@ class BlogController {
             const { slug } = req.params;
             const user = req.ctx?.user;
 
-            const blog = await blogRepo.getBySlug(slug).populate("users");
+           
+        const blog = await blogRepo.getBySlug(slug);
+        const recentBlogs = await blogRepo.getRecents(blog.id);
 
             
             return res.render("admin/blog-single", {
                 title: `single Blog | ${siteConfig.name}`,
                 blog,
-                
+                recentBlogs,
                 user,
             });
 
