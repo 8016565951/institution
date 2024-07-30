@@ -70,7 +70,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-6">
-                                    <img src="" alt="">
+                                    <img src="<%=blog.thumbnailUrl%>" alt="">
                                 </div>
                                 <div class="col-6">
                                     <div class="card">
@@ -100,14 +100,14 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row-12 card-footer" >
 
-                                    <div>
+                                    <div class="col-md-6">
                                         <p><strong>Description:</strong>
                                             <%= blog.description %>
                                         </p>
                                     </div>
-                                    <div class="card-footer">
+                                    <div class="col-md-6">
                                         <p><strong>Published At:</strong>
                                             <%= blog.publishedAt %>
                                         </p>
@@ -116,8 +116,10 @@
                                     </div>
 
                                 </div>
-
                             </div>
+
+                         </div>
+                    </div> 
                 </section>
                 <!-- /.content -->
             </div>
