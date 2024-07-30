@@ -146,6 +146,33 @@ class HomeController {
             user,
         });
     };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    categoryBlogs = async (req, res) => {
+        const { slug } = req.params;
+        const user = req.ctx?.user;
+
+        const category = await categoryRepo.getByTitle(slug);
+        if (!category) return res.redirect("/blogs");
+
+        const data = await categoryRepo.getBlogsByCategoryName(category.title);
+        const recentBlogs = await blogRepo.getRecents();
+
+        const categories = await categoryRepo.get();
+
+        res.render("www/category-blogs", {
+            title: `Blogs | ${siteConfig.name}`,
+            siteConfig,
+            menu,
+            blogs: data[0]?.blogs ?? [],
+            categories,
+            recentBlogs,
+            user,
+        });
+    };
 }
 
 module.exports = new HomeController();

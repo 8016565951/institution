@@ -8,12 +8,12 @@ class CategoryRepo {
 
     /**
      *
-     * @param {string} categoryId
+     * @param {string} slug
      */
-    getBlogsByCategoryId = async (categoryId) => {
-        return await db.categories.aggregate([
+    getBlogsByCategoryName = async (slug) => {
+        const data = await db.categories.aggregate([
             {
-                $match: { _id: categoryId },
+                $match: { title: slug },
             },
             {
                 $lookup: {
@@ -60,6 +60,8 @@ class CategoryRepo {
                 },
             },
         ]);
+
+        return data;
     };
 
     /**

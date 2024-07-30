@@ -1,6 +1,7 @@
 const PORT = process.env.PORT ?? 3001;
 
 const AUTH_TOKEN_COOKIE_NAME = "institution__auth_SDRFasdrfa_532125";
+const ADMIN_TOKEN_COOKIE_NAME = "institution__admin_SDRFasdrfa_532125";
 
 const DEFAULT_AVATAR_PATH = "uploads/images/avatars/default_avatar.png";
 const DEFAULT_COURSE_THUMBNAIL_PATH =
@@ -49,4 +50,5 @@ module.exports = {
     DEFAULT_BLOG_THUMBNAIL_PATH,
     TIMESPANS,
     BLOG_STATUS,
+    ADMIN_TOKEN_COOKIE_NAME,
 };

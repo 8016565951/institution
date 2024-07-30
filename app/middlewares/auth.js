@@ -4,6 +4,7 @@ const {
     verifyJwt,
     getTokenFromHeader,
     getTokenFromCookie,
+    getAdminTokenFromCookie,
 } = require("../lib/jwt");
 const { handleJWTError, handleError } = require("../lib/utils");
 const { userRepo } = require("../repos");
@@ -45,6 +46,33 @@ function isUIAuthenticated(req, res, next) {
             return res.redirect("/admin/banners");
 
         const token = getTokenFromCookie(req);
+        if (!token) return res.redirect("/auth/signin");
+
+        try {
+            const payload = verifyJwt(token, process.env.JWT_SECRET);
+            req.ctx = { ...req.ctx, user: payload };
+            next();
+        } catch (err) {
+            console.error(err);
+            return res.redirect("/auth/signin");
+        }
+    } catch (err) {
+        console.error(err);
+        return res.redirect("/auth/signin");
+    }
+}
+
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+function isAdminUIAuthenticated(req, res, next) {
+    try {
+        if (req.originalUrl === "/admin/")
+            return res.redirect("/admin/banners");
+
+        const token = getAdminTokenFromCookie(req);
         if (!token) return res.redirect("/auth/signin");
 
         try {
@@ -247,4 +275,5 @@ module.exports = {
     isSameUserOrAdmin,
     isTokenValidUI,
     getUserFromToken,
+    isAdminUIAuthenticated,
 };

@@ -3,6 +3,8 @@ const {
     JWT_EXPIRES_IN,
     AUTH_TOKEN_COOKIE_NAME,
     cookieOptions,
+    ROLES,
+    ADMIN_TOKEN_COOKIE_NAME,
 } = require("../../config/const");
 const { siteConfig } = require("../../config/site");
 const { hashPassword, comparePasswords } = require("../../lib/bcrypt");
@@ -25,6 +27,16 @@ class AuthController {
     signUpPage = (req, res) => {
         return res.render("www/signup", {
             title: `Sign Up | ${siteConfig.name}`,
+        });
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signInAdminPage = (req, res) => {
+        return res.render("admin/signin", {
+            title: `Sign In | ${siteConfig.name}`,
         });
     };
 
@@ -132,6 +144,46 @@ class AuthController {
             res.cookie(AUTH_TOKEN_COOKIE_NAME, token, cookieOptions);
 
             return res.redirect("/");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signInAdmin = async (req, res) => {
+        try {
+            const { email, password } = req.body;
+
+            const user = await userRepo.getByEmail(email);
+            if (!user) throw new AppError("User not found", "NOT_FOUND");
+
+            if (![ROLES.ADMIN, ROLES.MOD].includes(user.role))
+                throw new AppError(
+                    "You are not authorized to access this page",
+                    "FORBIDDEN"
+                );
+
+            const isPasswordCorrect = await comparePasswords(
+                password,
+                user.password
+            );
+            if (!isPasswordCorrect)
+                throw new AppError("Incorrect password", "UNAUTHORIZED");
+
+            const token = signJWT(
+                {
+                    id: user.id,
+                },
+                process.env.JWT_SECRET,
+                JWT_EXPIRES_IN
+            );
+
+            res.cookie(ADMIN_TOKEN_COOKIE_NAME, token, cookieOptions);
+
+            return res.redirect("/admin");
         } catch (err) {
             console.error(err);
         }
