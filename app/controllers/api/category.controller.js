@@ -26,10 +26,13 @@ class CategoryController {
      * @param {import("express").Request} req
      *  @param {import("express").Response} res
      */
-    getCategoryById = async (req, res) => {
+    getCategory = async (req, res) => {
         try {
-            const { id } = req.params;
-            const category = await categoryRepo.getById(id);
+            const { slug } = req.params;
+
+            const category = await categoryRepo.getByTitle(slug);
+            if (!category)
+                throw new AppError("Category not found", "NOT_FOUND");
 
             return CResponse({
                 res,
@@ -72,8 +75,13 @@ class CategoryController {
      */
     deleteCategory = async (req, res) => {
         try {
-            const { id } = req.params;
-            await categoryRepo.delete(id);
+            const { slug } = req.params;
+
+            const existingCategory = await categoryRepo.getByTitle(slug);
+            if (!existingCategory)
+                throw new AppError("Category not found", "NOT_FOUND");
+
+            await categoryRepo.delete(existingCategory._id);
 
             return CResponse({
                 res,

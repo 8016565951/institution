@@ -3,7 +3,7 @@ const { AppError } = require("./helpers");
 const { MongooseError } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { ValidationError } = require("joi");
-const { existsSync, unlinkSync } = require("fs");
+const { existsSync, unlink } = require("fs");
 const path = require("path");
 const { logger } = require("./helpers");
 const {
@@ -11,9 +11,6 @@ const {
     DEFAULT_BLOG_THUMBNAIL_PATH,
     DEFAULT_COURSE_THUMBNAIL_PATH,
 } = require("../config/const.js");
-const { promisify } = require("util");
-
-const unlinkAsync = promisify(unlinkSync);
 
 /**
  * @param {unknown} err
@@ -196,7 +193,7 @@ function generateDbUrl() {
  */
 async function unlinkFile(filePath) {
     if (!filePath) return;
-    if (existsSync(filePath)) await unlinkAsync(filePath);
+    if (existsSync(filePath)) await unlink(filePath);
 }
 
 /**

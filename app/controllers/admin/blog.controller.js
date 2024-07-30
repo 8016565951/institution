@@ -174,7 +174,8 @@ class BlogController {
             let thumbnailUrl = blog.thumbnailUrl;
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
-                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
+                    await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
             }
 
             await blogRepo.update(blog._id, {
@@ -198,6 +199,9 @@ class BlogController {
 
             const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
+                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
 
             await blogRepo.delete(blog._id);
 

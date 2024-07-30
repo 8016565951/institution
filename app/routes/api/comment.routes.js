@@ -5,14 +5,9 @@ const { isAPIAuthenticated } = require("../../middlewares/auth");
 const commentRouter = Router();
 
 commentRouter.get(
-    "/blogs/:blogId",
+    "/blogs/:slug",
     isAPIAuthenticated,
-    commentController.getCommentByBlog
-);
-commentRouter.get(
-    "/comment/:id",
-    isAPIAuthenticated,
-    commentController.getCommentById
+    commentController.getCommentsByBlog
 );
 
 commentRouter.post(

@@ -1,0 +1,1802 @@
+{
+	"info": {
+		"_postman_id": "f6d84b00-f615-4b4a-997a-a7d99c848af8",
+		"name": "Institution",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35394246"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "General",
+					"item": [
+						{
+							"name": "signIn",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"thedragoluca@gmail.com\",\r\n    \"password\": \"Whatever2001.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/signin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/signout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"signout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateEmail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"newemail@gmail.com\", // new email\r\n    \"password\": \"Password1!\" // current password\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/update-email",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"update-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verifyNewEmail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/verify-new-email?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjMzOTQzNywiZXhwIjoxNzIyMzQwMzM3fQ.PhehiSmFA96A0MINhAUfbt3hVNmO8_ThS_tkf7sbDfA",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"verify-new-email"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjMzOTQzNywiZXhwIjoxNzIyMzQwMzM3fQ.PhehiSmFA96A0MINhAUfbt3hVNmO8_ThS_tkf7sbDfA"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verifyEmail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "firstName",
+											"value": " Alice",
+											"type": "text"
+										},
+										{
+											"key": "middleName",
+											"value": " B.",
+											"type": "text"
+										},
+										{
+											"key": "lastName",
+											"value": " Smith",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "thedragoluca@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": " Password1!",
+											"type": "text"
+										},
+										{
+											"key": "confirmPassword",
+											"value": " Password1!",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": " +11234567890",
+											"type": "text"
+										},
+										{
+											"key": "dob",
+											"value": " 1995-05-15",
+											"type": "text"
+										},
+										{
+											"key": "address[street]",
+											"value": " 456 Elm Street",
+											"type": "text"
+										},
+										{
+											"key": "address[city]",
+											"value": " Springfield",
+											"type": "text"
+										},
+										{
+											"key": "address[state]",
+											"value": " IL",
+											"type": "text"
+										},
+										{
+											"key": "address[zipCode]",
+											"value": " 62704",
+											"type": "text"
+										},
+										{
+											"key": "address[country]",
+											"value": " USA",
+											"type": "text"
+										},
+										{
+											"key": "parent[firstName]",
+											"value": " Robert",
+											"type": "text"
+										},
+										{
+											"key": "parent[middleName]",
+											"value": " C.",
+											"type": "text"
+										},
+										{
+											"key": "parent[lastName]",
+											"value": " Smith",
+											"type": "text"
+										},
+										{
+											"key": "parent[phone]",
+											"value": " +10987654321",
+											"type": "text"
+										},
+										{
+											"key": "parent[occupation]",
+											"value": " Engineer",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/verify-email/verify?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjMzOTQzNywiZXhwIjoxNzIyMzQwMzM3fQ.PhehiSmFA96A0MINhAUfbt3hVNmO8_ThS_tkf7sbDfA",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"verify-email",
+										"verify"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjMzOTQzNywiZXhwIjoxNzIyMzQwMzM3fQ.PhehiSmFA96A0MINhAUfbt3hVNmO8_ThS_tkf7sbDfA"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signUp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "firstName",
+											"value": "Bradley",
+											"type": "text"
+										},
+										{
+											"key": "middleName",
+											"value": "Justin",
+											"type": "text"
+										},
+										{
+											"key": "lastName",
+											"value": "Brown",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "thedragoluca@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "Password1!",
+											"type": "text"
+										},
+										{
+											"key": "confirmPassword",
+											"value": "Password1!",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "+11234567890",
+											"type": "text"
+										},
+										{
+											"key": "dob",
+											"value": "1995-05-15",
+											"type": "text"
+										},
+										{
+											"key": "address[street]",
+											"value": "456 Elm Street",
+											"type": "text"
+										},
+										{
+											"key": "address[city]",
+											"value": "Springfield",
+											"type": "text"
+										},
+										{
+											"key": "address[state]",
+											"value": "IL",
+											"type": "text"
+										},
+										{
+											"key": "address[zipCode]",
+											"value": "62704",
+											"type": "text"
+										},
+										{
+											"key": "address[country]",
+											"value": "USA",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "forgetPasswordStep1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"thedragoluca@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/forget-password/s1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"forget-password",
+										"s1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "forgetPasswordStep2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"otp\": \"233449\",\r\n    \"password\": \"Whatever2001.\",\r\n    \"confirmPassword\": \"Whatever2001.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/forget-password/s2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"forget-password",
+										"s2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "signIn",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"thedragoluca@gmail.com\",\r\n    \"password\": \"Whatever2001.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/signin/admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"signin",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/auth/signout/admin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"auth",
+										"signout",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "getUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStudents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users?type=student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "student"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTeachers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users?type=teacher",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "teacher"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a8d06dfb82b78f485384fc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a8d06dfb82b78f485384fc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStudent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a8d06dfb82b78f485384fc?type=student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a8d06dfb82b78f485384fc"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "student"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTeacher",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a8d06dfb82b78f485384fc?type=teacher",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a8d06dfb82b78f485384fc"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "teacher"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAvatar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a8d06dfb82b78f485384fc/avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a8d06dfb82b78f485384fc",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateRole",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"teacher\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a298c0d744d05b4ebc9ed5/role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a298c0d744d05b4ebc9ed5",
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"Whatever2001.\",\r\n    \"newPassword\": \"Password1!\",\r\n    \"confirmNewPassword\": \"Password1!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a8d06dfb82b78f485384fc/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a8d06dfb82b78f485384fc",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"teacher\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/users/66a298c0d744d05b4ebc9ed5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users",
+								"66a298c0d744d05b4ebc9ed5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Banners",
+			"item": [
+				{
+					"name": "getBanners",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/banners",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"banners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBanner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/banners/66a8e06b676c783a5ab12d38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"banners",
+								"66a8e06b676c783a5ab12d38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createBanner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Farming is the best solution of worlds starvation",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+									"type": "text"
+								},
+								{
+									"key": "banner",
+									"type": "file",
+									"src": "/C:/Users/thedr/Downloads/hero_1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/banners",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"banners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBanner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Farming is the best solution of worlds starvation",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+									"type": "text"
+								},
+								{
+									"key": "banner",
+									"type": "file",
+									"src": "/C:/Users/thedr/Downloads/hero_1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/banners/66a8e06b676c783a5ab12d38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"banners",
+								"66a8e06b676c783a5ab12d38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBanner",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/banners/66a8e06b676c783a5ab12d38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"banners",
+								"66a8e06b676c783a5ab12d38"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "getCategories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/categories/w",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"categories",
+								"w"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"js\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategory",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/categories/vscode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"categories",
+								"vscode"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blogs",
+			"item": [
+				{
+					"name": "getBlogs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/blogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBlog",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/923y49283740293740293",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"923y49283740293740293"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBlogsByCategory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/categories/vscode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"categories",
+								"vscode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createBlog",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Will Project IDX really replace VS Code?",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "What is Project IDX?\nRecently, Google announced about its VS Code competitor, Project IDX. Curently, it's in Beta, and weirdly enough, I got access to use it. I've been using it for quite a few days, and ngl, I'm kind of loving it. Join me as we delve into the world of Project IDX, exploring its features, assessing its strengths and weaknesses, and pondering the question on every developer's mind: Could Project IDX truly replace Visual Studio Code?\n\nInitial Impressions and Features\nProject IDX, Google's answer to Visual Studio Code (VS Code), has garnered attention with its recent beta release. Unlike VS Code, Project IDX distinguishes itself as an online IDE, offering a seamless development experience directly within the browser at here.\n\nHowever, it's worth noting that Project IDX is currently in beta, which means access is limited. Interested developers must join a waitlist and hope for the chance to explore its capabilities. This exclusivity adds an element of anticipation, fueling speculation about its potential impact on the developer community.\n\nUser Experience\nProject IDX presents itself with a sleek and intuitive interface, aligning with Google's design ethos. Navigation feels smooth, contributing to a more seamless development experience. In fact, I find the design of IDX to be a notable improvement over Google's general design language, adding an extra layer of appeal to the overall experience.\n\nPerformance\nPerformance-wise, Project IDX impresses with its speed and responsiveness. Tasks like code editing and debugging are executed swiftly, enhancing overall productivity. One significant advantage lies in its cloud-hosted computing, meaning none of the user's resources are burdened with heavy computation tasks. This architecture leads to a noticeable bump in performance, allowing developers to work more efficiently.\n\nFeature Set\nProject IDX boasts a feature-rich environment, comparable to VS Code. It leverages Nix as its backend engine, providing robust functionality for code editing, debugging, and other development tasks. Additionally, for extensions, Project IDX integrates with open-vsx.org, offering a wide range of plugins to enhance the IDE's capabilities. We'll delve deeper into these features and their implications later in our discussion. From syntax highlighting and code completion to Git integration and debugging tools, Project IDX caters to the diverse needs of modern software development.",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Let's talk about Google's new VS Code competitor, Project IDX, and whether it will replace VS Code.",
+									"type": "text"
+								},
+								{
+									"key": "categories[0]",
+									"value": "vscode",
+									"type": "text"
+								},
+								{
+									"key": "categories[1]",
+									"value": "google",
+									"type": "text"
+								},
+								{
+									"key": "categories[2]",
+									"value": "microsoft",
+									"type": "text"
+								},
+								{
+									"key": "categories[3]",
+									"value": "idx",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/thedr/Downloads/will-project-idx-really-replace-vs-code.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/blogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBlog",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Will Project IDX really replace VS Code?",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "What is Project IDX?\nRecently, Google announced about its VS Code competitor, Project IDX. Curently, it's in Beta, and weirdly enough, I got access to use it. I've been using it for quite a few days, and ngl, I'm kind of loving it. Join me as we delve into the world of Project IDX, exploring its features, assessing its strengths and weaknesses, and pondering the question on every developer's mind: Could Project IDX truly replace Visual Studio Code?\n\nInitial Impressions and Features\nProject IDX, Google's answer to Visual Studio Code (VS Code), has garnered attention with its recent beta release. Unlike VS Code, Project IDX distinguishes itself as an online IDE, offering a seamless development experience directly within the browser at here.\n\nHowever, it's worth noting that Project IDX is currently in beta, which means access is limited. Interested developers must join a waitlist and hope for the chance to explore its capabilities. This exclusivity adds an element of anticipation, fueling speculation about its potential impact on the developer community.\n\nUser Experience\nProject IDX presents itself with a sleek and intuitive interface, aligning with Google's design ethos. Navigation feels smooth, contributing to a more seamless development experience. In fact, I find the design of IDX to be a notable improvement over Google's general design language, adding an extra layer of appeal to the overall experience.\n\nPerformance\nPerformance-wise, Project IDX impresses with its speed and responsiveness. Tasks like code editing and debugging are executed swiftly, enhancing overall productivity. One significant advantage lies in its cloud-hosted computing, meaning none of the user's resources are burdened with heavy computation tasks. This architecture leads to a noticeable bump in performance, allowing developers to work more efficiently.\n\nFeature Set\nProject IDX boasts a feature-rich environment, comparable to VS Code. It leverages Nix as its backend engine, providing robust functionality for code editing, debugging, and other development tasks. Additionally, for extensions, Project IDX integrates with open-vsx.org, offering a wide range of plugins to enhance the IDE's capabilities. We'll delve deeper into these features and their implications later in our discussion. From syntax highlighting and code completion to Git integration and debugging tools, Project IDX caters to the diverse needs of modern software development.",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Let's talk about Google's new VS Code competitor, Project IDX, and whether it will replace VS Code.",
+									"type": "text"
+								},
+								{
+									"key": "categories[0]",
+									"value": "vscode",
+									"type": "text"
+								},
+								{
+									"key": "categories[1]",
+									"value": "google",
+									"type": "text"
+								},
+								{
+									"key": "categories[2]",
+									"value": "microsoft",
+									"type": "text"
+								},
+								{
+									"key": "categories[3]",
+									"value": "idx",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/thedr/Downloads/will-project-idx-really-replace-vs-code.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/will-project-idx-really-replace-vs-code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"will-project-idx-really-replace-vs-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "publishBlog",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/will-project-idx-really-replace-vs-code/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"will-project-idx-really-replace-vs-code",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unpublishBlog",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/will-project-idx-really-replace-vs-code/unpublish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"will-project-idx-really-replace-vs-code",
+								"unpublish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBlog",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/blogs/will-project-idx-really-replace-vs-code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"blogs",
+								"will-project-idx-really-replace-vs-code"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "getCommentsByBlog",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/comments/blogs/will-project-idx-really-replace-vs-code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"comments",
+								"blogs",
+								"will-project-idx-really-replace-vs-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createComment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Damn!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/comments/blogs/will-project-idx-really-replace-vs-code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"comments",
+								"blogs",
+								"will-project-idx-really-replace-vs-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/comments/66a8eda86c775a475cd1003f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"comments",
+								"66a8eda86c775a475cd1003f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "getCourses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCourse",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{AUTH_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/courses/66a8ef9342987086e15dfc41",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"courses",
+								"66a8ef9342987086e15dfc41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCourse Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "MERN Stack Development",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "MERN stack development refers to the process of building web applications using a combination of four key technologies: MongoDB, Express.js, React, and Node.js. This stack is popular for its ability to create full-stack JavaScript applications, where both the client-side and server-side code are written in JavaScript.",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "79.99",
+									"type": "text"
+								},
+								{
+									"key": "duration[number]",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "duration[unit]",
+									"value": "months",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCourse",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "MERN Stack Development",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "MERN stack development refers to the process of building web applications using a combination of four key technologies: MongoDB, Express.js, React, and Node.js. This stack is popular for its ability to create full-stack JavaScript applications, where both the client-side and server-side code are written in JavaScript.",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "69.99",
+									"type": "text"
+								},
+								{
+									"key": "duration[number]",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "duration[unit]",
+									"value": "months",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/courses/66a8ef9342987086e15dfc41",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"courses",
+								"66a8ef9342987086e15dfc41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCourse",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/courses/66a8ef9342987086e15dfc41",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"courses",
+								"66a8ef9342987086e15dfc41"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "AUTH_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjM0Mjg2MCwiZXhwIjoxNzIyNDI5MjYwfQ.HF7U6RoG4ne-y01h8ZaZt6Dy89x0emZKjnG2mq6NnNE"
+		},
+		{
+			"key": "ADMIN_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YThkMDZkZmI4MmI3OGY0ODUzODRmYyIsImlhdCI6MTcyMjM0MzMzMSwiZXhwIjoxNzIyNDI5NzMxfQ.nlhD7BS3i2wIVHj9q0tXFACFEqpqZMhmYcyd7o61vpg",
+			"type": "string"
+		}
+	]
+}

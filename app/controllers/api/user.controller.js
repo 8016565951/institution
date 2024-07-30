@@ -10,6 +10,9 @@ const {
 } = require("../../lib/utils");
 const { userRepo } = require("../../repos");
 const { updateUserRoleSchema } = require("../../lib/validations/user");
+const { updatePasswordSchema } = require("../../lib/validations");
+const { comparePasswords, hashPassword } = require("../../lib/bcrypt");
+const { mailSender } = require("../../lib/nodemailer");
 
 class UserController {
     /**
@@ -18,7 +21,22 @@ class UserController {
      */
     getUsers = async (req, res) => {
         try {
-            const users = await userRepo.getUsers();
+            const { type } = req.query;
+            let users;
+
+            switch (type) {
+                case "student":
+                    users = await userRepo.getStudents();
+                    break;
+
+                case "teacher":
+                    users = await userRepo.getTeachers();
+                    break;
+
+                default:
+                    users = await userRepo.getUsers();
+                    break;
+            }
 
             return CResponse({
                 res,
@@ -34,95 +52,33 @@ class UserController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    getStudents = async (req, res) => {
-        try {
-            const students = await userRepo.getStudents();
-
-            return CResponse({
-                res,
-                message: "OK",
-                data: students,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    getTeachers = async (req, res) => {
-        try {
-            const teachers = await userRepo.getTeachers();
-
-            return CResponse({
-                res,
-                message: "OK",
-                data: teachers,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
     getUserById = async (req, res) => {
         try {
             const { id } = req.params;
+            const { type } = req.query;
 
-            const user = await userRepo.getById(id);
+            let user;
+
+            switch (type) {
+                case "student":
+                    user = await userRepo.getStudentById(id);
+                    break;
+
+                case "teacher":
+                    user = await userRepo.getTeacherById(id);
+                    break;
+
+                default:
+                    user = await userRepo.getById(id);
+                    break;
+            }
+
             if (!user) throw new AppError("User not found", "NOT_FOUND");
 
             return CResponse({
                 res,
                 message: "OK",
                 data: user,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    getStudentById = async (req, res) => {
-        try {
-            const { id } = req.params;
-
-            const student = await userRepo.getStudentById(id);
-            if (!student) throw new AppError("Student not found", "NOT_FOUND");
-
-            return CResponse({
-                res,
-                message: "OK",
-                data: student,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    getTeacherById = async (req, res) => {
-        try {
-            const { id } = req.params;
-
-            const teacher = await userRepo.getTeacherById(id);
-            if (!teacher) throw new AppError("Teacher not found", "NOT_FOUND");
-
-            return CResponse({
-                res,
-                message: "OK",
-                data: teacher,
             });
         } catch (err) {
             return handleError(err, res);
@@ -180,6 +136,51 @@ class UserController {
                 throw new AppError("User already has this role", "BAD_REQUEST");
 
             await userRepo.updateRole(id, role);
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    updatePassword = async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const { error, value } = updatePasswordSchema.validate(req.body);
+            if (error) throw error;
+
+            const { currentPassword, newPassword } = value;
+
+            const existingUser = await userRepo.getById(id);
+            if (!existingUser)
+                throw new AppError("User not found", "NOT_FOUND");
+
+            const isPasswordValid = await comparePasswords(
+                currentPassword,
+                existingUser.password
+            );
+            if (!isPasswordValid)
+                throw new AppError("Invalid password", "BAD_REQUEST");
+
+            const hashedPassword = await hashPassword(newPassword);
+
+            await userRepo.updatePassword(id, hashedPassword);
+
+            mailSender.sendForgetPasswordStep2Email({
+                user: {
+                    email: existingUser.email,
+                    username:
+                        existingUser.firstName + " " + existingUser.lastName,
+                },
+            });
 
             return CResponse({
                 res,

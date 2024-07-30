@@ -11,23 +11,10 @@ const {
 const userRouter = Router();
 
 userRouter.get("/", isAPIAuthenticated, userController.getUsers);
-userRouter.get("/students", isAPIAuthenticated, userController.getStudents);
-userRouter.get("/teachers", isAPIAuthenticated, userController.getTeachers);
-
-userRouter.get("/user/:id", isAPIAuthenticated, userController.getUserById);
-userRouter.get(
-    "/student/:id",
-    isAPIAuthenticated,
-    userController.getStudentById
-);
-userRouter.get(
-    "/teacher/:id",
-    isAPIAuthenticated,
-    userController.getTeacherById
-);
+userRouter.get("/:id", isAPIAuthenticated, userController.getUserById);
 
 userRouter.put(
-    "/user/:id/avatar",
+    "/:id/avatar",
     isAPIAuthenticated,
     isSameUser,
     avatarUpload.single("avatar"),
@@ -35,14 +22,21 @@ userRouter.put(
 );
 
 userRouter.patch(
-    "/user/:id/role",
+    "/:id/password",
+    isAPIAuthenticated,
+    isSameUser,
+    userController.updatePassword
+);
+
+userRouter.patch(
+    "/:id/role",
     isAPIAuthenticated,
     isAdmin,
     userController.updateRole
 );
 
 userRouter.delete(
-    "/user/:id",
+    "/:id",
     isAPIAuthenticated,
     isSameUserOrAdmin,
     userController.deleteUser

@@ -8,34 +8,20 @@ class CommentController {
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    getCommentByBlog = async (req, res) => {
+    getCommentsByBlog = async (req, res) => {
         try {
-            const { blogId } = req.params;
-            const comments = await commentRepo.getByBlogId(blogId);
+            const { slug } = req.params;
+
+            const blogWithComments = await blogRepo.getBySlug(slug);
+            if (!blogWithComments)
+                throw new AppError("Blog not found", "NOT_FOUND");
+
+            const comments = blogWithComments.comments;
 
             return CResponse({
                 res,
                 message: "OK",
                 data: comments,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
-
-    /**
-     * @param {import("express").Request} req
-     * @param {import("express").Response} res
-     */
-    getCommentById = async (req, res) => {
-        try {
-            const { id } = req.params;
-            const comment = await commentRepo.getById(id);
-
-            return CResponse({
-                res,
-                message: "OK",
-                data: comment,
             });
         } catch (err) {
             return handleError(err, res);
@@ -82,6 +68,10 @@ class CommentController {
     deleteComment = async (req, res) => {
         try {
             const { id } = req.params;
+
+            const comment = await commentRepo.getById(id);
+            if (!comment) throw new AppError("Comment not found", "NOT_FOUND");
+
             await commentRepo.delete(id);
 
             return CResponse({

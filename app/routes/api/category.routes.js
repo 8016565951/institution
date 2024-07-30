@@ -1,21 +1,27 @@
 const { Router } = require("express");
 const { categoryController } = require("../../controllers/api");
-const { isAPIAuthenticated } = require("../../middlewares/auth");
+const { isAPIAuthenticated, isAdmin } = require("../../middlewares/auth");
 
 const categoryRouter = Router();
 
 categoryRouter.get("/", isAPIAuthenticated, categoryController.getCategories);
 categoryRouter.get(
-    "/:id",
+    "/:slug",
     isAPIAuthenticated,
-    categoryController.getCategoryById
+    categoryController.getCategory
 );
 
-categoryRouter.post("/", isAPIAuthenticated, categoryController.createCategory);
+categoryRouter.post(
+    "/",
+    isAPIAuthenticated,
+    isAdmin,
+    categoryController.createCategory
+);
 
 categoryRouter.delete(
-    "/:id",
+    "/:slug",
     isAPIAuthenticated,
+    isAdmin,
     categoryController.deleteCategory
 );
 

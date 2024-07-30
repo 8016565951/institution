@@ -32,7 +32,9 @@ class BannerController {
     getBannerById = async (req, res) => {
         try {
             const { id } = req.params;
+
             const banner = await bannerRepo.getById(id);
+            if (!banner) throw new AppError("Banner not found", "NOT_FOUND");
 
             return CResponse({
                 res,
@@ -53,14 +55,14 @@ class BannerController {
             const { error, value } = bannerSchema.validate(req.body);
             if (error) throw error;
 
-            if (req.file)
+            if (!req.file)
                 throw new AppError("Image is required", "BAD_REQUEST");
 
             const bannerUrl = generateFileURL(req, req.file);
 
             const banner = await bannerRepo.create({
                 ...value,
-                image: bannerUrl,
+                imageUrl: bannerUrl,
             });
 
             return CResponse({

@@ -1,53 +1,52 @@
 const { Router } = require("express");
 const { blogController } = require("../../controllers/api");
 const { blogThumbnailUpload } = require("../../lib/multer");
-const { isAPIAuthenticated } = require("../../middlewares/auth");
+const { isAPIAuthenticated, isAdmin } = require("../../middlewares/auth");
 
 const blogRouter = Router();
 
 blogRouter.get("/", isAPIAuthenticated, blogController.getBlogs);
-blogRouter.get("/blog/:id", isAPIAuthenticated, blogController.getBlogById);
+blogRouter.get("/:slug", isAPIAuthenticated, blogController.getBlogBySlug);
 blogRouter.get(
-    "/blog/slug/:slug",
+    "/categories/:slug",
     isAPIAuthenticated,
-    blogController.getBlogBySlug
-);
-blogRouter.get(
-    "/categories/:categoryId",
-    isAPIAuthenticated,
-    blogController.getBlogsByCategoryId
-);
-blogRouter.get(
-    "/authors/:authorId",
-    isAPIAuthenticated,
-    blogController.getBlogByAuthorId
+    blogController.getBlogsByCategory
 );
 
 blogRouter.post(
     "/",
     isAPIAuthenticated,
+    isAdmin,
     blogThumbnailUpload.single("thumbnail"),
     blogController.createBlog
 );
 
 blogRouter.patch(
-    "/:id/publish",
+    "/:slug/publish",
     isAPIAuthenticated,
+    isAdmin,
     blogController.publishBlog
 );
 blogRouter.patch(
-    "/:id/unpublish",
+    "/:slug/unpublish",
     isAPIAuthenticated,
+    isAdmin,
     blogController.unpublishBlog
 );
 
 blogRouter.patch(
-    "/:id",
+    "/:slug",
     isAPIAuthenticated,
+    isAdmin,
     blogThumbnailUpload.single("thumbnail"),
     blogController.updateBlog
 );
 
-blogRouter.delete("/:id", isAPIAuthenticated, blogController.deleteBlog);
+blogRouter.delete(
+    "/:slug",
+    isAPIAuthenticated,
+    isAdmin,
+    blogController.deleteBlog
+);
 
 module.exports = blogRouter;

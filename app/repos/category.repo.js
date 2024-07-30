@@ -1,3 +1,4 @@
+const { BLOG_STATUS } = require("../config/const");
 const { db } = require("../lib/db");
 const { AppError } = require("../lib/helpers");
 
@@ -22,6 +23,9 @@ class CategoryRepo {
                     foreignField: "categories",
                     as: "blogs",
                     pipeline: [
+                        {
+                            $match: { status: BLOG_STATUS.PUBLISHED },
+                        },
                         {
                             $lookup: {
                                 from: "comments",
@@ -88,11 +92,15 @@ class CategoryRepo {
      * @param {string} id
      */
     delete = async (id) => {
-        const blogs = await db.blogs.find({ categories: id });
+        const blogs = await db.blogs.find({
+            categories: id,
+        });
         if (blogs.length > 0)
             throw new AppError("Category is in use", "BAD_REQUEST");
 
-        return await db.categories.deleteOne({ _id: id });
+        return await db.categories.deleteOne({
+            _id: id,
+        });
     };
 }
 

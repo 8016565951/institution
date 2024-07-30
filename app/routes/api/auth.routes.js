@@ -11,6 +11,8 @@ authRouter.post(
     authController.signUp
 );
 authRouter.post("/signin", authController.signIn);
+authRouter.post("/signin/admin", authController.signInAdmin);
+
 authRouter.post(
     "/verify-email/verify",
     isTokenValid,
@@ -22,5 +24,11 @@ authRouter.post(
     isTokenValid,
     authController.verifyNewEmail
 );
+
+authRouter.post("/forget-password/s1", authController.forgetPasswordStep1);
+authRouter.post("/forget-password/s2", authController.forgetPasswordStep2);
+
+authRouter.post("/signout", authController.signOut);
+authRouter.post("/signout/admin", authController.signOutAdmin);
 
 module.exports = authRouter;

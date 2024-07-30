@@ -18,7 +18,7 @@ class CourseController {
      */
     getCourses = async (req, res) => {
         try {
-            const courses = await courseRepo.getCourses();
+            const courses = await courseRepo.get();
 
             return CResponse({
                 res,
@@ -37,7 +37,7 @@ class CourseController {
     getCourseById = async (req, res) => {
         try {
             const { id } = req.params;
-            const course = await courseRepo.getCourseById(id);
+            const course = await courseRepo.getById(id);
 
             return CResponse({
                 res,
@@ -93,19 +93,23 @@ class CourseController {
             const { error, value } = courseSchema.validate(req.body);
             if (error) throw error;
 
-            const existingCourse = await courseRepo.getCourseById(id);
+            const existingCourse = await courseRepo.getById(id);
             if (!existingCourse)
                 throw new AppError("Course not found", "NOT_FOUND");
 
             let thumbnailUrl = existingCourse.thumbnailUrl;
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
-                await unlinkFile(
-                    getFilePathFromURL(existingCourse.thumbnailUrl)
-                );
+                if (
+                    existingCourse.thumbnailUrl !==
+                    getDefaultImageUrl(req, "course")
+                )
+                    await unlinkFile(
+                        getFilePathFromURL(existingCourse.thumbnailUrl)
+                    );
             }
 
-            await courseRepo.updateCourse(id, {
+            await courseRepo.update(id, {
                 ...value,
                 thumbnailUrl,
             });
@@ -129,12 +133,19 @@ class CourseController {
         try {
             const { id } = req.params;
 
-            const existingCourse = await courseRepo.getCourseById(id);
+            const existingCourse = await courseRepo.getById(id);
             if (!existingCourse)
                 throw new AppError("Course not found", "NOT_FOUND");
 
-            await unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
-            await courseRepo.deleteCourse(id);
+            if (
+                existingCourse.thumbnailUrl !==
+                getDefaultImageUrl(req, "course")
+            )
+                await unlinkFile(
+                    getFilePathFromURL(existingCourse.thumbnailUrl)
+                );
+
+            await courseRepo.delete(id);
 
             return CResponse({
                 res,

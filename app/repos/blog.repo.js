@@ -5,6 +5,9 @@ class BlogRepo {
     get = async () => {
         return await db.blogs.aggregate([
             {
+                $match: { status: BLOG_STATUS.PUBLISHED },
+            },
+            {
                 $lookup: {
                     from: "comments",
                     localField: "_id",
@@ -48,7 +51,7 @@ class BlogRepo {
     getRecents = async (nId, limit = 3) => {
         return await db.blogs.aggregate([
             {
-                $match: { _id: { $ne: nId } },
+                $match: { _id: { $ne: nId }, status: BLOG_STATUS.PUBLISHED },
             },
             {
                 $lookup: {
@@ -146,7 +149,7 @@ class BlogRepo {
     getById = async (id) => {
         const data = await db.blogs.aggregate([
             {
-                $match: { _id: id },
+                $match: { _id: id, status: BLOG_STATUS.PUBLISHED },
             },
             {
                 $lookup: {
@@ -193,7 +196,7 @@ class BlogRepo {
     getByAuthorId = async (authorId) => {
         return await db.blogs.aggregate([
             {
-                $match: { authorId },
+                $match: { authorId, status: BLOG_STATUS.PUBLISHED },
             },
             {
                 $lookup: {

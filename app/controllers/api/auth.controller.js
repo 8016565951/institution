@@ -2,6 +2,8 @@ const {
     JWT_EXPIRES_IN,
     AUTH_TOKEN_COOKIE_NAME,
     cookieOptions,
+    ADMIN_TOKEN_COOKIE_NAME,
+    ROLES,
 } = require("../../config/const");
 const { AppError } = require("../../lib/helpers");
 const { signJWT } = require("../../lib/jwt");
@@ -12,15 +14,18 @@ const {
     getDefaultImageUrl,
     generateFileURL,
     unlinkFile,
+    generateOTP,
 } = require("../../lib/utils");
 const {
     signUpSchema,
     signInSchema,
     updateEmailSchema,
+    forgetPasswordStep1Schema,
+    forgetPasswordStep2Schema,
 } = require("../../lib/validations");
 const { hashPassword, comparePasswords } = require("../../lib/bcrypt");
 const { MongooseError } = require("mongoose");
-const { userRepo } = require("../../repos");
+const { userRepo, otpRepo } = require("../../repos");
 
 class AuthController {
     /**
@@ -113,6 +118,56 @@ class AuthController {
             );
 
             res.cookie(AUTH_TOKEN_COOKIE_NAME, token, cookieOptions);
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signInAdmin = async (req, res) => {
+        try {
+            const { error, value } = signInSchema.validate(req.body);
+            if (error) throw error;
+
+            const { email, password } = value;
+
+            const existingUser = await userRepo.getByEmail(email);
+            if (!existingUser)
+                throw new AppError("Invalid email or password", "UNAUTHORIZED");
+
+            if (![ROLES.MOD, ROLES.ADMIN].includes(existingUser.role))
+                throw new AppError(
+                    "Only moderators and admins can sign in",
+                    "FORBIDDEN"
+                );
+
+            const isPasswordValid = await comparePasswords(
+                password,
+                existingUser.password
+            );
+            if (!isPasswordValid)
+                throw new AppError("Invalid email or password", "UNAUTHORIZED");
+
+            if (existingUser.role !== "admin")
+                throw new AppError("You are not an admin", "UNAUTHORIZED");
+
+            const token = signJWT(
+                {
+                    id: existingUser.id,
+                },
+                process.env.JWT_SECRET,
+                JWT_EXPIRES_IN
+            );
+
+            res.cookie(ADMIN_TOKEN_COOKIE_NAME, token, cookieOptions);
 
             return CResponse({
                 res,
@@ -227,6 +282,8 @@ class AuthController {
             if (!user) throw new AppError("Invalid token", "BAD_REQUEST");
 
             const { id, email } = user;
+            if (!id || !email)
+                throw new AppError("Invalid token", "BAD_REQUEST");
 
             const existingUser = await userRepo.getById(id);
             if (!existingUser)
@@ -256,7 +313,109 @@ class AuthController {
      */
     signOut = (req, res) => {
         try {
-            res.clearCookie(AUTH_TOKEN_COOKIE_NAME, cookieOptions);
+            res.clearCookie(AUTH_TOKEN_COOKIE_NAME);
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    signOutAdmin = (req, res) => {
+        try {
+            res.clearCookie(ADMIN_TOKEN_COOKIE_NAME);
+
+            return CResponse({
+                res,
+                message: "OK",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    forgetPasswordStep1 = async (req, res) => {
+        try {
+            const { error, value } = forgetPasswordStep1Schema.validate(
+                req.body
+            );
+            if (error) throw error;
+
+            const { email } = value;
+
+            const existingUser = await userRepo.getByEmail(email);
+            if (!existingUser)
+                throw new AppError("User not found", "NOT_FOUND");
+
+            const otp = generateOTP().toString();
+
+            mailSender.sendForgetPasswordStep1Email({
+                otp,
+                user: {
+                    username:
+                        existingUser.firstName + " " + existingUser.lastName,
+                    email,
+                },
+            });
+
+            await otpRepo.create(otp, existingUser.id);
+
+            return CResponse({
+                res,
+                message: "OK",
+                longMessage: "An OTP has been sent to your email",
+            });
+        } catch (err) {
+            return handleError(err, res);
+        }
+    };
+
+    /**
+     * @param {import("express").Request} req
+     * @param {import("express").Response} res
+     */
+    forgetPasswordStep2 = async (req, res) => {
+        try {
+            const { error, value } = forgetPasswordStep2Schema.validate(
+                req.body
+            );
+            if (error) throw error;
+
+            const { otp, password } = value;
+
+            const existingOTP = await otpRepo.getByCode(otp);
+            if (!existingOTP) throw new AppError("Invalid OTP", "BAD_REQUEST");
+
+            if (existingOTP.expiresAt < new Date())
+                throw new AppError("OTP has expired", "BAD_REQUEST");
+
+            const existingUser = await userRepo.getById(existingOTP.userId);
+            if (!existingUser)
+                throw new AppError("User not found", "NOT_FOUND");
+
+            const hashedPassword = await hashPassword(password);
+
+            await userRepo.updatePassword(existingUser.id, hashedPassword);
+            await otpRepo.deleteByUserId(existingUser.id);
+
+            mailSender.sendForgetPasswordStep2Email({
+                user: {
+                    email: existingUser.email,
+                    username:
+                        existingUser.firstName + " " + existingUser.lastName,
+                },
+            });
 
             return CResponse({
                 res,

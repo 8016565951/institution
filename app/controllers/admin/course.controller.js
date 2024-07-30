@@ -138,9 +138,13 @@ class CourseController {
             let thumbnailUrl = existingCourse.thumbnailUrl;
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
-                await unlinkFile(
-                    getFilePathFromURL(existingCourse.thumbnailUrl)
-                );
+                if (
+                    existingCourse.thumbnailUrl !==
+                    getDefaultImageUrl(req, "course")
+                )
+                    await unlinkFile(
+                        getFilePathFromURL(existingCourse.thumbnailUrl)
+                    );
             }
 
             await courseRepo.update(id, {
@@ -168,8 +172,15 @@ class CourseController {
             if (!existingCourse)
                 throw new AppError("Course not found", "NOT_FOUND");
 
+            if (
+                existingCourse.thumbnailUrl !==
+                getDefaultImageUrl(req, "course")
+            )
+                await unlinkFile(
+                    getFilePathFromURL(existingCourse.thumbnailUrl)
+                );
+
             await courseRepo.delete(id);
-            await unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
 
             return res.redirect("/admin/courses");
         } catch (err) {

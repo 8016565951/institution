@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { bannerController } = require("../../controllers/api");
 const { bannerUpload } = require("../../lib/multer");
-const { isAPIAuthenticated } = require("../../middlewares/auth");
+const { isAPIAuthenticated, isAdmin } = require("../../middlewares/auth");
 
 const bannerRouter = Router();
 
@@ -11,6 +11,7 @@ bannerRouter.get("/:id", isAPIAuthenticated, bannerController.getBannerById);
 bannerRouter.post(
     "/",
     isAPIAuthenticated,
+    isAdmin,
     bannerUpload.single("banner"),
     bannerController.createBanner
 );
@@ -18,10 +19,16 @@ bannerRouter.post(
 bannerRouter.patch(
     "/:id",
     isAPIAuthenticated,
+    isAdmin,
     bannerUpload.single("banner"),
     bannerController.updateBanner
 );
 
-bannerRouter.delete("/:id", isAPIAuthenticated, bannerController.deleteBanner);
+bannerRouter.delete(
+    "/:id",
+    isAPIAuthenticated,
+    isAdmin,
+    bannerController.deleteBanner
+);
 
 module.exports = bannerRouter;

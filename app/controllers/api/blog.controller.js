@@ -11,6 +11,7 @@ const {
 const { AppError } = require("../../lib/helpers");
 const { blogRepo, categoryRepo } = require("../../repos");
 const { blogSchema } = require("../../lib/validations");
+const { BLOG_STATUS } = require("../../config/const");
 
 class BlogController {
     /**
@@ -41,6 +42,8 @@ class BlogController {
 
             const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+            if (blog.status !== BLOG_STATUS.PUBLISHED)
+                throw new AppError("Blog not found", "NOT_FOUND");
 
             return CResponse({
                 res,
@@ -56,29 +59,24 @@ class BlogController {
      * @param {import("express").Request} req
      *  @param {import("express").Response} res
      */
-    getBlogById = async (req, res) => {
+    getBlogsByCategory = async (req, res) => {
         try {
-            const { id } = req.params;
-            const blog = await blogRepo.getById(id);
+            const { slug } = req.params;
 
-            return CResponse({
-                res,
-                message: "OK",
-                data: blog,
-            });
-        } catch (err) {
-            return handleError(err, res);
-        }
-    };
+            const existingCategory = await categoryRepo.getByTitle(slug);
+            if (!existingCategory)
+                throw new AppError("Category not found", "NOT_FOUND");
 
-    /**
-     * @param {import("express").Request} req
-     *  @param {import("express").Response} res
-     */
-    getBlogsByCategoryId = async (req, res) => {
-        try {
-            const { categoryId } = req.params;
-            const blogs = await categoryRepo.getBlogsByCategoryId(categoryId);
+            const categoryWithBlogs = await categoryRepo.getBlogsByCategoryName(
+                existingCategory.title
+            );
+
+            const blogs = categoryWithBlogs[0]?.blogs;
+            if (!blogs || blogs.length === 0)
+                throw new AppError(
+                    "No blogs found in this category",
+                    "NOT_FOUND"
+                );
 
             return CResponse({
                 res,
@@ -115,22 +113,25 @@ class BlogController {
      */
     createBlog = async (req, res) => {
         try {
+            const uId = req.ctx?.user?.id;
+            if (!uId)
+                throw new AppError("You are not authenticated", "UNAUTHORIZED");
+
             const { error, value } = blogSchema.validate(req.body);
             if (error) throw error;
 
-            const { categories } = value;
-            if (!categories || categories.length === 0)
+            const { categories: catNames } = value;
+            if (catNames.length === 0)
                 throw new AppError(
                     "At least one category is required",
                     "BAD_REQUEST"
                 );
 
-            const validateCats = await blogRepo.validateCategories(categories);
-            if (!validateCats.valid)
+            const { valid, validCategories, invalidCategories } =
+                await blogRepo.validateCategories(catNames);
+            if (!valid)
                 throw new AppError(
-                    `Invalid categories: ${validateCats.invalidCategories.join(
-                        ", "
-                    )}`,
+                    `Invalid categories: ${invalidCategories.join(", ")}`,
                     "BAD_REQUEST"
                 );
 
@@ -149,6 +150,8 @@ class BlogController {
             const blog = await blogRepo.create({
                 ...value,
                 slug,
+                categories: validCategories.map((c) => c._id),
+                authorId: uId,
                 thumbnailUrl,
             });
 
@@ -158,6 +161,8 @@ class BlogController {
                 data: blog,
             });
         } catch (err) {
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -168,7 +173,8 @@ class BlogController {
      */
     updateBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
+
             const uId = req.ctx?.user?.id;
             if (!uId)
                 throw new AppError("You are not authenticated", "UNAUTHORIZED");
@@ -176,23 +182,40 @@ class BlogController {
             const { error, value } = blogSchema.validate(req.body);
             if (error) throw error;
 
-            const blog = await blogRepo.getById(id);
+            const { categories: catNames } = value;
+            if (catNames.length === 0)
+                throw new AppError(
+                    "At least one category is required",
+                    "BAD_REQUEST"
+                );
+
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
-            if (blog.authorId !== uId)
+            if (blog.authorId.toString() !== uId)
                 throw new AppError(
                     "You are not authorized to update this blog",
                     "FORBIDDEN"
                 );
 
+            const { valid, validCategories, invalidCategories } =
+                await blogRepo.validateCategories(catNames);
+            if (!valid)
+                throw new AppError(
+                    `Invalid categories: ${invalidCategories.join(", ")}`,
+                    "BAD_REQUEST"
+                );
+
             let thumbnailUrl = blog.thumbnailUrl;
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
-                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
+                    await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
             }
 
-            await blogRepo.update(id, {
+            await blogRepo.update(blog._id, {
                 ...value,
+                categories: validCategories.map((c) => c._id),
                 thumbnailUrl,
             });
 
@@ -213,22 +236,22 @@ class BlogController {
      */
     publishBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
 
             const uId = req.ctx?.user?.id;
             if (!uId)
                 throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
-            if (blog.authorId !== uId)
+            if (blog.authorId.toString() !== uId)
                 throw new AppError(
                     "You are not authorized to publish this blog",
                     "FORBIDDEN"
                 );
 
-            await blogRepo.publish(id);
+            await blogRepo.publish(blog._id);
 
             return CResponse({
                 res,
@@ -245,22 +268,22 @@ class BlogController {
      */
     unpublishBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
 
             const uId = req.ctx?.user?.id;
             if (!uId)
                 throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
-            if (blog.authorId !== uId)
+            if (blog.authorId.toString() !== uId)
                 throw new AppError(
-                    "You are not authorized to publish this blog",
+                    "You are not authorized to unpublish this blog",
                     "FORBIDDEN"
                 );
 
-            await blogRepo.unpublish(id);
+            await blogRepo.unpublish(blog._id);
 
             return CResponse({
                 res,
@@ -277,22 +300,25 @@ class BlogController {
      */
     deleteBlog = async (req, res) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
 
             const uId = req.ctx?.user?.id;
             if (!uId)
                 throw new AppError("You are not authenticated", "UNAUTHORIZED");
 
-            const blog = await blogRepo.getById(id);
+            const blog = await blogRepo.getBySlug(slug);
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
-            if (blog.authorId !== uId)
+            if (blog.authorId.toString() !== uId)
                 throw new AppError(
-                    "You are not authorized to publish this blog",
+                    "You are not authorized to delete this blog",
                     "FORBIDDEN"
                 );
 
-            await blogRepo.delete(id);
+            if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
+                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+
+            await blogRepo.delete(blog._id);
 
             return CResponse({
                 res,
