@@ -67,7 +67,6 @@ class HomeController {
             menu,
             courses,
             user,
-
         });
     };
 
@@ -100,7 +99,7 @@ class HomeController {
             title: `Contact | ${siteConfig.name}`,
             siteConfig,
             menu,
-            user
+            user,
         });
     };
 
@@ -110,7 +109,7 @@ class HomeController {
      */
     blogs = async (req, res) => {
         const user = req.ctx?.user;
-        
+
         const blogs = await blogRepo.get();
         const categories = await categoryRepo.get();
         const recentBlogs = await blogRepo.getRecents();
@@ -122,8 +121,7 @@ class HomeController {
             blogs,
             categories,
             recentBlogs,
-         user
-
+            user,
         });
     };
 
@@ -145,7 +143,7 @@ class HomeController {
             menu,
             blog,
             recentBlogs,
-            user
+            user,
         });
     };
 }

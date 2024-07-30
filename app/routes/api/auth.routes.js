@@ -11,7 +11,11 @@ authRouter.post(
     authController.signUp
 );
 authRouter.post("/signin", authController.signIn);
-authRouter.post("/verify-email", isTokenValid, authController.verifyEmail);
+authRouter.post(
+    "/verify-email/verify",
+    isTokenValid,
+    authController.verifyEmail
+);
 authRouter.post("/update-email", authController.updateEmail);
 authRouter.post(
     "/verify-new-email",

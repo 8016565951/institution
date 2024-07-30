@@ -1,6 +1,7 @@
+const { AppError } = require("../../lib/helpers");
 const { handleError, CResponse } = require("../../lib/utils");
 const { commentSchema } = require("../../lib/validations");
-const { commentRepo } = require("../../repos");
+const { commentRepo, blogRepo } = require("../../repos");
 
 class CommentController {
     /**
@@ -47,10 +48,22 @@ class CommentController {
      */
     createComment = async (req, res) => {
         try {
+            const { slug: blogSlug } = req.params;
+
+            const uId = req.ctx?.user?.id;
+            if (!uId) throw new AppError("Unauthorized", "UNAUTHORIZED");
+
             const { error, value } = commentSchema.validate(req.body);
             if (error) throw error;
 
-            const comment = await commentRepo.create(value);
+            const blog = await blogRepo.getBySlug(blogSlug);
+            if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
+
+            const comment = await commentRepo.create({
+                ...value,
+                blogId: blog._id,
+                authorId: uId,
+            });
 
             return CResponse({
                 res,

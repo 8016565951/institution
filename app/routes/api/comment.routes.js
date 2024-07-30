@@ -15,7 +15,11 @@ commentRouter.get(
     commentController.getCommentById
 );
 
-commentRouter.post("/", isAPIAuthenticated, commentController.createComment);
+commentRouter.post(
+    "/blogs/:slug/",
+    isAPIAuthenticated,
+    commentController.createComment
+);
 
 commentRouter.delete(
     "/:id",

@@ -63,16 +63,25 @@
                                             </li>
                                         </ul>
                                     </div>
-
-
-
                                 </article>
                                 <!-- End blog entry -->
 
 
                                 <!--  comments -->
-                                <% if (blog.comments.length> 0) { %>
 
+                                <!-- comment form -->
+                                <div class="reply-form">
+                                    <h4>Leave a Reply</h4>
+                                    <form action="/comments/blogs/<%= blog.slug %>" method="POST">
+                                        <div class="form-group
+                                        ">
+                                            <textarea class="form-control" name="content" rows="5" placeholder="Your Comment *" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Post Comment</button>
+                                    </form>
+                                </div>
+
+                                <% if (blog.comments.length> 0) { %>
                                     <% blog.comments.forEach((comment)=> { %>
 
                                         <article class="entry entry-comments" data-aos="fade-up">
@@ -91,7 +100,7 @@
                                                     <li class="d-flex align-items-center">
                                                         <i class="icofont-user"></i>
                                                         <a href="/blogs/<%= blog._id %>">
-                                                            <%= comment.author.firstName %>
+                                                            <%= comment.author[0].firstName + " " + comment.author[0].lastName %>
                                                         </a>
                                                     </li>
 
