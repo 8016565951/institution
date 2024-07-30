@@ -29,7 +29,7 @@
                                             </div>
 
                                             <h2 class="entry-title">
-                                                <a href="/blogs/<%= blog._id %>">
+                                                <a href="/blogs/<%= blog.slug %>">
                                                     <%= blog.title %>
                                                 </a>
                                             </h2>
@@ -38,19 +38,19 @@
                                                 <ul>
                                                     <li class="d-flex align-items-center">
                                                         <i class="icofont-user"></i>
-                                                        <a href="/blogs/<%= blog._id %>">
+                                                        <a href="/blogs/<%= blog.slug %>">
                                                             <%= blog.author.firstName %>
                                                         </a>
                                                     </li>
                                                     <li class="d-flex align-items-center">
                                                         <i class="icofont-wall-clock"></i>
-                                                        <a href="/blogs/<%= blog._id %>"><time datetime="2020-01-01">
+                                                        <a href="/blogs/<%= blog.slug %>"><time datetime="2020-01-01">
                                                                 <%= blog.publishedAt %>
                                                             </time></a>
                                                     </li>
                                                     <li class="d-flex align-items-center">
                                                         <i class="icofont-comment"></i>
-                                                        <a href="/blogs/<%= blog._id %>">
+                                                        <a href="/blogs/<%= blog.slug %>">
                                                             <%= blog.comments.length %>Comments
                                                         </a>
                                                     </li>
