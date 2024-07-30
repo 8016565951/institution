@@ -66,50 +66,41 @@
                         <h2 class="text-center">ALL BLOGS</h2>
                         <hr>
 
-                        <% blogs.forEach((blog)=> { %>
-                            <div class="container">
-                                <div class="card blog-card mb-4"> <!-- Added margin bottom for spacing between cards -->
-                                    <div class="row">
-                                        <img src="<%= blog.thumbnailUrl %>" class="col-md-4 card-img-top" alt="Thumbnail">
-                                        <!-- Added card-img-top class -->
-                                        <div class="card-body col-md-8">
-                                            <h5 class="card-title">
-                                                <%= blog.title %>
-                                            </h5>
-                                            <p class="card-text">
-                                                <%= blog.description %>
-                                            </p>
-                                            <p class="card-text"><strong>Author:</strong>
-                                                <%= blog.authorId %>
-                                            </p>
-                                            <p class="card-text"><strong>Status:</strong>
-                                                <%= blog.status %>
-                                            </p>
-                                            <p class="card-text"><strong>Published At:</strong>
-                                                <%= blog.publishedAt ?? "Not yet published" %>
-                                            </p>
-                                            <p class="card-text"><strong>Categories:</strong>
-                                                <%= blog.categories.map((c) => c.title).join(', ') %></p>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer row">
-                                        <div class="col-md-3">
-                                            <a href="/admin/blogs/<%= blog.slug %>/update" class="btn btn-primary">Edit</a> 
-                                        </div>
-                                        <div class="col-md-6">
-                                            
-                                     <a type="submit" href="/admin/blogs/<%= blog.slug %>/delete" class="btn btn-danger">Delete</a>
-                                        </div>
-
-                                        <div class="col-md-3">
-
-                                            <a href="/admin/blogs/<%= blog.slug %>/single" class="btn btn-primary">View</a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <% }); %>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Thumbnail</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Author</th>
+                                    <th>Status</th>
+                                    <th>Published At</th>
+                                    <th>Categories</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% blogs.forEach((blog) => { %>
+                                <tr>
+                                    <td>
+                                        <img src="<%= blog.thumbnailUrl %>" class="img-thumbnail" alt="Thumbnail" style="width: 100px;">
+                                    </td>
+                                    <td><%= blog.title %></td>
+                                    <td><%= blog.description %></td>
+                                    <td><%= blog.authorId %></td>
+                                    <td><%= blog.status %></td>
+                                    <td><%= blog.publishedAt ?? "Not yet published" %></td>
+                                    <td><%= blog.categories.map((c) => c.title).join(', ') %></td>
+                                    <td>
+                                        <a href="/admin/blogs/<%= blog.slug %>/update" class="btn btn-primary btn-sm" style="width: 90px;"> Edit  </a>
+                                        <a href="/admin/blogs/<%= blog.slug %>/delete" class="btn btn-danger btn-sm" style="width: 90px;"> Delete</a>
+                                        <a href="/admin/blogs/<%= blog.slug %>/single" class="btn btn-info btn-sm" style="width: 90px;"> View  </a>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        
 
                     </div>
                 </section>

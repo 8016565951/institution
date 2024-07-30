@@ -64,63 +64,45 @@
                     <div class="container-fluid">
 
                         <h2 class="text-center">
-                            <%=blog.title %>
+                            <%= blog.title %>
                         </h2>
                         <hr>
                         <div class="container">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row"></div>
-                                    <div class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="<%= blog.thumbnailUrl %>" alt="" class="img-fluid" style="height: 200px; width: auto;">
+                                        </div>
+                                        <div class="col-md-9">
+                                          
+                                            <p><strong>Author:</strong> <%= user.firstName %> <%= user.middleName %> <%= user.lastName %></p>
 
-                                        <img src="<%=blog.thumbnailUrl%>" alt="" style="height: 200px; width: 200px">
+                                            <p><strong>Content:</strong> <%= blog.content %></p>
+                                           
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p> <strong>Author:</strong>
-                                            <%=user.firstName %>
-                                                <%=user.middleName%>
-                                                    <%=user.lastName%>
-                                        </p>
-                                        <p><strong>Content:</strong>
-                                            <%=blog.content %>
-                                        </p>
-
-                                    </div>
-
-                                    <div class="row-12 card-footer">
-                                        <div class="col-md-2">
-                                            <p><strong>Description:</strong>
-                                                <%= blog.description %>
-                                            </p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p><strong>Description:</strong> <%= blog.description %></p> 
+                                            <p><strong>Published At:</strong> <%= blog.publishedAt ?? "Not yet published" %></p>
                                         </div>
                                         <div class="col-md-4">
-                                            <p><strong>Published At:</strong>
-                                                <%= blog.publishedAt ?? "Not yet published" %>
-                                            </p>
-
-
+                                            <p><strong>Category:</strong> <%= blog.categories.map((c) => c.title).join(", ") %></p>
+                                            <p><strong>Status:</strong> <%= blog.status %></p>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p><strong>Category:</strong>
-                                                <%= blog.categories.map((c) => c.title).join(", ") %>
-                                            </p>
-
-                                            <p><strong>Status:</strong>
-                                                <%= blog.status %>
-                                            </p>
-                                            <p><strong>Created At:</strong>
-                                                <%= blog.createdAt %>
-                                            </p>
-                                            <p><strong>Updated At:</strong>
-                                                <%= blog.updatedAt %>
-                                            </p>
+                                        <div class="col-md-4">
+                                           
+                                            <p><strong>Created At:</strong> <%= blog.createdAt %></p>
+                                            <p><strong>Updated At:</strong> <%= blog.updatedAt %></p>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
+                        
                     </div>
                 </section>
                 <!-- /.content -->

@@ -78,9 +78,9 @@
 
                     <div class="row content">
                         <div class="col-lg-6" data-aos="fade-right">
-                            <h2><%= about.title %></h2>
+                            <h2><%=about?.title??'' %></h2>
                             <h3>
-                               <%= about.description %>
+                               <%=about?.description??'' %>
                             </h3>
                         </div>
 
