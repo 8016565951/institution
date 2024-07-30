@@ -59,7 +59,7 @@
 
                                             <div class="entry-content">
                                                 <p>
-                                                    <%= blog.content %>
+                                                    <%= blog.content.slice(0, 200).trim() + "..." %>
                                                 </p>
                                                 <div class="read-more">
                                                     <a href="/blogs/<%= blog.slug %>">Read More</a>

@@ -1,5 +1,12 @@
+const { MongooseError } = require("mongoose");
 const { AppError } = require("../../lib/helpers");
-const { CResponse, handleError, generateFileURL } = require("../../lib/utils");
+const {
+    CResponse,
+    handleError,
+    generateFileURL,
+    unlinkFile,
+    getFilePathFromURL,
+} = require("../../lib/utils");
 const { gallerySchema } = require("../../lib/validations");
 const { galleryRepo } = require("../../repos");
 
@@ -46,24 +53,27 @@ class GalleryController {
      * @param {import("express").Response} res
      */
     createGallery = async (req, res) => {
-        const { error, value } = gallerySchema.validate(req.body);
-        if (error) throw error;
-
-        if (!req.file) throw new AppError("Image is required", "BAD_REQUEST");
-        const imageUrl = generateFileURL(req, req.file);
-
-        const gallery = await galleryRepo.create({
-            ...value,
-            imageUrl,
-        });
-
         try {
+            const { error, value } = gallerySchema.validate(req.body);
+            if (error) throw error;
+
+            if (!req.file)
+                throw new AppError("Image is required", "BAD_REQUEST");
+            const imageUrl = generateFileURL(req, req.file);
+
+            const gallery = await galleryRepo.create({
+                ...value,
+                imageUrl,
+            });
+
             return CResponse({
                 res,
                 message: "CREATED",
                 data: gallery,
             });
         } catch (err) {
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -85,6 +95,7 @@ class GalleryController {
             let imageUrl = gallery.imageUrl;
             if (req.file) {
                 imageUrl = generateFileURL(req, req.file);
+                await unlinkFile(getFilePathFromURL(gallery.imageUrl));
             }
 
             await galleryRepo.update(id, {
@@ -94,9 +105,11 @@ class GalleryController {
 
             return CResponse({
                 res,
-                message: "UPDATED",
+                message: "OK",
             });
         } catch (err) {
+            if (!(err instanceof MongooseError))
+                await unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -112,11 +125,13 @@ class GalleryController {
             const gallery = await galleryRepo.getById(id);
             if (!gallery) throw new AppError("Gallery not found", "NOT_FOUND");
 
+            await unlinkFile(getFilePathFromURL(gallery.imageUrl));
+
             await galleryRepo.delete(id);
 
             return CResponse({
                 res,
-                message: "DELETED",
+                message: "OK",
             });
         } catch (err) {
             return handleError(err, res);
