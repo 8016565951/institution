@@ -48,7 +48,7 @@ class BlogRepo {
     getRecents = async (nId, limit = 3) => {
         return await db.blogs.aggregate([
             {
-                $match: { status: BLOG_STATUS.PUBLISHED, _id: { $ne: nId } },
+                $match: { _id: { $ne: nId } },
             },
             {
                 $lookup: {

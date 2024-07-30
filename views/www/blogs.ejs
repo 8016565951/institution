@@ -1,168 +1,157 @@
 <!doctype html>
 <html lang="en">
-    <%- include("partials/head") %>
+<%- include("partials/head") %>
 
     <body>
         <%- include("partials/navbar") %>
-        <main id="main">
-            <section id="breadcrumbs" class="breadcrumbs">
-                <div class="container">
-                    <div
-                        class="d-flex justify-content-between align-items-center"
-                    >
-                        <h2>Blogs</h2>
-                        <ol>
-                            <li><a href="/">Home</a></li>
-                            <li>Blogs</li>
-                        </ol>
+            <main id="main">
+                <section id="breadcrumbs" class="breadcrumbs">
+                    <div class="container">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2>Blogs</h2>
+                            <ol>
+                                <li><a href="/">Home</a></li>
+                                <li>Blogs</li>
+                            </ol>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section id="blog" class="blog">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 entries">
-                            <% if (blogs.length > 0) { %>
-                                <% blogs.map((blog) => { %>
-                                    <article class="entry" data-aos="fade-up">
-                                        <div class="entry-img">
-                                            <img
-                                                src="<%= blog.thumbnailUrl %>"
-                                                alt=""
-                                                class="img-fluid"
-                                            />
-                                        </div>
-
-                                        <h2 class="entry-title">
-                                            <a href="/blogs/<%= blog.id %>"
-                                                ><%= blog.title %></a
-                                            >
-                                        </h2>
-
-                                        <div class="entry-meta">
-                                            <ul>
-                                                <li class="d-flex align-items-center">
-                                                    <i class="icofont-user"></i>
-                                                    <a href="/blogs/<%= blog.id %>"><%= blog.author.firstName %></a>
-                                                </li>
-                                                <li class="d-flex align-items-center">
-                                                    <i class="icofont-wall-clock"></i>
-                                                    <a href="/blogs/<%= blog.id %>"
-                                                        ><time datetime="2020-01-01"
-                                                            ><%= blog.publishedAt %></time
-                                                        ></a
-                                                    >
-                                                </li>
-                                                <li class="d-flex align-items-center">
-                                                    <i class="icofont-comment"></i>
-                                                    <a href="/blogs/<%= blog.id %>"
-                                                        ><%= blog.comments.length %>Comments</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="entry-content">
-                                            <p>
-                                            <%= blog.content  %>
-                                            </p>
-                                            <div class="read-more">
-                                                <a href="/blogs/<%= blog.slug %>">Read More</a>
+                <section id="blog" class="blog">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 entries">
+                                <% if (blogs.length> 0) { %>
+                                    <% blogs.map((blog)=> { %>
+                                        <article class="entry" data-aos="fade-up">
+                                            <div class="entry-img">
+                                                <img src="<%= blog.thumbnailUrl %>" alt="" class="img-fluid" />
                                             </div>
-                                        </div>
-                                    </article>
-                                <% }) %>
-                            <% } else { %>
-                                <p class="text-center py-5">No blogs available</p>
-                            <% } %>
-                            <!-- End blog entry -->
 
-                            <div class="blog-pagination">
-                                <ul class="justify-content-center">
-                                    <li class="disabled">
-                                        <i class="icofont-rounded-left"></i>
-                                    </li>
-                                    <li><a href="#">1</a></li>
-                                    <li class="active"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li>
-                                        <a href="#"
-                                            ><i
-                                                class="icofont-rounded-right"
-                                            ></i
-                                        ></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End blog entries list -->
+                                            <h2 class="entry-title">
+                                                <a href="/blogs/<%= blog.id %>">
+                                                    <%= blog.title %>
+                                                </a>
+                                            </h2>
 
-                        <div class="col-lg-4">
-                            <div class="sidebar" data-aos="fade-left">
-                                <h3 class="sidebar-title">Search</h3>
-                                <div class="sidebar-item search-form">
-                                    <form action="">
-                                        <input type="text" />
-                                        <button type="submit">
-                                            <i class="icofont-search"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <!-- End sidebar search formn-->
+                                            <div class="entry-meta">
+                                                <ul>
+                                                    <li class="d-flex align-items-center">
+                                                        <i class="icofont-user"></i>
+                                                        <a href="/blogs/<%= blog.id %>">
+                                                            <%= blog.author.firstName %>
+                                                        </a>
+                                                    </li>
+                                                    <li class="d-flex align-items-center">
+                                                        <i class="icofont-wall-clock"></i>
+                                                        <a href="/blogs/<%= blog.id %>"><time datetime="2020-01-01">
+                                                                <%= blog.publishedAt %>
+                                                            </time></a>
+                                                    </li>
+                                                    <li class="d-flex align-items-center">
+                                                        <i class="icofont-comment"></i>
+                                                        <a href="/blogs/<%= blog.id %>">
+                                                            <%= blog.comments.length %>Comments
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
-                                <h3 class="sidebar-title">Categories</h3>
-                                <div class="sidebar-item categories">
-                                    <ul>
-                                        <% for(let category of categories){  %>
-                                        <li>
-                                            <a href="#"
-                                                ><%= category.title  %> </a
-                                            >
-                                        </li>
-                                        <% } %>
-                                    </ul>
-                                </div>
-                                <!-- End sidebar categories-->
-
-                                <h3 class="sidebar-title">Recent Posts</h3>
-
-                                <div class="sidebar-item recent-posts">
-                                    <% if (recentBlogs.length > 0) { %>
-                                        <% recentBlogs.map((blog) => { %>
-                                        <div class="post-item clearfix">
-                                            <img
-                                                src="<%= blog.thumbnailUrl %>"
-                                                alt=""
-                                            />
-                                            <h4>
-                                                <a href="/blogs/<%= blog.id %>"
-                                                    ><%= blog.title %></a
-                                                >
-                                            </h4>
-                                            <time datetime="2020-01-01"
-                                                ><%= blog.publishedAt %></time
-                                            >
+                                            <div class="entry-content">
+                                                <p>
+                                                    <%= blog.content %>
+                                                </p>
+                                                <div class="read-more">
+                                                    <a href="/blogs/<%= blog.slug %>">Read More</a>
+                                                </div>
+                                            </div>
+                                        </article>
                                         <% }) %>
-                                    <% } else { %>
-                                        <p>No recent posts</p>
-                                    <% } %>
-                                </div>
-                              
-                                <!-- End sidebar tags-->
+                                            <% } else { %>
+                                                <p class="text-center py-5">No blogs available</p>
+                                                <% } %>
+                                                    <!-- End blog entry -->
+
+                                                    <div class="blog-pagination">
+                                                        <ul class="justify-content-center">
+                                                            <li class="disabled">
+                                                                <i class="icofont-rounded-left"></i>
+                                                            </li>
+                                                            <li><a href="#">1</a></li>
+                                                            <li class="active"><a href="#">2</a></li>
+                                                            <li><a href="#">3</a></li>
+                                                            <li>
+                                                                <a href="#"><i class="icofont-rounded-right"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                             </div>
-                            <!-- End sidebar -->
+                            <!-- End blog entries list -->
+
+                            <div class="col-lg-4">
+                                <div class="sidebar" data-aos="fade-left">
+                                    <h3 class="sidebar-title">Search</h3>
+                                    <div class="sidebar-item search-form">
+                                        <form action="">
+                                            <input type="text" />
+                                            <button type="submit">
+                                                <i class="icofont-search"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- End sidebar search formn-->
+
+                                    <h3 class="sidebar-title">Categories</h3>
+                                    <div class="sidebar-item categories">
+                                        <ul>
+                                            <% for(let category of categories){ %>
+                                                <li>
+                                                    <a href="#">
+                                                        <%= category.title %>
+                                                    </a>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                    </div>
+                                    <!-- End sidebar categories-->
+
+                                    <h3 class="sidebar-title">Recent Posts</h3>
+
+                                    <div class="sidebar-item recent-posts">
+                                        <% if (recentBlogs.length> 0) { %>
+                                            <% recentBlogs.map((blog)=> { %>
+                                                <div class="post-item clearfix">
+                                                    <img src="<%= blog.thumbnailUrl %>" alt="" />
+                                                    <h4>
+                                                        <a href="/blogs/<%= blog.slug %>">
+                                                            <%= blog.title %>
+                                                        </a>
+                                                    </h4>
+                                                    <time datetime="2020-01-01">
+                                                        <%= blog.publishedAt %>
+                                                    </time>
+                                                </div>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <p>No recent posts</p>
+                                                        <% } %>
+                                    </div>
+
+                                    <!-- End sidebar tags-->
+                                </div>
+                                <!-- End sidebar -->
+                            </div>
+                            <!-- End blog sidebar -->
                         </div>
-                        <!-- End blog sidebar -->
                     </div>
-                </div>
-            </section>
-        </main>
+                </section>
+            </main>
 
-        <!-- FOOTER -->
-        <%- include("partials/footer") %>
+            <!-- FOOTER -->
+            <%- include("partials/footer") %>
 
-        <!-- SCRIPTS -->
-        <%- include("partials/scripts") %>
+                <!-- SCRIPTS -->
+                <%- include("partials/scripts") %>
     </body>
+
 </html>
