@@ -65,31 +65,7 @@
                                     </div>
 
 
-                                    <div class="entry-footer clearfix">
-                                        <ul>
-                                            <li class="d-flex align-items-center">
-                                                <i class="icofont-user"></i>
-                                                <a href="/blogs/<%= blog._id %>">
-                                                    <%=blog.author.firstName %>
-                                                </a>
-                                            </li>
-                                            <li class="d-flex align-items-center">
-                                                <i class="icofont-wall-clock"></i>
-                                                <a href="/blogs/<%= blog._id %>"><time datetime="2020-01-01">
-                                                        <%=blog.publishedAt %>
-                                                    </time></a>
-                                            </li>
-                                            <li class="d-flex align-items-center">
-                                                <i class="icofont-comment"></i>
-                                                <a href="/blogs/<%= blog._id %>">
-                                                    <%=blog.comments.length %>Comments
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div class="float-right share">
-                                            <a href="#" class="share-btn">Share</a>
-                                        </div>
-                                    </div>
+
                                 </article>
                                 <!-- End blog entry -->
 
