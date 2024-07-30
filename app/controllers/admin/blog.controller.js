@@ -71,33 +71,28 @@ class BlogController {
             console.log(err);
         }
     };
-       /**
+    /**
      * @param {import("express").Request} req
      * @param {import("express").Response} res
      */
-    getsingleBlog=async(req,res)=>{
+    getsingleBlog = async (req, res) => {
         try {
             const { slug } = req.params;
             const user = req.ctx?.user;
 
-           
-        const blog = await blogRepo.getBySlug(slug);
-        const recentBlogs = await blogRepo.getRecents(blog.id);
+            const blog = await blogRepo.getBySlug(slug);
+            const recentBlogs = await blogRepo.getRecents(blog.id);
 
-            
             return res.render("admin/blog-single", {
                 title: `single Blog | ${siteConfig.name}`,
                 blog,
                 recentBlogs,
                 user,
             });
-
-
-
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     /**
      * @param {import("express").Request} req
@@ -105,7 +100,13 @@ class BlogController {
      */
     createBlog = async (req, res) => {
         try {
-            const { error, value } = blogSchema.validate(req.body);
+            const { categories: cats } = req.body;
+            const categories = Array.isArray(cats) ? cats : [cats];
+
+            const { error, value } = blogSchema.validate({
+                ...req.body,
+                categories,
+            });
             if (error) throw error;
 
             const userId = req.ctx?.user.id;
@@ -115,7 +116,6 @@ class BlogController {
                     "UNAUTHORIZED"
                 );
 
-            const { categories } = value;
             if (!categories || categories.length === 0)
                 throw new AppError(
                     "At least one category is required",

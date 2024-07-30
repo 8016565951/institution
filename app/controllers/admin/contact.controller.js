@@ -29,7 +29,7 @@ class ContactController {
 
             await contactRepo.create(value);
 
-            return res.render("/contact");
+            return res.redirect("/contact");
         } catch (error) {
             console.error(error);
         }

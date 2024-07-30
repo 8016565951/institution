@@ -95,14 +95,14 @@
                                         </div>
                                         <div class="col-md-4">
                                             <p><strong>Published At:</strong>
-                                                <%= blog.publishedAt %>
+                                                <%= blog.publishedAt ?? "Not yet published" %>
                                             </p>
 
 
                                         </div>
                                         <div class="col-md-6">
                                             <p><strong>Category:</strong>
-                                                <%= blog.Categories %>
+                                                <%= blog.categories.map((c) => c.title).join(", ") %>
                                             </p>
 
                                             <p><strong>Status:</strong>
