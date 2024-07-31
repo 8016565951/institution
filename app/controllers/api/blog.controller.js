@@ -161,8 +161,7 @@ class BlogController {
                 data: blog,
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -210,7 +209,7 @@ class BlogController {
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
                 if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
-                    await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                    unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
             }
 
             await blogRepo.update(blog._id, {
@@ -224,8 +223,7 @@ class BlogController {
                 message: "OK",
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -316,7 +314,7 @@ class BlogController {
                 );
 
             if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
-                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
 
             await blogRepo.delete(blog._id);
 

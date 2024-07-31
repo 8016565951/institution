@@ -2,11 +2,16 @@ const { BLOG_STATUS } = require("../config/const");
 const { db } = require("../lib/db");
 
 class BlogRepo {
-    get = async () => {
+    /**
+     * @param {"all" | "draft" | "published"} type
+     */
+    get = async (type = "all") => {
         return await db.blogs.aggregate([
-            {
-                $match: { status: BLOG_STATUS.PUBLISHED },
-            },
+            type === "draft"
+                ? { $match: { status: BLOG_STATUS.DRAFT } }
+                : type === "published"
+                  ? { $match: { status: BLOG_STATUS.PUBLISHED } }
+                  : { $match: {} },
             {
                 $lookup: {
                     from: "comments",

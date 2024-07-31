@@ -72,8 +72,7 @@ class GalleryController {
                 data: gallery,
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -95,7 +94,7 @@ class GalleryController {
             let imageUrl = gallery.imageUrl;
             if (req.file) {
                 imageUrl = generateFileURL(req, req.file);
-                await unlinkFile(getFilePathFromURL(gallery.imageUrl));
+                unlinkFile(getFilePathFromURL(gallery.imageUrl));
             }
 
             await galleryRepo.update(id, {
@@ -108,8 +107,7 @@ class GalleryController {
                 message: "OK",
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -125,7 +123,7 @@ class GalleryController {
             const gallery = await galleryRepo.getById(id);
             if (!gallery) throw new AppError("Gallery not found", "NOT_FOUND");
 
-            await unlinkFile(getFilePathFromURL(gallery.imageUrl));
+            unlinkFile(getFilePathFromURL(gallery.imageUrl));
 
             await galleryRepo.delete(id);
 

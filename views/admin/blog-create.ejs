@@ -157,35 +157,6 @@
             <script src="/admin/dist/js/demo.js"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <script src="/admin/dist/js/pages/dashboard.js"></script>
-            <script>
-    
-                    document.getElementById('categoryForm').addEventListener('submit', function(event) {
-                        event.preventDefault(); // Prevent the default form submission
-            
-                        // Get the selected options
-                        const selectedOptions = Array.from(document.getElementById('categories').selectedOptions);
-                        const selectedValues = selectedOptions.map(option => option.value);
-            
-                        // Handle the selected values (e.g., send them to a server, display them, etc.)
-                        console.log(selectedValues);
-            
-                        // You can send the selected values to a server using fetch or another method
-                        // Example (uncomment and modify the URL and data as needed):
-                        /*
-                        fetch('your-server-endpoint', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ categories: selectedValues })
-                        })
-                        .then(response => response.json())
-                        .then(data => console.log(data))
-                        .catch(error => console.error('Error:', error));
-                        */
-                    });
-                
-            </script>
 </body>
 
 </html>

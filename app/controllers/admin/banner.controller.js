@@ -89,8 +89,7 @@ class BannerController {
 
             return res.redirect("/admin/banners");
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file.path);
             console.error(err);
         }
     };
@@ -112,7 +111,7 @@ class BannerController {
             let imageUrl = banner.imageUrl;
             if (req.file) {
                 imageUrl = generateFileURL(req, req.file);
-                await unlinkFile(getFilePathFromURL(banner.imageUrl));
+                unlinkFile(getFilePathFromURL(banner.imageUrl));
             }
 
             await bannerRepo.update(id, {
@@ -122,8 +121,7 @@ class BannerController {
 
             return res.redirect("/admin/banners");
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             console.error(err);
         }
     };
@@ -139,7 +137,7 @@ class BannerController {
             const banner = await bannerRepo.getById(id);
             if (!banner) throw new AppError("Banner not found", "NOT_FOUND");
 
-            await unlinkFile(getFilePathFromURL(banner.imageUrl));
+            unlinkFile(getFilePathFromURL(banner.imageUrl));
             await bannerRepo.delete(id);
 
             return res.redirect("/admin/banners");

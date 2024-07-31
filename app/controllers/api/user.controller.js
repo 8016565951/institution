@@ -98,7 +98,7 @@ class UserController {
 
             const existingUser = await userRepo.getById(id);
             if (!existingUser) {
-                await unlinkFile(file.path);
+                unlinkFile(file.path);
                 throw new AppError("User not found", "NOT_FOUND");
             }
 
@@ -110,8 +110,7 @@ class UserController {
                 message: "OK",
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };
@@ -204,7 +203,7 @@ class UserController {
                 throw new AppError("User not found", "NOT_FOUND");
 
             if (existingUser.avatarUrl !== getDefaultImageUrl(req, "avatar"))
-                await unlinkFile(getFilePathFromURL(existingUser.avatarUrl));
+                unlinkFile(getFilePathFromURL(existingUser.avatarUrl));
 
             await userRepo.deleteUser(id);
 

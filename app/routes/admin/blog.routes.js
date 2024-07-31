@@ -19,6 +19,6 @@ blogRouter.post(
     blogThumbnailUpload.single("thumbnail"),
     blogController.updateBlog
 );
-blogRouter.delete("/:slug/delete", blogController.deleteBlog);
+blogRouter.get("/:slug/delete", blogController.deleteBlog);
 
 module.exports = blogRouter;

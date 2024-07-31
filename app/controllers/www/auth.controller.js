@@ -109,8 +109,7 @@ class AuthController {
 
             return res.redirect("/auth/verify-email");
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             console.error(err);
         }
     };

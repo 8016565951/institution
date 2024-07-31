@@ -81,8 +81,7 @@ class AuthController {
                     "A verification email has been sent to your email address. Please verify your email to continue.",
             });
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             return handleError(err, res);
         }
     };

@@ -17,6 +17,6 @@ galleryRouter.post(
     galleryUpload.single("imageUrl"),
     galleryController.updateGallery
 );
-galleryRouter.delete("/:id/delete", galleryController.deleteGallery);
+galleryRouter.get("/:id/delete", galleryController.deleteGallery);
 
 module.exports = galleryRouter;

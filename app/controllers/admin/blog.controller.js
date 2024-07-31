@@ -100,6 +100,8 @@ class BlogController {
      */
     createBlog = async (req, res) => {
         try {
+            console.log(req.body);
+
             const { categories: cats } = req.body;
             const categories = Array.isArray(cats) ? cats : [cats];
 
@@ -133,7 +135,6 @@ class BlogController {
             const slug = slugify(value.title);
 
             const existingBlog = await blogRepo.getBySlug(slug);
-            console.log(existingBlog);
             if (existingBlog)
                 throw new AppError(
                     "A blog with this title already exists",
@@ -175,7 +176,7 @@ class BlogController {
             if (req.file) {
                 thumbnailUrl = generateFileURL(req, req.file);
                 if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
-                    await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                    unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
             }
 
             await blogRepo.update(blog._id, {
@@ -201,7 +202,7 @@ class BlogController {
             if (!blog) throw new AppError("Blog not found", "NOT_FOUND");
 
             if (blog.thumbnailUrl !== getDefaultImageUrl(req, "blog"))
-                await unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
+                unlinkFile(getFilePathFromURL(blog.thumbnailUrl));
 
             await blogRepo.delete(blog._id);
 

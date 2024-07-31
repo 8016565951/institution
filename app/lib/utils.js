@@ -3,7 +3,7 @@ const { AppError } = require("./helpers");
 const { MongooseError } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { ValidationError } = require("joi");
-const { existsSync, unlink } = require("fs");
+const { existsSync, unlinkSync } = require("fs");
 const path = require("path");
 const { logger } = require("./helpers");
 const {
@@ -191,9 +191,9 @@ function generateDbUrl() {
 /**
  * @param {string} [filePath]
  */
-async function unlinkFile(filePath) {
+function unlinkFile(filePath) {
     if (!filePath) return;
-    if (existsSync(filePath)) await unlink(filePath);
+    if (existsSync(filePath)) unlinkSync(filePath);
 }
 
 /**

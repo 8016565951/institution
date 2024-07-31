@@ -108,7 +108,7 @@ class GalleryController {
             let imageUrl = gallery.imageUrl;
             if (req.file) {
                 imageUrl = generateFileURL(req, req.file);
-                await unlinkFile(getFilePathFromURL(gallery.imageUrl));
+                unlinkFile(getFilePathFromURL(gallery.imageUrl));
             }
 
             await galleryRepo.update(id, {
@@ -133,7 +133,7 @@ class GalleryController {
             const gallery = await galleryRepo.getById(id);
             if (!gallery) throw new AppError("Gallery not found", "NOT_FOUND");
 
-            await unlinkFile(getFilePathFromURL(gallery.imageUrl));
+            unlinkFile(getFilePathFromURL(gallery.imageUrl));
             await galleryRepo.delete(id);
 
             return res.redirect("/admin/galleries");

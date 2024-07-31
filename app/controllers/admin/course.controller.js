@@ -114,8 +114,7 @@ class CourseController {
 
             return res.redirect("/admin/courses");
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             console.error(err);
         }
     };
@@ -142,9 +141,7 @@ class CourseController {
                     existingCourse.thumbnailUrl !==
                     getDefaultImageUrl(req, "course")
                 )
-                    await unlinkFile(
-                        getFilePathFromURL(existingCourse.thumbnailUrl)
-                    );
+                    unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
             }
 
             await courseRepo.update(id, {
@@ -154,8 +151,7 @@ class CourseController {
 
             return res.redirect("/admin/courses");
         } catch (err) {
-            if (!(err instanceof MongooseError))
-                await unlinkFile(req.file?.path);
+            if (!(err instanceof MongooseError)) unlinkFile(req.file?.path);
             console.error(err);
         }
     };
@@ -176,11 +172,9 @@ class CourseController {
                 existingCourse.thumbnailUrl !==
                 getDefaultImageUrl(req, "course")
             )
-                await unlinkFile(
-                    getFilePathFromURL(existingCourse.thumbnailUrl)
-                );
+                unlinkFile(getFilePathFromURL(existingCourse.thumbnailUrl));
 
-            await courseRepo.delete(_id);
+            await courseRepo.delete(id);
 
             return res.redirect("/admin/courses");
         } catch (err) {
