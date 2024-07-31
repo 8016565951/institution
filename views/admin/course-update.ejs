@@ -64,7 +64,7 @@
                     <div class="container-fluid">
 
                         <h2 class="text-center">Update Course</h2>
-                        <form id="courseForm" action="/admin/courses/<%= course._id%>/update" method="POST">
+                        <form id="courseForm" action="/admin/courses/<%= course._id%>/update" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="title">Course Title</label>
                                 <input type="text" class="form-control" id="title" name="title"
@@ -99,7 +99,7 @@
                             <div class="form-group">
                                 <label for="thumbnailUrl">Thumbnail URL</label>
                                 <input type="file" class="form-control" id="thumbnailUrl" name="thumbnail"
-                                    placeholder="/<%= course?.thumbnail??''  %>" >
+                                    placeholder="Enter thumbnail URL">
                             </div>
                             <button type="submit" class="btn btn-primary">Update Course</button>
                         </form>

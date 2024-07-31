@@ -9,8 +9,16 @@ courseRouter.get("/create", courseController.createUI);
 courseRouter.get("/:id", courseController.courseUI);
 courseRouter.get("/:id/update", courseController.updateUI);
 
-courseRouter.post("/create",courseThumbnailUpload.single("thumbnail"), courseController.create);
-courseRouter.post("/:id/update",courseThumbnailUpload.single("thumbnail"), courseController.update);
-courseRouter.post("/:id/delete", courseController.delete);
+courseRouter.post(
+    "/create",
+    courseThumbnailUpload.single("thumbnail"),
+    courseController.create
+);
+courseRouter.post(
+    "/:id/update",
+    courseThumbnailUpload.single("thumbnail"),
+    courseController.update
+);
+courseRouter.get("/:id/delete", courseController.delete);
 
 module.exports = courseRouter;

@@ -71,14 +71,11 @@ class CourseController {
                 thumbnailUrl,
             });
 
-            return CResponse({
-                res,
-                message: "CREATED",
-            });
+            return res.redirect("/admin/courses");
         } catch (err) {
             if (!(err instanceof MongooseError))
                 await unlinkFile(req.file?.path);
-            return handleError(err, res);
+            console.error(err);
         }
     };
 

@@ -11,6 +11,7 @@ const courseSchema = Joi.object({
             .valid(...Object.values(TIMESPANS))
             .required(),
     }),
+    thumbnail: Joi.string(),
 });
 
 module.exports = { courseSchema };

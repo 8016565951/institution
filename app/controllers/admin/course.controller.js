@@ -180,7 +180,7 @@ class CourseController {
                     getFilePathFromURL(existingCourse.thumbnailUrl)
                 );
 
-            await courseRepo.delete(id);
+            await courseRepo.delete(_id);
 
             return res.redirect("/admin/courses");
         } catch (err) {

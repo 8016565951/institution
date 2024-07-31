@@ -7,6 +7,6 @@ categoryRouter.get("/", categoryController.getCategoriesUI);
 categoryRouter.get("/create", categoryController.createCategoryUI);
 
 categoryRouter.post("/create/category", categoryController.createCategory);
-categoryRouter.post("/:id/delete", categoryController.deleteCategory);
+categoryRouter.delete("/:id/delete", categoryController.deleteCategory);
 
 module.exports = categoryRouter;

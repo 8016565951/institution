@@ -18,6 +18,6 @@ bannerRouter.post(
     bannerUpload.single("banner"),
     bannerController.update
 );
-bannerRouter.post("/:id/delete", bannerController.delete);
+bannerRouter.delete("/:id/delete", bannerController.delete);
 
 module.exports = bannerRouter;
