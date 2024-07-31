@@ -64,36 +64,53 @@
                     <div class="container-fluid">
                         <h2 class="text-center">All Courses</h2>
                         <hr>
-
-                        <% for(let course of courses) {  %>
-                        <div class="container mt-5">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <img src="<%= course.thumbnailUrl %>"
-                                                class="img-fluid" alt="Course Thumbnail">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5 class="card-title"><%= course.title  %></h5>
-                                            <p class="card-text"><%= course.description  %></p>
-                                            <p class="card-text"><strong>Duration:</strong> 
-                                                <%= course.duration.number  %>
-                                                <%= course.duration.unit  %></p>
-                                            <p class="card-text"><strong>Price:</strong><%= course.price  %> </p>
-                                            <% for (let i of course.users) { %>
-                                            <p class="card-text"><strong>Users Enrolled:</strong> <%= i  %></p>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Edit Course</a>
-                                </div>
-                            </div>
-                        </div>
-                        <% } %>
-                    </div>
+                        <h1 class="text-center">All Courses</h1>
+                        <hr>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Thumbnail</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Duration</th>
+                                    <th>Price</th>
+                                    <th>Users Enrolled</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% courses.forEach((course, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td>
+                                        <img src="<%= course.thumbnailUrl %>" alt="Course Thumbnail" style="width: 100px; height: auto;">
+                                    </td>
+                                    <td>
+                                        <%= course.title %>
+                                    </td>
+                                    <td>
+                                        <%= course.description %>
+                                    </td>
+                                    <td>
+                                        <%= course.duration.number %> <%= course.duration.unit %>
+                                    </td>
+                                    <td>
+                                        <%= course.price %>
+                                    </td>
+                                    <td>
+                                        <% course.users.forEach((user, userIndex) => { %>
+                                            <%= user %><% if (userIndex < course.users.length - 1) { %>, <% } %>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/courses/<%= course._id %>/update" class="btn btn-primary">Edit Course</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                        
 
                 </section>
                 <!-- /.content -->

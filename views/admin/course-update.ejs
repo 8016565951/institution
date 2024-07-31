@@ -45,7 +45,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <a href="/admin/courses" class="btn btn-primary">Add carousel</a>
+                                <a href="/admin/courses" class="btn btn-primary">Back</a>
 
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -68,21 +68,21 @@
                             <div class="form-group">
                                 <label for="title">Course Title</label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                    placeholder="<%= course.title  %>" required>
+                                    placeholder="<%= course?.title??''%>" >
                             </div>
                             <div class="form-group">
                                 <label for="description">Course Description</label>
                                 <textarea class="form-control" id="description" name="description" rows="4"
-                                    placeholder="<%= course.description  %>" required></textarea>
+                                    placeholder="<%= course?.description??''  %>"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="durationNumber">Duration Number</label>
-                                <input type="number" class="form-control" id="durationNumber" name="durationnumber"
-                                    placeholder="<%= course.duration.number  %>" required>
+                                <input type="number" class="form-control" id="durationNumber" name="duration[number]"
+                                    placeholder="<%= course?.duration.number??''  %>" >
                             </div>
                             <div class="form-group">
                                 <label for="durationUnit">Duration Unit</label>
-                                <select class="form-control" id="durationUnit" name="durationunit" required>
+                                <select class="form-control" id="durationUnit" name="duration[unit]" >
                                     <option value="" disabled selected>Select a duration unit</option>
                                     <option value="hours">Hours</option>
                                     <option value="days">Days</option>
@@ -94,12 +94,12 @@
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input type="number" class="form-control" id="price" name="price"
-                                    placeholder="<%= course.price  %>" required>
+                                    placeholder="<%= course?.price??''  %>">
                             </div>
                             <div class="form-group">
                                 <label for="thumbnailUrl">Thumbnail URL</label>
-                                <input type="file" class="form-control" id="thumbnailUrl" name="thumbnailUrl"
-                                    placeholder="<%= course.thumbnailUrl  %>" required>
+                                <input type="file" class="form-control" id="thumbnailUrl" name="thumbnail"
+                                    placeholder="/<%= course?.thumbnail??''  %>" >
                             </div>
                             <button type="submit" class="btn btn-primary">Update Course</button>
                         </form>
